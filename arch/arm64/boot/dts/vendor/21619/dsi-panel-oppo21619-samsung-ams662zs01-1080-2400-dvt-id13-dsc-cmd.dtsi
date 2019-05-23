@@ -4,6 +4,7 @@
 		oplus,mdss-dsi-vendor-name = "AMS662ZS01";
 		oplus,mdss-dsi-manufacture = "samsung1024_id13";
 		qcom,mdss-dsi-panel-type = "dsi_cmd_mode";
+		qcom,mdss-dsi-panel-physical-type = "oled";
 		qcom,mdss-dsi-virtual-channel-id = <0>;
 		qcom,mdss-dsi-stream = <0>;
 		qcom,mdss-dsi-bpp = <24>;

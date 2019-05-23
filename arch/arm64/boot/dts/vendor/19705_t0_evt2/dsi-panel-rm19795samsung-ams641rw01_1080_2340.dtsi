@@ -3,6 +3,7 @@
 		qcom,mdss-dsi-panel-name = "19795 samsung AMS678UW01 dsc cmd mode panel";
 		qcom,mdss-dsi-panel-manufacture = "SAMSUNG";
 		qcom,mdss-dsi-panel-type = "dsi_cmd_mode";
+		qcom,mdss-dsi-panel-physical-type = "oled";
 		oplus,mdss-dsi-vendor-name = "samsung_AMS678UW01";
 		oplus,mdss-dsi-manufacture = "samsung1024";
 		qcom,mdss-dsi-virtual-channel-id = <0>;

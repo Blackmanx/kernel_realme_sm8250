@@ -4,6 +4,7 @@
 		oplus,mdss-dsi-vendor-name = "SOFE03F";
 		oplus,mdss-dsi-manufacture = "samsung1024";
 		qcom,mdss-dsi-panel-type = "dsi_cmd_mode";
+		qcom,mdss-dsi-panel-physical-type = "oled";
 		qcom,mdss-dsi-virtual-channel-id = <0>;
 		qcom,mdss-dsi-stream = <0>;
 		qcom,mdss-dsi-bpp = <24>;
