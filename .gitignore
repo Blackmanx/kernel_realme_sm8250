@@ -94,7 +94,7 @@ modules.builtin
 #
 # Anykernel
 #
-/anykernel
+anykernel
 
 #
 # Generated include files
@@ -146,3 +146,11 @@ all.config
 # fetched Android config fragments
 kernel/configs/android-*.cfg
 
+# Local builds
+build.sh
+*.zip
+
+#
+#Ignoring Android.bp link file
+#
+Android.bp
