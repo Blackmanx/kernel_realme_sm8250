@@ -8,6 +8,7 @@
 #include <linux/pinctrl/consumer.h>
 #include <linux/regulator/consumer.h>
 #include <soc/qcom/cmd-db.h>
+#include <linux/of_gpio.h>
 
 #include "main.h"
 #include "debug.h"
