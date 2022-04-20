@@ -2847,20 +2847,20 @@ try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags,
 	 * __schedule().  See the comment for smp_mb__after_spinlock().
 	 */
 	smp_rmb();
+	if (p->state & TASK_UNINTERRUPTIBLE)
+		trace_sched_blocked_reason(p);
+
 	if (READ_ONCE(p->on_rq)) {
 		if (ttwu_remote(p, wake_flags))
 			goto unlock;
-	        if (p->state & TASK_UNINTERRUPTIBLE)
-        	        trace_sched_blocked_reason(p);
-
 	} else {
 #ifdef CONFIG_SMP
 		/*
-		 * Ensure we load p->on_cpu _after_ p->on_rq, otherwise it would
-		 * be possible to, falsely, observe p->on_cpu == 0.
+		 * Ensure we load p->on_cpu _after_ p->on_rq, otherwise it would be
+		 * possible to, falsely, observe p->on_cpu == 0.
 		 *
-		 * One must be running (->on_cpu == 1) in order to remove
-		 * oneself from the runqueue.
+		 * One must be running (->on_cpu == 1) in order to remove oneself
+		 * from the runqueue.
 		 *
 		 * __schedule() (switch to task 'p')	try_to_wake_up()
 		 *   STORE p->on_cpu = 1		  LOAD p->on_rq
@@ -2874,10 +2874,9 @@ try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags,
 		 * Pairs with the LOCK+smp_mb__after_spinlock() on rq->lock in
 		 * __schedule().  See the comment for smp_mb__after_spinlock().
 		 *
-		 * Form a control-dep-acquire with p->on_rq == 0 above, to
-		 * ensure schedule()'s deactivate_task() has 'happened' and p
-		 * will no longer care about it's own p->state. See the comment
-		 * in __schedule().
+		 * Form a control-dep-acquire with p->on_rq == 0 above, to ensure
+		 * schedule()'s deactivate_task() has 'happened' and p will no longer
+		 * care about it's own p->state. See the comment in __schedule().
 		 */
 		smp_acquire__after_ctrl_dep();
 #endif
