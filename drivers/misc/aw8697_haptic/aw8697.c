@@ -9899,9 +9899,6 @@ static ssize_t aw8697_f0_data_store(struct device *dev, struct device_attribute 
     pr_err("%s:  f0 = %d\n", __FUNCTION__, val);
 
     aw8697->clock_system_f0_cali_lra = val;
-#ifdef CONFIG_OPLUS_HAPTIC_OOS
-	aw8697_check_f0_data(aw8697);
-#endif
     mutex_lock(&aw8697->lock);
     aw8697_i2c_write(aw8697, AW8697_REG_TRIM_LRA, aw8697->clock_system_f0_cali_lra);
     mutex_unlock(&aw8697->lock);
