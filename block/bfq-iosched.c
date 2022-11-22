@@ -4080,7 +4080,7 @@ exit:
 #if defined(CONFIG_BFQ_GROUP_IOSCHED) && defined(CONFIG_DEBUG_BLK_CGROUP)
 static void bfq_update_dispatch_stats(struct request_queue *q,
 				      struct request *rq,
-					  struct bfq_queue *in_serv_queue,
+				      struct bfq_queue *in_serv_queue,
 				      bool idle_timer_disabled)
 {
 	struct bfq_queue *bfqq = rq ? RQ_BFQQ(rq) : NULL;
@@ -4125,7 +4125,7 @@ static void bfq_update_dispatch_stats(struct request_queue *q,
 #else
 static inline void bfq_update_dispatch_stats(struct request_queue *q,
 					     struct request *rq,
-						 struct bfq_queue *in_serv_queue,
+					     struct bfq_queue *in_serv_queue,
 					     bool idle_timer_disabled) {}
 #endif
 
