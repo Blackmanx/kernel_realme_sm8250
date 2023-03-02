@@ -1868,7 +1868,6 @@
 	oplus,apollo_backlight_enable;
 	//oplus,color_srgb_status;
 	oplus,bl_interpolate_nosub;
-	oplus,90fps_switch;
 	oplus,bl_interpolate_remapping_nosub;
 	oplus,bl_interpolate_alpha_dc_nosub;
 	oplus,dc_seed_support;
