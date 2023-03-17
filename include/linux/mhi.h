@@ -495,6 +495,7 @@ struct mhi_buf {
 	struct list_head node;
 	struct page *page;
 	void *buf;
+	unsigned int order;
 	phys_addr_t phys_addr;
 	dma_addr_t dma_addr;
 	struct sk_buff *skb;
