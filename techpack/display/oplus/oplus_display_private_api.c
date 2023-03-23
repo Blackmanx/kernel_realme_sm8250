@@ -26,7 +26,7 @@
  */
 #include <linux/notifier.h>
 #include <linux/msm_drm_notify.h>
-#include <soc/oppo/device_info.h>
+#include <soc/oplus/device_info.h>
 #if defined(OPLUS_FEATURE_PXLW_IRIS5)
 #include <video/mipi_display.h>
 #include "iris/dsi_iris5_api.h"
