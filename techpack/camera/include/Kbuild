@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: GPL-2.0-only
+
+# Top-level Makefile calls into asm-$(ARCH)
+# List only non-arch directories below
