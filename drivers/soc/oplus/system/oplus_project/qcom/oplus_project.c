@@ -150,7 +150,7 @@ static void init_project_version(void)
 		}
 	}
 
-    pr_err("get_project:%d, is_new_cdt:%d, get_PCB_Version:%d, get_Oplus_Boot_Mode:%d, get_Modem_Version:%d\n", 
+    pr_err("get_project:%d, is_new_cdt:%d, get_PCB_Version:%d, get_Oplus_Boot_Mode:%d, get_Modem_Version:%d\n",
             get_project(),
             is_new_cdt(),
             get_PCB_Version(),
@@ -255,7 +255,7 @@ int rpmb_is_enable(void)
     if (rpmb_enable)
         return rpmb_enable;
 
-    rpmb_addr = ioremap(RPMB_KEY_PROVISIONED , 4);    
+    rpmb_addr = ioremap(RPMB_KEY_PROVISIONED , 4);
     if (rpmb_addr) {
         rmpb_rd = __raw_readl(rpmb_addr);
         iounmap(rpmb_addr);
@@ -327,7 +327,7 @@ uint32_t get_oplus_feature(enum F_INDEX index)
 EXPORT_SYMBOL(get_oplus_feature);
 
 #define SERIALNO_LEN 16
-unsigned int get_serialID()
+unsigned int get_serialID(void)
 {
     unsigned int serial_id = 0xFFFFFFFF;
 
@@ -415,7 +415,7 @@ static void dump_secure_type(struct seq_file *s)
         iounmap(oem_config_base);
     }
 
-    seq_printf(s, "%d", secure_oem_config);    
+    seq_printf(s, "%d", secure_oem_config);
 }
 
 static void dump_secure_stage(struct seq_file *s)
@@ -552,7 +552,7 @@ static int project_read_func(struct seq_file *s, void *v)
     return 0;
 }
 
-unsigned int get_cdt_version()
+unsigned int get_cdt_version(void)
 {
     init_project_version();
 
@@ -579,7 +579,7 @@ static int __init oplus_project_init(void)
     if (!oplus_info) {
         goto error_init;
     }
-    
+
     p_entry = proc_create_data("prjName", S_IRUGO, oplus_info, &project_info_fops, UINT2Ptr(PROJECT_VERSION));
     if (!p_entry)
         goto error_init;

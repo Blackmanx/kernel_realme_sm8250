@@ -5871,9 +5871,9 @@ int oplus_chg_get_fv_when_vooc(struct oplus_chg_chip *chip)
 static void oplus_chg_set_iterm(struct oplus_chg_chip *chip)
 {
 	int iterm =  chip->limits.iterm_ma;
-	
+
 	if (oplus_voocphy_get_bidirect_cp_support()) {
-		iterm = 2 * iterm; 
+		iterm = 2 * iterm;
 	}
 	chip->chg_ops->term_current_set(chip->limits.iterm_ma);
 }
@@ -9867,7 +9867,7 @@ static void oplus_chg_fast_switch_check(struct oplus_chg_chip *chip)
 		return;
 	}
 
-	if (oplus_pps_get_chg_status() != PPS_NOT_SUPPORT && chip->pps_force_svooc == false 
+	if (oplus_pps_get_chg_status() != PPS_NOT_SUPPORT && chip->pps_force_svooc == false
 				&& chip->chg_ops->oplus_chg_get_pd_type() == PD_PPS_ACTIVE) {
 			return;
 	}
@@ -11761,7 +11761,7 @@ static void oplus_chg_reset_adapter_work(struct work_struct *work) {
 	}
 }
 
-void oplus_chg_turn_on_charging_in_work()
+void oplus_chg_turn_on_charging_in_work(void)
 {
 	if (g_charger_chip)
 		schedule_delayed_work(&g_charger_chip->turn_on_charging_work, 0);

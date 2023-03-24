@@ -357,7 +357,7 @@ struct panel_info {
 	char  *platform_support_external_name[21];
 	int    project_num;
 	struct firmware_headfile firmware_headfile;     /*firmware headfile for noflash ic*/
-	struct manufacture_info manufacture_info;       /*touchpanel device info*/
+	struct manufacture_info	manufacture_info;       /*touchpanel device info*/
 };
 
 struct hw_resource {
