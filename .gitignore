@@ -69,6 +69,11 @@ modules.builtin
 /debian/
 
 #
+# Output directory
+#
+/out
+
+#
 # Snap directory (make snap-pkg)
 #
 /snap/
