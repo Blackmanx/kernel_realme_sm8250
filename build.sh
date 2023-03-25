@@ -4,7 +4,7 @@
 # Clone proton-clang toolchain if needed
 #
 
-KERNEL_DEFCONFIG=vendor/kona-perf_defconfig
+KERNEL_DEFCONFIG=vendor/sm8250_defconfig
 DIR=$PWD
 export ARCH=arm64
 export SUBARCH=arm64
@@ -12,8 +12,8 @@ export CLANG_PATH="~/toolchains/bin"
 export PATH="$CLANG_PATH:$PATH"
 export CROSS_COMPILE=aarch64-linux-gnu-
 export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
-export KBUILD_BUILD_USER=beluga
-export KBUILD_BUILD_HOST=hecker
+export KBUILD_BUILD_USER=Amog
+export KBUILD_BUILD_HOST=Us
 
 echo
 echo "Kernel is going to be built using $KERNEL_DEFCONFIG"
