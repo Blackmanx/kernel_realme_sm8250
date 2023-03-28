@@ -92,6 +92,11 @@ modules.builtin
 !.clang-format
 
 #
+# Anykernel
+#
+/anykernel
+
+#
 # Generated include files
 #
 include/config

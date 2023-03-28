@@ -1,7 +1,5 @@
-cp out/arch/arm64/boot/Image ~/Documents/kernel/Files
+cp out/arch/arm64/boot/Image ./anykernel/
 
-cp out/arch/arm64/boot/dtbo.img ~/Documents/kernel/Files
+cd anykernel && zip -r Bigshot-kernel-$(date +"%d-%m-%Y"-%H%M).zip * && mv Bigshot-kernel-$(date +"%d-%m-%Y-%H%M").zip ../out/
 
-cd ~/Documents/kernel/Files && zip -r Bigshot-kernel-$(date +"%d-%m-%Y"-%H%M).zip * && mv Bigshot-kernel-$(date +"%d-%m-%Y-%H%M").zip ~/Documents/kernel/
-
-cd ~/Documents/kernel-T
+cd ..
