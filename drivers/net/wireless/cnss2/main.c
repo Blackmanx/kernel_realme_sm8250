@@ -13,6 +13,8 @@
 #include <linux/timer.h>
 #include <soc/qcom/minidump.h>
 #ifdef OPLUS_BUG_STABILITY
+#include <soc/qcom/ramdump.h>
+#include <soc/qcom/subsystem_notif.h>
 //Add for: disable wifi while power off charging because modem img will not mount
 #include <soc/oplus/boot_mode.h>
 #endif /* OPLUS_BUG_STABILITY */
@@ -2617,6 +2619,12 @@ static void cnss_init_control_params(struct cnss_plat_data *plat_priv)
 	if (of_property_read_bool(plat_priv->plat_dev->dev.of_node,
 				  "cnss-daemon-support"))
 		plat_priv->ctrl_params.quirks |= BIT(ENABLE_DAEMON_SUPPORT);
+
+#ifdef OPLUS_BUG_STABILITY
+	if (of_property_read_bool(plat_priv->plat_dev->dev.of_node,
+				  "cnss-enable-self-recovery"))
+		plat_priv->ctrl_params.quirks |= BIT(LINK_DOWN_SELF_RECOVERY);
+#endif
 
 	plat_priv->ctrl_params.mhi_timeout = CNSS_MHI_TIMEOUT_DEFAULT;
 	plat_priv->ctrl_params.mhi_m2_timeout = CNSS_MHI_M2_TIMEOUT_DEFAULT;
