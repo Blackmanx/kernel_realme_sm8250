@@ -73,8 +73,6 @@ struct hdd_context;
 #define VENDOR1_AP_OUI_TYPE "\x00\xE0\x4C"
 #define VENDOR1_AP_OUI_TYPE_SIZE 3
 
-#define WLAN_BSS_MEMBERSHIP_SELECTOR_VHT_PHY 126
-#define WLAN_BSS_MEMBERSHIP_SELECTOR_HT_PHY 127
 #define BASIC_RATE_MASK   0x80
 #define RATE_MASK         0x7f
 
@@ -141,7 +139,12 @@ hdd_convert_cfgdot11mode_to_80211mode(enum csr_cfgdot11mode mode);
 
 #define HDD_SET_BIT(__param, __val)    ((__param) |= (1 << (__val)))
 
+#ifndef OPLUS_BUG_STABILITY
+//Modify for scan more hidden AP
 #define MAX_SCAN_SSID 10
+#else /* OPLUS_BUG_STABILITY */
+#define MAX_SCAN_SSID 16
+#endif /* OPLUS_BUG_STABILITY */
 
 #define IS_CHANNEL_VALID(channel) ((channel >= 0 && channel < 15) \
 			|| (channel >= 36 && channel <= 184))
