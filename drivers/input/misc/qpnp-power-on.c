@@ -239,6 +239,7 @@ struct qpnp_pon {
 	bool			ps_hold_shutdown_disable;
 	bool			kpdpwr_dbc_enable;
 	bool			resin_pon_reset;
+	bool			log_kpd_event;
 	ktime_t			kpdpwr_last_release_time;
 };
 #endif
