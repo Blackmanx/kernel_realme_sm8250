@@ -3522,7 +3522,7 @@ static struct rq *finish_task_switch(struct task_struct *prev)
 		/* Task is done with its stack. */
 		put_task_stack(prev);
 
-		put_task_struct(prev);
+		put_task_struct_rcu_user(prev);
 	}
 
 	tick_nohz_task_switch();
@@ -3625,10 +3625,8 @@ context_switch(struct rq *rq, struct task_struct *prev,
 		next->active_mm = oldmm;
 		mmgrab(oldmm);
 		enter_lazy_tlb(oldmm, next);
-	} else {
+	} else
 		switch_mm_irqs_off(oldmm, mm, next);
-		lru_gen_use_mm(mm);
-	}
 
 	if (!prev->mm) {
 		prev->active_mm = NULL;
