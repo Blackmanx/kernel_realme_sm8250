@@ -826,7 +826,7 @@ static int oplus_vooc_set_current_when_bleow_setting_batt_temp
 		break;
 	}
 
-	vooc_xlog_printk(CHG_LOG_CRTI, "the ret: %d, the temp =%d, temp_status = %d, temp_range = %d\r\n",
+	vooc_xlog_printk(CHG_LOG_CRTI, "the ret: %d, the temp =%d, temp_status = %d, temp_range = %d\r\n", 
 			ret, vbat_temp_cur, chip->fastchg_batt_temp_status, chip->vooc_temp_cur_range);
 	return ret;
 }
@@ -1618,7 +1618,7 @@ static void oplus_vooc_fastchg_func(struct work_struct *work)
 					} else{
 							ret_info = g_vooc_chip->vooc_current_lvl_cnt;
 					}
-
+					
 				} else {
 					ret_info = 0x06;
 				}

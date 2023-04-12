@@ -89,3 +89,4 @@ config OPLUS_CHARGER_WIRELESS_PEN
 
 source "drivers/power/oplus/Kconfig"
 #endif
+

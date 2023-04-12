@@ -39,7 +39,7 @@
 #define RT9471_DRV_VERSION	"1.0.6_MTK"
 
 #ifdef OPLUS_FEATURE_CHG_BASIC
-#include <soc/oppo/oppo_project.h>
+#include <soc/oplus/oplus_project.h>
 extern unsigned int is_project(int project );
 #endif /*OPLUS_FEATURE_CHG_BASIC*/
 

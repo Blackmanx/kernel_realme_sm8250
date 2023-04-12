@@ -385,6 +385,7 @@ static int smb1355_set_charge_param(struct smb1355 *chip,
 			param->name, val_u, param->min_u, param->max_u);
 		return -EINVAL;
 	}
+
 #ifdef OPLUS_FEATURE_CHG_BASIC
 	else
 	{
@@ -392,6 +393,7 @@ static int smb1355_set_charge_param(struct smb1355 *chip,
 		param->name, val_u, param->min_u, param->max_u);
 	}
 #endif
+
 	val_raw = (val_u - param->min_u) / param->step_u;
 
 	rc = smb1355_write(chip, param->reg, val_raw);
@@ -962,6 +964,7 @@ static int smb1355_set_current_max(struct smb1355 *chip, int curr)
 
 	if (!IS_USBIN(chip->dt.pl_mode))
 		return 0;
+
 	pr_debug("%s start curr = %d\n",__func__, curr);
 	if ((curr / 1000) < 100) {
 		/* disable parallel path (ICL < 100mA) */

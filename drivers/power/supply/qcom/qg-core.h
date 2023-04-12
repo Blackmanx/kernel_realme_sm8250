@@ -14,6 +14,7 @@
 #define qg_err(fmt, ...) \
         printk(KERN_ERR "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__)
 #endif
+
 #include <linux/kernel.h>
 #include "fg-alg.h"
 #include "qg-defs.h"
@@ -210,6 +211,7 @@ struct qpnp_qg {
 	struct iio_channel	*parallel_isense_chan;
 	bool                    qpnp_qg_feture;
 #endif
+
 	/* soc params */
 	int			catch_up_soc;
 	int			maint_soc;
@@ -235,14 +237,13 @@ struct qpnp_qg {
 	/* ttf */
 	struct ttf		*ttf;
 #ifdef OPLUS_FEATURE_CHG_BASIC
-    /* Yichun.Chen  PSW.BSP.CHG  2018-06-13  avoid when reboot soc reduce 1% */
-        int         skip_scale_soc_count;
+	/* Yichun.Chen  PSW.BSP.CHG  2018-06-13  avoid when reboot soc reduce 1% */
+	int			skip_scale_soc_count;
 #endif
 #ifdef OPLUS_FEATURE_CHG_BASIC
-    /* Zejin.Yang  BSP.CHG.Basic  2021-04-12  For oplus svooc/vooc chg project*/
-        int         asic_with_internal_gauge;
+	/* Zejin.Yang  BSP.CHG.Basic  2021-04-12  For oplus svooc/vooc chg project*/
+	int			asic_with_internal_gauge;
 #endif
-
 };
 
 struct ocv_all {

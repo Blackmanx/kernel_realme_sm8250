@@ -94,6 +94,13 @@
 
 static struct oplus_chg_chip *g_charger_chip = NULL;
 
+#ifdef CONFIG_FORCE_FAST_CHARGE
+#include <linux/moduleparam.h>
+#include <linux/fastchg.h>
+static int ffc_val = 900;
+module_param(ffc_val, int, 0644);
+#endif
+
 #define FLASH_SCREEN_CTRL_OTA		0X01
 #define FLASH_SCREEN_CTRL_DTSI	0X02
 
@@ -5606,7 +5613,18 @@ void oplus_chg_set_input_current_limit(struct oplus_chg_chip *chip)
 	case POWER_SUPPLY_TYPE_UNKNOWN:
 		return;
 	case POWER_SUPPLY_TYPE_USB:
+#ifdef CONFIG_FORCE_FAST_CHARGE
+			if (force_fast_charge > 0)
+			{
+				current_limit = ffc_val;
+			}
+			else
+			{
+				current_limit = chip->limits.input_current_usb_ma;	
+			}
+#else
 		current_limit = chip->limits.input_current_usb_ma;
+#endif
 		break;
 	case POWER_SUPPLY_TYPE_USB_DCP:
 		current_limit = chip->limits.input_current_charger_ma;
@@ -5842,9 +5860,9 @@ int oplus_chg_get_fv_when_vooc(struct oplus_chg_chip *chip)
 static void oplus_chg_set_iterm(struct oplus_chg_chip *chip)
 {
 	int iterm =  chip->limits.iterm_ma;
-
+	
 	if (oplus_voocphy_get_bidirect_cp_support()) {
-		iterm = 2 * iterm;
+		iterm = 2 * iterm; 
 	}
 	chip->chg_ops->term_current_set(chip->limits.iterm_ma);
 }
@@ -9838,7 +9856,7 @@ static void oplus_chg_fast_switch_check(struct oplus_chg_chip *chip)
 		return;
 	}
 
-	if (oplus_pps_get_chg_status() != PPS_NOT_SUPPORT && chip->pps_force_svooc == false
+	if (oplus_pps_get_chg_status() != PPS_NOT_SUPPORT && chip->pps_force_svooc == false 
 				&& chip->chg_ops->oplus_chg_get_pd_type() == PD_PPS_ACTIVE) {
 			return;
 	}

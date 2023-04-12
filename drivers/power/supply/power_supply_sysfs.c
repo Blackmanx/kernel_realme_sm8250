@@ -46,7 +46,7 @@ static const char * const power_supply_type_text[] = {
 	"USB_PD", "USB_PD_DRP", "BrickID",
 	"USB_HVDCP", "USB_HVDCP_3", "USB_HVDCP_3P5", "Wireless", "USB_FLOAT",
 	"BMS", "Parallel", "Main", "USB_C_UFP", "USB_C_DFP",
-	"Charge_Pump","DASH","BPP", "EPP", "FAST"
+	"Charge_Pump", "DASH", "BPP", "EPP", "FAST"
 };
 
 static const char * const power_supply_usb_type_text[] = {
@@ -530,7 +530,6 @@ static struct device_attribute power_supply_attrs[] = {
 	POWER_SUPPLY_ATTR(smooth_soc),
 	POWER_SUPPLY_ATTR(smooth_switch),
 #endif
-
 #ifdef CONFIG_OPLUS_SHORT_USERSPACE
 	POWER_SUPPLY_ATTR(short_c_batt_limit_chg),
 	POWER_SUPPLY_ATTR(short_c_batt_limit_rechg),
@@ -593,11 +592,11 @@ static umode_t power_supply_attr_is_visible(struct kobject *kobj,
 			if (psy->desc->property_is_writeable &&
 			    psy->desc->property_is_writeable(psy, property) > 0)
 				mode |= S_IWUSR;
+
 #ifdef OPLUS_FEATURE_CHG_BASIC
 			if (property == POWER_SUPPLY_PROP_SMB1355_TEST)
 				mode |= S_IWGRP;
 #endif
-
 
 			return mode;
 		}
@@ -672,6 +671,7 @@ int power_supply_uevent(struct device *dev, struct kobj_uevent_env *env)
 			|| ((psy->desc->properties[j] == POWER_SUPPLY_PROP_CHARGE_NOW) && (psy->desc->type == POWER_SUPPLY_TYPE_BATTERY)))
 			continue;
 #endif
+
 		attr = &power_supply_attrs[psy->desc->properties[j]];
 
 		ret = power_supply_show_property(dev, attr, prop_buf);

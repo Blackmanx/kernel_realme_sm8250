@@ -1743,7 +1743,7 @@ static int oplus_get_chg_slow_reason(struct oplus_chg_chip *chip) {
 		}
 		if(oplus_chg_debug_notify_policy[i].policy == OPLUS_CHG_NOTIFY_TOTAL) {
 			if(oplus_chg_debug_info.chg_cnt[i]
-				*5*100/oplus_chg_debug_info.total_time_count >
+				*5*100/oplus_chg_debug_info.total_time_count > 
 				oplus_chg_debug_notify_policy[i].percent) {
 				strcpy(oplus_chg_debug_info.flag_reason,
 					oplus_chg_debug_notify_policy[i].reason);
