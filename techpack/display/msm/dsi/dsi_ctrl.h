@@ -12,7 +12,7 @@
 #include "dsi_ctrl_hw.h"
 #include "dsi_clk.h"
 #include "dsi_pwr.h"
-#include "drm_mipi_dsi.h"
+#include <drm/drm_mipi_dsi.h>
 
 /*
  * DSI Command transfer modifiers

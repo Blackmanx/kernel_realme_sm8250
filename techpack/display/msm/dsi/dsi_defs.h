@@ -8,7 +8,7 @@
 
 #include <linux/types.h>
 #include <drm/drm_mipi_dsi.h>
-#include "msm_drv.h"
+#include "../msm_drv.h"
 
 #define DSI_H_TOTAL(t) (((t)->h_active) + ((t)->h_back_porch) + \
 			((t)->h_sync_width) + ((t)->h_front_porch))

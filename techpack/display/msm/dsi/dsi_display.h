@@ -14,13 +14,13 @@
 #include <drm/drmP.h>
 #include <drm/drm_crtc.h>
 
-#include "msm_drv.h"
+#include "../msm_drv.h"
 #include "dsi_defs.h"
 #include "dsi_ctrl.h"
 #include "dsi_phy.h"
 #include "dsi_panel.h"
 #ifdef OPLUS_BUG_STABILITY
-#include "oplus_dsi_support.h"
+#include "../../oplus/oplus_dsi_support.h"
 #endif /*OPLUS_BUG_STABILITY*/
 
 #define MAX_DSI_CTRLS_PER_DISPLAY             2
