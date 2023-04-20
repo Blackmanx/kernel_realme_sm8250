@@ -17,7 +17,7 @@
 
 #define ESOC_MAX_PON_TRIES	5
 
-#define BOOT_FAIL_ACTION_DEF BOOT_FAIL_ACTION_PANIC
+#define BOOT_FAIL_ACTION_DEF BOOT_FAIL_ACTION_COLD_RESET
 
 enum esoc_pon_state {
 	PON_INIT,
@@ -389,7 +389,7 @@ static int mdm_handle_boot_fail(struct esoc_clink *esoc_clink, u8 *pon_trial)
 	if (*pon_trial == atomic_read(&mdm_drv->n_pon_tries)) {
 		esoc_mdm_log("Reached max. number of boot trials\n");
 		atomic_set(&mdm_drv->boot_fail_action,
-					BOOT_FAIL_ACTION_PANIC);
+					BOOT_FAIL_ACTION_DEF);
 	}
 
 	switch (atomic_read(&mdm_drv->boot_fail_action)) {
@@ -419,8 +419,7 @@ static int mdm_handle_boot_fail(struct esoc_clink *esoc_clink, u8 *pon_trial)
 		msleep(S3_RESET_DELAY_MS);
 		break;
 	case BOOT_FAIL_ACTION_PANIC:
-		esoc_mdm_log("Calling panic!!\n");
-		panic("Panic requested on external modem boot failure\n");
+		pr_err("Panic requested on external modem boot failure\n");
 		break;
 	case BOOT_FAIL_ACTION_NOP:
 		esoc_mdm_log("Leaving the modem in its curent state\n");
