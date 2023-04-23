@@ -4,7 +4,6 @@
  * This code is based on drivers/scsi/ufs/ufshcd.h
  * Copyright (C) 2011-2013 Samsung India Software Operations
  * Copyright (c) 2013-2020, The Linux Foundation. All rights reserved.
- * Copyright (C) 2020 Oplus. All rights reserved.
  *
  * Authors:
  *	Santosh Yaraganavi <santosh.sy@samsung.com>
@@ -71,6 +70,7 @@
 #include <scsi/scsi_tcq.h>
 #include <scsi/scsi_dbg.h>
 #include <scsi/scsi_eh.h>
+#include <linux/android_kabi.h>
 
 #include <linux/fault-inject.h>
 
@@ -394,6 +394,11 @@ struct ufs_hba_variant_ops {
 #endif
 	int	(*program_key)(struct ufs_hba *hba,
 			       const union ufs_crypto_cfg_entry *cfg, int slot);
+
+	ANDROID_KABI_RESERVE(1);
+	ANDROID_KABI_RESERVE(2);
+	ANDROID_KABI_RESERVE(3);
+	ANDROID_KABI_RESERVE(4);
 };
 
 /**
@@ -437,6 +442,11 @@ struct ufs_hba_crypto_variant_ops {
 				    struct scsi_cmnd *cmd,
 				    struct ufshcd_lrb *lrbp);
 	void *priv;
+
+	ANDROID_KABI_RESERVE(1);
+	ANDROID_KABI_RESERVE(2);
+	ANDROID_KABI_RESERVE(3);
+	ANDROID_KABI_RESERVE(4);
 };
 
 /* clock gating state  */
@@ -482,6 +492,7 @@ struct ufs_clk_gating {
 	struct device_attribute delay_perf_attr;
 	struct device_attribute enable_attr;
 	bool is_enabled;
+	bool gate_wk_in_process;
 	int active_reqs;
 	struct workqueue_struct *clk_gating_workq;
 };
@@ -1023,6 +1034,7 @@ struct ufs_hba {
 	struct debugfs_files debugfs_files;
 #endif
 #ifdef OPLUS_FEATURE_UFS_SHOW_LATENCY
+/* add latency_hist node for ufs latency calculate in sysfs */
 	int latency_hist_enabled;
 	struct io_latency_state io_lat_read;
 	struct io_latency_state io_lat_write;
@@ -1125,6 +1137,7 @@ struct ufs_hba {
 	struct ufsf_feature ufsf;
 #endif
 #ifdef OPLUS_FEATURE_PADL_STATISTICS
+/* add unipro statistic information */
 	struct unipro_signal_quality_ctrl signalCtrl;
 #endif
 	bool wb_enabled;
@@ -1136,6 +1149,11 @@ struct ufs_hba {
 	u32 crypto_cfg_register;
 	struct keyslot_manager *ksm;
 #endif /* CONFIG_SCSI_UFS_CRYPTO */
+
+	ANDROID_KABI_RESERVE(1);
+	ANDROID_KABI_RESERVE(2);
+	ANDROID_KABI_RESERVE(3);
+	ANDROID_KABI_RESERVE(4);
 };
 
 static inline void ufshcd_mark_shutdown_ongoing(struct ufs_hba *hba)

@@ -775,22 +775,16 @@ int qrtr_endpoint_post(struct qrtr_endpoint *ep, const void *data, size_t len)
 	const struct qrtr_hdr_v2 *v2;
 	struct sk_buff *skb;
 	struct qrtr_cb *cb;
-	unsigned int size;
-	int errcode;
+	size_t size;
 	unsigned int ver;
 	size_t hdrlen;
 
 	if (len == 0 || len & 3)
 		return -EINVAL;
 
-	skb = alloc_skb_with_frags(sizeof(*v1), len, 0, &errcode, GFP_ATOMIC);
-	if (!skb) {
-		skb = qrtr_get_backup(len);
-		if (!skb) {
-			pr_err("qrtr: Unable to get skb with len:%lu\n", len);
-			return -ENOMEM;
-		}
-	}
+	skb = __netdev_alloc_skb(NULL, len, GFP_ATOMIC | __GFP_NOWARN);
+	if (!skb)
+		return -ENOMEM;
 
 	skb_reserve(skb, sizeof(*v1));
 	cb = (struct qrtr_cb *)skb->cb;
@@ -839,10 +833,7 @@ int qrtr_endpoint_post(struct qrtr_endpoint *ep, const void *data, size_t len)
 		goto err;
 	}
 
-	if (cb->dst_port == QRTR_PORT_CTRL_LEGACY)
-		cb->dst_port = QRTR_PORT_CTRL;
-
-	if (len != ALIGN(size, 4) + hdrlen)
+	if (!size || len != ALIGN(size, 4) + hdrlen)
 		goto err;
 
 	if (cb->dst_port != QRTR_PORT_CTRL && cb->type != QRTR_TYPE_DATA &&
@@ -1712,8 +1703,10 @@ static int qrtr_sendmsg(struct socket *sock, struct msghdr *msg, size_t len)
 	plen = (len + 3) & ~3;
 	skb = sock_alloc_send_skb(sk, plen + QRTR_HDR_MAX_SIZE,
 				  msg->msg_flags & MSG_DONTWAIT, &rc);
-	if (!skb)
+	if (!skb) {
+		rc = -ENOMEM;
 		goto out_node;
+	}
 
 	skb_reserve(skb, QRTR_HDR_MAX_SIZE);
 
@@ -1835,6 +1828,7 @@ static int qrtr_recvmsg(struct socket *sock, struct msghdr *msg,
 		 */
 		memset(addr, 0, sizeof(*addr));
 
+		cb = (struct qrtr_cb *)skb->cb;
 		addr->sq_family = AF_QIPCRTR;
 		addr->sq_node = cb->src_node;
 		addr->sq_port = cb->src_port;
