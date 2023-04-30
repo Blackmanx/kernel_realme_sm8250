@@ -36,7 +36,7 @@
 #ifdef MULTI_IF_NAME
 #define PREFIX MULTI_IF_NAME "/"
 #else
-#define PREFIX ""
+#define PREFIX "qca6390/"
 #endif
 
 #endif
