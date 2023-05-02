@@ -108,7 +108,6 @@
 		};
 	};
 
-    //#ifdef OPLUS_FEATURE_THERMAL
     cpu-gold-0-0-step {
         polling-delay-passive = <10>;
         polling-delay = <0>;
@@ -284,5 +283,4 @@
             };
         };
     };
-    //#endif OPLUS_FEATURE_THERMAL
 };
