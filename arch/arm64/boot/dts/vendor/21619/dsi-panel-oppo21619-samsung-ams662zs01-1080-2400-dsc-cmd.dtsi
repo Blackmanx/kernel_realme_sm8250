@@ -72,7 +72,7 @@
 				qcom,mdss-dsi-panel-jitter = <0x4 0x1>;
 
 				oplus,fod-on-vblank = <0>;
-				oplus,fod-off-vblank = <1>;
+				oplus,fod-off-vblank = <0>;
 				qcom,mdss-dsi-timing-switch-command = [
 					//120hz Transition
 					39 01 00 00 00 00 03 F0 5A 5A
@@ -571,7 +571,7 @@
 				qcom,mdss-dsi-panel-jitter = <0x4 0x1>;
 
 				oplus,fod-on-vblank = <0>;
-				oplus,fod-off-vblank = <1>;
+				oplus,fod-off-vblank = <0>;
 				qcom,mdss-dsi-timing-switch-command = [
 					//60hz Transition
                                         39 01 00 00 00 00 03 F0 5A 5A
