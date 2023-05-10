@@ -343,7 +343,7 @@
 		};
 	};
 	//#endif /*OPLUS_FEATURE_SENSOR_SMEM*/
-	
+
 	//#ifdef OPLUS_FEATURE_TP_BASIC
 	devinfo {
 		compatible = "oplus-devinfo";
@@ -435,37 +435,37 @@
  		compatible = "Goodix-gt9886";
  		reg = <0x5d>;
  		chip-name = "GT9886";
- 
+
  		/* Interrupt && Irq-gpio */
  		interrupt-parent = <&tlmm>;
  		interrupts = <39 0x2002>;
- 
+
  		/* Power Config */
  		//enable2v8_gpio = <&tlmm 26 0x1>;
  		//enable1v8_gpio = <&tlmm 32 0x1>;
  		vdd_2v8-supply = <&pm8150_l13>;
  		vcc_1v8-supply = <&pm8150_l14>;
  		vdd_2v8_volt = <3008000>;
- 
+
  		/* Other HW Resource */
  		irq-gpio = <&tlmm 39 0x2002>;
  		reset-gpio = <&tlmm 38 0x1>;
  		pinctrl-names = "default";
  		pinctrl-0 = <&ts_int_active &ts_reset_active>;
- 		
+
  		touchpanel,max-num-support = <10>;
  		touchpanel,tx-rx-num = <15 34>;
  		touchpanel,panel-coords = <1080 2400>;
  		touchpanel,display-coords = <1080 2400>;
  		touchpanel,touchmajor-limit = <0 54>;
 		tp_type = <8>;
- 
+
  		/* SW Support Feature Control */
 		platform_support_project = <19705 19706 19795 19796 19797 20607>;
 
 		platform_support_project_dir = <19795 19795 19795 19795 19795 19795>;
 
-		platform_support_project_commandline = "default_commandline","default_commandline","default_commandline","default_commandline","default_commandline","default_commandline";  
+		platform_support_project_commandline = "default_commandline","default_commandline","default_commandline","default_commandline","default_commandline","default_commandline";
 
  		project_id = <19795>;
  		register-is-16bit;
@@ -969,8 +969,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -984,8 +984,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -999,8 +999,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1014,8 +1014,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1029,8 +1029,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1044,13 +1044,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1064,8 +1064,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};

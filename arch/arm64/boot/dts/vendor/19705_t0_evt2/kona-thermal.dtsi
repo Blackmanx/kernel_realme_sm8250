@@ -199,13 +199,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -219,13 +219,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -239,13 +239,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -259,13 +259,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -279,13 +279,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -299,13 +299,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -319,13 +319,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -339,13 +339,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -359,13 +359,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -379,13 +379,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -399,13 +399,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -419,13 +419,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -439,13 +439,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -459,13 +459,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -479,13 +479,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -499,13 +499,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -519,13 +519,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -539,13 +539,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -559,13 +559,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -579,13 +579,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -599,13 +599,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -619,13 +619,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -639,13 +639,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -659,13 +659,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -679,13 +679,13 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <75000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <115000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 		};
@@ -780,7 +780,7 @@
 		wake-capable-sensor;
 		trips {
 			cpu00_config: cpu00-config {
-				temperature = <110000>;
+				temperature = <78000>;
 				hysteresis = <10000>;
 				type = "passive";
 			};
@@ -802,7 +802,7 @@
 		wake-capable-sensor;
 		trips {
 			cpu01_config: cpu01-config {
-				temperature = <110000>;
+				temperature = <78000>;
 				hysteresis = <10000>;
 				type = "passive";
 			};
@@ -824,7 +824,7 @@
 		wake-capable-sensor;
 		trips {
 			cpu02_config: cpu02-config {
-				temperature = <110000>;
+				temperature = <78000>;
 				hysteresis = <10000>;
 				type = "passive";
 			};
@@ -846,7 +846,7 @@
 		wake-capable-sensor;
 		trips {
 			cpu03_config: cpu03-config {
-				temperature = <110000>;
+				temperature = <78000>;
 				hysteresis = <10000>;
 				type = "passive";
 			};
@@ -874,7 +874,7 @@
 			};
 
 			cpu10_config: cpu10-config {
-				temperature = <110000>;
+				temperature = <78000>;
 				hysteresis = <10000>;
 				type = "passive";
 			};
@@ -907,7 +907,7 @@
 			};
 
 			cpu11_config: cpu11-config {
-				temperature = <110000>;
+				temperature = <78000>;
 				hysteresis = <10000>;
 				type = "passive";
 			};
@@ -940,7 +940,7 @@
 			};
 
 			cpu12_config: cpu12-config {
-				temperature = <110000>;
+				temperature = <78000>;
 				hysteresis = <10000>;
 				type = "passive";
 			};
@@ -973,7 +973,7 @@
 			};
 
 			cpu13_config: cpu13-config {
-				temperature = <110000>;
+				temperature = <78000>;
 				hysteresis = <10000>;
 				type = "passive";
 			};
@@ -1006,7 +1006,7 @@
 			};
 
 			cpu14_config: cpu14-config {
-				temperature = <110000>;
+				temperature = <78000>;
 				hysteresis = <10000>;
 				type = "passive";
 			};
@@ -1039,7 +1039,7 @@
 			};
 
 			cpu15_config: cpu15-config {
-				temperature = <110000>;
+				temperature = <78000>;
 				hysteresis = <10000>;
 				type = "passive";
 			};
@@ -1072,7 +1072,7 @@
 			};
 
 			cpu16_config: cpu16-config {
-				temperature = <110000>;
+				temperature = <78000>;
 				hysteresis = <10000>;
 				type = "passive";
 			};
@@ -1105,7 +1105,7 @@
 			};
 
 			cpu17_config: cpu17-config {
-				temperature = <110000>;
+				temperature = <78000>;
 				hysteresis = <10000>;
 				type = "passive";
 			};
@@ -1441,8 +1441,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1457,8 +1457,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1473,8 +1473,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1489,8 +1489,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1505,8 +1505,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1521,8 +1521,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1537,8 +1537,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <85000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1553,8 +1553,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <85000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1569,8 +1569,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <85000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1585,8 +1585,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <85000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1601,8 +1601,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <85000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1617,8 +1617,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <85000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1633,8 +1633,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <85000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1649,8 +1649,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <85000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1665,8 +1665,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <85000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1681,8 +1681,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <85000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};

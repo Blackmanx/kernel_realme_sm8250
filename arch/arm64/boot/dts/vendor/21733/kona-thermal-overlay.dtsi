@@ -135,7 +135,7 @@
         thermal-governor = "step_wise";
         trips {
             cg00_config: cg00-config {
-                temperature = <85000>;
+                temperature = <68000>;
                 hysteresis = <3000>;
                 type = "passive";
             };
@@ -157,7 +157,7 @@
         thermal-governor = "step_wise";
         trips {
             cg01_config: cg01-config {
-                temperature = <85000>;
+                temperature = <68000>;
                 hysteresis = <3000>;
                 type = "passive";
             };
@@ -179,7 +179,7 @@
         thermal-governor = "step_wise";
         trips {
             cg10_config: cg10-config {
-                temperature = <85000>;
+                temperature = <68000>;
                 hysteresis = <3000>;
                 type = "passive";
             };
@@ -201,7 +201,7 @@
         thermal-governor = "step_wise";
         trips {
             cg11_config: cg11-config {
-                temperature = <85000>;
+                temperature = <68000>;
                 hysteresis = <3000>;
                 type = "passive";
             };
@@ -223,7 +223,7 @@
         thermal-governor = "step_wise";
         trips {
             cg20_config: cg20-config {
-                temperature = <85000>;
+                temperature = <68000>;
                 hysteresis = <3000>;
                 type = "passive";
             };
@@ -245,7 +245,7 @@
         thermal-governor = "step_wise";
         trips {
             cg21_config: cg21-config {
-                temperature = <85000>;
+                temperature = <68000>;
                 hysteresis = <3000>;
                 type = "passive";
             };
@@ -267,7 +267,7 @@
         thermal-governor = "step_wise";
         trips {
             cg30_config: cg30-config {
-                temperature = <85000>;
+                temperature = <68000>;
                 hysteresis = <3000>;
                 type = "passive";
             };
@@ -289,7 +289,7 @@
         thermal-governor = "step_wise";
         trips {
             cg31_config: cg31-config {
-                temperature = <85000>;
+                temperature = <68000>;
                 hysteresis = <3000>;
                 type = "passive";
             };

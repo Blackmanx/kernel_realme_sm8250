@@ -256,7 +256,7 @@
 			delay-time = <0>;
 		};
 	};
-	
+
 	jiiov_fp {
 		status = "ok";
 		compatible = "jiiov,fingerprint";
@@ -411,7 +411,7 @@
 		};
 	};
 	//#endif /*OPLUS_FEATURE_SENSOR_SMEM*/
-	
+
 	//#ifdef OPLUS_FEATURE_TP_BASIC
 	devinfo {
 		compatible = "oplus-devinfo";
@@ -837,10 +837,10 @@
 &pm8150b_vadc {
 	#address-cells = <1>;
 	#size-cells = <0>;
-	
+
 	pinctrl-names = "default";
 	pinctrl-0 = <&gpio7C_adc_default &gpio12C_adc_default>;
-	
+
 	pm8150b_therm1@53 { //GPIO12
 		status = "disabled";
 		reg = <ADC_GPIO2_PU2>;
@@ -849,7 +849,7 @@
 		qcom,hw-settle-time = <200>;
 		qcom,pre-scaling = <1 1>;
 	};
-	
+
 	pm8150b_therm2@54 { //GPIO7
 		status = "disabled";
 		reg = <ADC_GPIO3_PU2>;
@@ -1329,8 +1329,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1344,8 +1344,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1359,8 +1359,8 @@
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1374,8 +1374,8 @@ board_temp-usr {
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1389,8 +1389,8 @@ board_temp-usr {
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1403,8 +1403,8 @@ board_temp-usr {
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1418,8 +1418,8 @@ board_temp-usr {
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1433,8 +1433,8 @@ board_temp-usr {
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1448,13 +1448,13 @@ board_temp-usr {
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 			active-config1 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1468,8 +1468,8 @@ board_temp-usr {
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1483,8 +1483,8 @@ board_temp-usr {
 		wake-capable-sensor;
 		trips {
 			active-config0 {
-				temperature = <125000>;
-				hysteresis = <1000>;
+				temperature = <68000>;
+				hysteresis = <3000>;
 				type = "passive";
 			};
 		};
@@ -1547,7 +1547,7 @@ board_temp-usr {
 			bias-disable;
 		};
 	};
-	
+
 	gpio12C_adc {
 		gpio12C_adc_default: gpio12C_adc_default {
 			pins = "gpio12"; /* GPIO12 */
@@ -1568,9 +1568,9 @@ board_temp-usr {
     };
      gpio7_adc {
         gpio7_adc_default: gpio7_adc_default {
-        pins = "gpio7"; 
-        function = "normal"; 
-        bias-high-impedance; 
+        pins = "gpio7";
+        function = "normal";
+        bias-high-impedance;
         };
      };
 };
