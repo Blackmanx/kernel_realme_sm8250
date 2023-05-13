@@ -83,7 +83,7 @@ struct pm_qos_request pm_qos_req_vb;
 
 static uint8_t AW8697_HAPTIC_RAM_VBAT_COMP_GAIN;
 
-static uint8_t AW8697_HAPTIC_HIGH_LEVEL_REG_VAL = 0x24;
+static uint8_t AW8697_HAPTIC_HIGH_LEVEL_REG_VAL = 0x28;
 
 
 #define AW8697_RTP_NAME_MAX        64
@@ -8561,7 +8561,7 @@ static struct aw8697_vmax_map vmax_map[] = {
 	{2400, 0x18, 0x80},
 	{2700, 0x20, 0x80},
 	{3000, 0x22, 0x80},
-	{3300, 0x24, 0x80},
+	{3300, 0x28, 0x80},
 };
 #else
 static struct aw8697_vmax_map vmax_map[] = {
@@ -8584,7 +8584,7 @@ static struct aw8697_vmax_map vmax_map[] = {
 	{2400, 0x18, 0x80},
 	{2700, 0x20, 0x80},
 	{3000, 0x22, 0x80},
-	{3300, 0x24, 0x80},
+	{3300, 0x28, 0x80},
 };
 #endif
 
