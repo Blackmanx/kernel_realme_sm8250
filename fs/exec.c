@@ -74,6 +74,20 @@
 
 int suid_dumpable = 0;
 
+#define SERVICEMANAGER_BIN "/system/bin/servicemanager"
+
+static struct task_struct *servicemanager_tsk;
+bool task_is_servicemanager(struct task_struct *p)
+{
+	return p == READ_ONCE(servicemanager_tsk);
+}
+
+void dead_special_task(void)
+{
+	if (unlikely(current == servicemanager_tsk))
+		WRITE_ONCE(servicemanager_tsk, NULL);
+}
+
 static LIST_HEAD(formats);
 static DEFINE_RWLOCK(binfmt_lock);
 
