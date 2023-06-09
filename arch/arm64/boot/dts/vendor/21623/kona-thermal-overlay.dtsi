@@ -5,29 +5,30 @@
 };
 
 &thermal_zones {
-	soc {
-		cooling-maps {
-			soc_cpu4 {
-				trip = <&soc_trip>;
-				cooling-device = <&cpu4_isolate 1 1>;
-			};
-
-			soc_cpu5 {
-				trip = <&soc_trip>;
-				cooling-device = <&cpu5_isolate 1 1>;
-			};
-
-			soc_cpu6 {
-				trip = <&soc_trip>;
-				cooling-device = <&cpu6_isolate 1 1>;
-			};
-
-			soc_cpu7 {
-				trip = <&soc_trip>;
-				cooling-device = <&cpu7_isolate 1 1>;
-			};
-		};
-	};
+//remove low battery isoalte gold CPUs policy
+//	soc {
+//		cooling-maps {
+//			soc_cpu4 {
+//				trip = <&soc_trip>;
+//				cooling-device = <&cpu4_isolate 1 1>;
+//			};
+//
+//			soc_cpu5 {
+//				trip = <&soc_trip>;
+//				cooling-device = <&cpu5_isolate 1 1>;
+//			};
+//
+//			soc_cpu6 {
+//				trip = <&soc_trip>;
+//				cooling-device = <&cpu6_isolate 1 1>;
+//			};
+//
+//			soc_cpu7 {
+//				trip = <&soc_trip>;
+//				cooling-device = <&cpu7_isolate 1 1>;
+//			};
+//		};
+//	};
 
 	pm8150b-bcl-lvl0 {
 		cooling-maps {
@@ -128,6 +129,7 @@
 		};
 	};
 
+    //#ifdef OPLUS_FEATURE_THERMAL
     cpu-gold-0-0-step {
         polling-delay-passive = <10>;
         polling-delay = <0>;
@@ -135,7 +137,7 @@
         thermal-governor = "step_wise";
         trips {
             cg00_config: cg00-config {
-                temperature = <68000>;
+                temperature = <85000>;
                 hysteresis = <3000>;
                 type = "passive";
             };
@@ -157,7 +159,7 @@
         thermal-governor = "step_wise";
         trips {
             cg01_config: cg01-config {
-                temperature = <68000>;
+                temperature = <85000>;
                 hysteresis = <3000>;
                 type = "passive";
             };
@@ -179,7 +181,7 @@
         thermal-governor = "step_wise";
         trips {
             cg10_config: cg10-config {
-                temperature = <68000>;
+                temperature = <85000>;
                 hysteresis = <3000>;
                 type = "passive";
             };
@@ -201,7 +203,7 @@
         thermal-governor = "step_wise";
         trips {
             cg11_config: cg11-config {
-                temperature = <68000>;
+                temperature = <85000>;
                 hysteresis = <3000>;
                 type = "passive";
             };
@@ -223,7 +225,7 @@
         thermal-governor = "step_wise";
         trips {
             cg20_config: cg20-config {
-                temperature = <68000>;
+                temperature = <85000>;
                 hysteresis = <3000>;
                 type = "passive";
             };
@@ -245,7 +247,7 @@
         thermal-governor = "step_wise";
         trips {
             cg21_config: cg21-config {
-                temperature = <68000>;
+                temperature = <85000>;
                 hysteresis = <3000>;
                 type = "passive";
             };
@@ -267,7 +269,7 @@
         thermal-governor = "step_wise";
         trips {
             cg30_config: cg30-config {
-                temperature = <68000>;
+                temperature = <85000>;
                 hysteresis = <3000>;
                 type = "passive";
             };
@@ -303,5 +305,5 @@
             };
         };
     };
-
+    //#endif OPLUS_FEATURE_THERMAL
 };
