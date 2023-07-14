@@ -631,6 +631,14 @@ config KINECTICS_XR_NORDIC
 	  this also parses the gpios and interrupts from device tree and sets
 	  the gpios and interrupt handler for handling the interrupt.
 
+config OPLUS_RF_CABLE_MONITOR
+        bool "OPLUS rf cable monitor system"
+        depends on OF
+        select PINMUX
+        default n
+        help
+          Say Y here to enable OPLUS rf cable monitor system support
+
 #ifdef OPLUS_FEATURE_SIM_DETECT
 config SIM_DETECT
 	tristate "SIM_DETECT system"
