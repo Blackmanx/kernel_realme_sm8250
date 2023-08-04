@@ -1,3 +1,7 @@
+ifeq ($(strip $(TARGET_USES_LEGACY_SENSOR_DEVINFO)), true)
+ccflags-y += -DUSES_LEGACY_SENSOR_DEVINFO
+endif
+
 oplus_sensor-y := oplus_sensor_devinfo.o
 oplus_sensor-y += oplus_press_cali_info.o
 oplus_sensor-y += oplus_pad_als_info.o

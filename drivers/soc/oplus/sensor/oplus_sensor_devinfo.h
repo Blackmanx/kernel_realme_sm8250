@@ -26,7 +26,13 @@
 #define REG_NUM 10
 #define PARAMETER_NUM 25
 #define FEATURE_NUM 10
+
+#ifndef USES_LEGACY_SENSOR_DEVINFO
+#define SOURCE_NUM 3
+#else
 #define SOURCE_NUM 2
+#endif
+
 #define ALGO_PARAMETER_NUM 15
 #define ALGO_FEATURE_NUM  5
 #define DEFAULT_CONFIG 0xff
