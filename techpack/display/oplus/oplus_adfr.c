@@ -28,6 +28,7 @@
 #include <linux/list.h>
 #include <linux/list_sort.h>
 #include <drm/drm_modes.h>
+#include <uapi/linux/sched/types.h>
 
 #define OPLUS_ADFR_CONFIG_GLOBAL (1<<0)
 #define OPLUS_ADFR_CONFIG_FAKEFRAME (1<<1)
@@ -209,17 +210,31 @@ int oplus_get_te_fps(void *data)
 }
 
 /* --------------- msm_drv ---------------*/
-
-int oplus_adfr_thread_create(void *msm_param_ptr,
-	void *msm_priv, void *msm_ddev, void *msm_dev)
+static void oplus_adfr_thread_priority_worker(struct kthread_work *work)
 {
-	struct sched_param *param;
+	int ret = 0;
+	struct sched_param param = { 0 };
+	struct task_struct *task = current->group_leader;
+
+	/**
+	 * this priority was found during empiric testing to have appropriate
+	 * realtime scheduling to process display updates and interact with
+	 * other real time and normal priority task
+	 */
+	param.sched_priority = 16;
+	ret = sched_setscheduler(task, SCHED_FIFO, &param);
+	if (ret)
+		pr_warn("pid:%d name:%s priority update failed: %d\n",
+			current->tgid, task->comm, ret);
+}
+
+int oplus_adfr_thread_create(void *msm_priv, void *msm_ddev, void *msm_dev)
+{
 	struct msm_drm_private *priv;
 	struct drm_device *ddev;
 	struct device *dev;
-	int i, ret = 0;
+	int i = 0;
 
-	param = msm_param_ptr;
 	priv = msm_priv;
 	ddev = msm_ddev;
 	dev = msm_dev;
@@ -233,11 +248,9 @@ int oplus_adfr_thread_create(void *msm_param_ptr,
 			kthread_run(kthread_worker_fn,
 				&priv->adfr_thread[i].worker,
 				"adfr:%d", priv->adfr_thread[i].crtc_id);
-		ret = sched_setscheduler(priv->adfr_thread[i].thread,
-							SCHED_FIFO, param);
-		if (ret)
-			pr_warn("kVRR adfr thread priority update failed: %d\n",
-									ret);
+		kthread_init_work(&priv->thread_priority_work, oplus_adfr_thread_priority_worker);
+		kthread_queue_work(&priv->adfr_thread[i].worker, &priv->thread_priority_work);
+		kthread_flush_work(&priv->thread_priority_work);
 
 		if (IS_ERR(priv->adfr_thread[i].thread)) {
 			dev_err(dev, "kVRR failed to create adfr_commit kthread\n");
