@@ -15,8 +15,3 @@ config OPLUS_SENSOR_FB_QC
 	  To compile this driver as a module, set M in kernel build config
 	  module will be called sensor_feedback.
 
-config OPLUS_LEGACY_SENSOR_DEVINFO
-	bool "Uses legacy sensor devinfo"
-	help
-	  Say y if the target uses legacy sensor devinfo
-	  if unsure, say n.
