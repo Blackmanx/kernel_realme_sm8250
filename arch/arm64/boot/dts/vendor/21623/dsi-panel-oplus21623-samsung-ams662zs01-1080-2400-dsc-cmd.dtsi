@@ -1223,11 +1223,6 @@
 	oplus,osc-rewrite-support;
 	oplus,mdss-dsi-osc-rewrite-rate = <800000000>;
 	qcom,mdss-dsi-dc-backlight-level = <1100>;
-	oplus,apollo-sync-brightness-level = <711>;
-	oplus,dc_apollo_sync_enable;
-	oplus,dc-apollo-backlight-sync-level = <1100>;
-	oplus,dc-apollo-backlight-sync-level-pcc-max = <32760>;
-	oplus,dc-apollo-backlight-sync-level-pcc-min = <21600>;
 	oplus,dsi-fod-brightness = <0 255>,
                                 <4 238>,
 				<256 229>,
@@ -1304,7 +1299,6 @@
 };
 
 &dsi_oplus21623samsung_ams662zs01_1080_2400_cmd {
-	oplus,apollo_backlight_enable;
 	//oplus,color_srgb_status;
 	oplus,bl_interpolate_nosub;
 	oplus,bl_interpolate_remapping_nosub;

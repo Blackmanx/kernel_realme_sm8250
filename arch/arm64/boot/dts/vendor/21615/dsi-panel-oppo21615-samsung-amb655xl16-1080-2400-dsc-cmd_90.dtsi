@@ -907,7 +907,6 @@
 };
 
 &dsi_oppo21615samsung_amb655xl16_1080_2400_cmd_90 {
-	oplus,apollo_backlight_enable;
 	//oplus,color_srgb_status;
 	oplus,bl_interpolate_nosub;
 	oplus,bl_interpolate_remapping_nosub;
