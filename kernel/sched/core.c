@@ -2588,15 +2588,16 @@ static void ttwu_queue(struct task_struct *p, int cpu, int wake_flags)
 {
 	struct rq *rq = cpu_rq(cpu);
 	struct rq_flags rf;
-
-#if defined(CONFIG_SMP)
-	if ((sched_feat(TTWU_QUEUE) && !cpus_share_cache(smp_processor_id(), cpu)) ||
-			walt_want_remote_wakeup()) {
-		sched_clock_cpu(cpu); /* Sync clocks across CPUs */
-		ttwu_queue_remote(p, cpu, wake_flags);
-		return;
-	}
-#endif
+#ifdef CONFIG_SCHED_WALT
+	#if defined(CONFIG_SMP)
+		if ((sched_feat(TTWU_QUEUE) && !cpus_share_cache(smp_processor_id(), cpu)) ||
+				walt_want_remote_wakeup()) {
+			sched_clock_cpu(cpu); /* Sync clocks across CPUs */
+			ttwu_queue_remote(p, cpu, wake_flags);
+			return;
+		}
+	#endif
+#endif /* CONFIG_SCHED_WALT */
 
 	rq_lock(rq, &rf);
 	update_rq_clock(rq);
