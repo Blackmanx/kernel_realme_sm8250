@@ -56,6 +56,7 @@ static int __init get_cpu_for_node(struct device_node *node)
 	else
 		pr_info("CPU node for %pOF exist but the possible cpu range is :%*pbl\n",
 			cpu_node, cpumask_pr_args(cpu_possible_mask));
+
 	of_node_put(cpu_node);
 	return cpu;
 }
@@ -240,6 +241,7 @@ const struct cpumask *cpu_coregroup_mask(int cpu)
 	return core_mask;
 }
 
+#ifdef CONFIG_SCHED_WALT
 static void update_possible_siblings_masks(unsigned int cpuid)
 {
 	struct cpu_topology *cpu_topo, *cpuid_topo = &cpu_topology[cpuid];
@@ -257,6 +259,7 @@ static void update_possible_siblings_masks(unsigned int cpuid)
 		cpumask_set_cpu(cpu, &cpuid_topo->core_possible_sibling);
 	}
 }
+#endif
 
 static void update_siblings_masks(unsigned int cpuid)
 {
@@ -435,8 +438,6 @@ static inline int __init parse_acpi_topology(void)
 
 void __init init_cpu_topology(void)
 {
-	int cpu;
-
 	reset_cpu_topology();
 
 	/*
@@ -447,8 +448,12 @@ void __init init_cpu_topology(void)
 		reset_cpu_topology();
 	else if (of_have_populated_dt() && parse_dt_topology())
 		reset_cpu_topology();
+#ifdef CONFIG_SCHED_WALT
 	else {
+		int cpu;
+
 		for_each_possible_cpu(cpu)
 			update_possible_siblings_masks(cpu);
 	}
+#endif
 }
