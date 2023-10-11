@@ -32,10 +32,9 @@
 #include <generated/vdso32-offsets.h>
 #endif
 
-#define VDSO_SYMBOL(base, name)				    \
-({							    \
-	(void *)((vdso_offset_##name & ~1UL) - VDSO_LBASE + \
-		(unsigned long)(base));			    \
+#define VDSO_SYMBOL(base, name)						   \
+({									   \
+	(void *)(vdso_offset_##name - VDSO_LBASE + (unsigned long)(base)); \
 })
 
 #endif /* !__ASSEMBLY__ */
