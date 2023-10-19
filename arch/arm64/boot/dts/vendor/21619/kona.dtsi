@@ -620,7 +620,7 @@
 			alloc-ranges = <0x0 0x00000000 0x0 0xffffffff>;
 			reusable;
 			alignment = <0x0 0x400000>;
-			size = <0x0 0x18B0000>;
+			size = <0x0 0x1400000>;
 		};
 		// #ifdef OPLUS_FEATURE_DUMPDEVICE
 		ramoops: ramoops@0xB0000000 {
