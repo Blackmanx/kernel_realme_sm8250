@@ -140,4 +140,4 @@ kernel/configs/android-*.cfg
 build.sh
 out
 *.zip
-
+anykernel
