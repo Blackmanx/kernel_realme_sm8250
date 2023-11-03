@@ -2208,6 +2208,7 @@ struct hdd_channel_info {
 	u_int8_t vht_center_freq_seg1;
 };
 
+
 #ifdef OPLUS_FEATURE_WIFI_DCS_SWITCH
 //Add for wifi switch monitor
 enum wlan_hostdriver_loadstatus {
@@ -3759,7 +3760,8 @@ void hdd_psoc_idle_timer_start(struct hdd_context *hdd_ctx);
  * Return: None
  */
 void hdd_psoc_idle_timer_stop(struct hdd_context *hdd_ctx);
-
+int hdd_driver_oplus_init(void);
+void hdd_driver_oplus_deinit(void);
 /**
  * hdd_trigger_psoc_idle_restart() - trigger restart of a previously shutdown
  *                                   idle psoc, if needed

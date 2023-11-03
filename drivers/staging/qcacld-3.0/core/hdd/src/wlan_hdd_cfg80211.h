@@ -146,6 +146,7 @@ hdd_convert_cfgdot11mode_to_80211mode(enum csr_cfgdot11mode mode);
 #define MAX_SCAN_SSID 16
 #endif /* OPLUS_BUG_STABILITY */
 
+
 #define IS_CHANNEL_VALID(channel) ((channel >= 0 && channel < 15) \
 			|| (channel >= 36 && channel <= 184))
 
