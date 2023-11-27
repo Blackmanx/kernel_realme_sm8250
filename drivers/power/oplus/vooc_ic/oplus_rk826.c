@@ -706,8 +706,8 @@ static int rk826_fw_write_00_code(struct oplus_vooc_chip *chip)
 		msleep(10);
 		//2.check ~sync
 		ret = oplus_i2c_dma_read(chip->client, REG_HOST, 4, read_buf);
-		printk("the data: %x, %x, %x, %x\n", read_buf[0], read_buf[1], read_buf[2], read_buf[3]);
-		printk("the data: %x, %x, %x, %x\n", *(u8 *)(&sync_flag), *((u8 *)(&sync_flag) + 1), *((u8 *)(&sync_flag) + 2), *((u8 *)(&sync_flag) + 3));
+		pr_debug("the data: %x, %x, %x, %x\n", read_buf[0], read_buf[1], read_buf[2], read_buf[3]);
+		pr_debug("the data: %x, %x, %x, %x\n", *(u8 *)(&sync_flag), *((u8 *)(&sync_flag) + 1), *((u8 *)(&sync_flag) + 2), *((u8 *)(&sync_flag) + 3));
 
 		if (ret < 0) {
 			chg_err("read sync failed!");
@@ -761,7 +761,7 @@ static int rk826_fw_write_00_code(struct oplus_vooc_chip *chip)
 
 	// read state firwware
 	ret = oplus_i2c_dma_read(chip->client, REG_STATE, 4, read_buf);
-	printk("read state firwware: %x\n", *(u32 *)read_buf);
+	pr_debug("read state firwware: %x\n", *(u32 *)read_buf);
 	if (ret < 0) {
 		chg_err("write REG_STATE flag failed!");
 		goto update_fw_err;
@@ -817,8 +817,8 @@ static int rk826_fw_write_ff_code(struct oplus_vooc_chip *chip)
 		msleep(10);
 		//2.check ~sync
 		ret = oplus_i2c_dma_read(chip->client, REG_HOST, 4, read_buf);
-		printk("the data: %x, %x, %x, %x\n", read_buf[0], read_buf[1], read_buf[2], read_buf[3]);
-		printk("the data: %x, %x, %x, %x\n", *(u8 *)(&sync_flag), *((u8 *)(&sync_flag) + 1), *((u8 *)(&sync_flag) + 2), *((u8 *)(&sync_flag) + 3));
+		pr_debug("the data: %x, %x, %x, %x\n", read_buf[0], read_buf[1], read_buf[2], read_buf[3]);
+		pr_debug("the data: %x, %x, %x, %x\n", *(u8 *)(&sync_flag), *((u8 *)(&sync_flag) + 1), *((u8 *)(&sync_flag) + 2), *((u8 *)(&sync_flag) + 3));
 
 		if (ret < 0) {
 			chg_err("read sync failed!");
@@ -872,7 +872,7 @@ static int rk826_fw_write_ff_code(struct oplus_vooc_chip *chip)
 
 	// read state firwware
 	ret = oplus_i2c_dma_read(chip->client, REG_STATE, 4, read_buf);
-	printk("read state firwware: %x\n", *(u32 *)read_buf);
+	pr_debug("read state firwware: %x\n", *(u32 *)read_buf);
 	if (ret < 0) {
 		chg_err("write REG_STATE flag failed!");
 		goto update_fw_err;
@@ -961,8 +961,8 @@ static int rk826_fw_update(struct oplus_vooc_chip *chip)
 		msleep(10);
 		//2.check ~sync
 		ret = oplus_i2c_dma_read(chip->client, REG_HOST, 4, read_buf);
-		printk("the data: %x, %x, %x, %x\n", read_buf[0], read_buf[1], read_buf[2], read_buf[3]);
-		printk("the data: %x, %x, %x, %x\n", *(u8 *)(&sync_flag), *((u8 *)(&sync_flag) + 1), *((u8 *)(&sync_flag) + 2), *((u8 *)(&sync_flag) + 3));
+		pr_debug("the data: %x, %x, %x, %x\n", read_buf[0], read_buf[1], read_buf[2], read_buf[3]);
+		pr_debug("the data: %x, %x, %x, %x\n", *(u8 *)(&sync_flag), *((u8 *)(&sync_flag) + 1), *((u8 *)(&sync_flag) + 2), *((u8 *)(&sync_flag) + 3));
 
 		if (ret < 0) {
 			chg_err("read sync failed!");
@@ -1016,7 +1016,7 @@ static int rk826_fw_update(struct oplus_vooc_chip *chip)
 
 	// read state firwware
 	ret = oplus_i2c_dma_read(chip->client, REG_STATE, 4, read_buf);
-	printk("read state firwware: %x\n", *(u32 *)read_buf);
+	pr_debug("read state firwware: %x\n", *(u32 *)read_buf);
 	if (ret < 0) {
 		chg_err("write REG_STATE flag failed!");
 		goto update_fw_err;
@@ -1485,7 +1485,7 @@ static int get_hwpcb_version(void)
 	int pcb;
 
 	pcb = get_PCB_Version();
-	printk("pcb version is %d\n",pcb);
+	pr_debug("pcb version is %d\n",pcb);
 	if(pcb > 4) //pcb version 4 is evt1
 		return 1;
 	else

@@ -233,7 +233,7 @@ static void check_int_enable(struct oplus_p9418_ic *chip)
 	int rc;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: p9418_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: p9418_chip not ready!\n", __func__);
 		return;
 	}
 	rc = p9418_read_reg(chip, P9418_REG_INT_EN, reg_int, 2);
@@ -278,7 +278,7 @@ static void p9418_set_tx_mode(int value)
 	int rc;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: p9418_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: p9418_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -361,7 +361,7 @@ static void p9418_set_ble_addr(struct oplus_p9418_ic *chip)
 static void p9418_set_protect_parameter(struct oplus_p9418_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: p9418_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: p9418_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -1126,7 +1126,7 @@ int p9418_get_idt_int_val(void)
 	struct oplus_p9418_ic *chip = p9418_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: p9418_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: p9418_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -1195,7 +1195,7 @@ static int p9418_idt_int_gpio_init(struct oplus_p9418_ic *chip)
 {
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_p9418_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_p9418_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -1240,7 +1240,7 @@ static int p9418_vbat_en_gpio_init(struct oplus_p9418_ic *chip)
 {
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_p9418_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_p9418_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -1282,7 +1282,7 @@ static int p9418_vbat_en_gpio_init(struct oplus_p9418_ic *chip)
 void p9418_set_vbat_en_val(struct oplus_p9418_ic *chip, int value)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_p9418_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_p9418_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -1318,7 +1318,7 @@ int p9418_get_vbat_en_val(void)
 	struct oplus_p9418_ic *chip = p9418_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: p9418_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: p9418_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -1342,7 +1342,7 @@ static int p9418_booster_en_gpio_init(struct oplus_p9418_ic *chip)
 {
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_p9418_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_p9418_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -1386,7 +1386,7 @@ static int p9418_booster_en_gpio_init(struct oplus_p9418_ic *chip)
 void p9418_set_booster_en_val(struct oplus_p9418_ic *chip, int value)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_p9418_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_p9418_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -1422,7 +1422,7 @@ int p9418_get_booster_en_val(void)
 	struct oplus_p9418_ic *chip = p9418_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: p9418_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: p9418_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -2410,7 +2410,7 @@ static void p9418_reset(struct i2c_client *client)
 
 /**********************************************************
   *
-  *   [platform_driver API] 
+  *   [platform_driver API]
   *
   *********************************************************/
 

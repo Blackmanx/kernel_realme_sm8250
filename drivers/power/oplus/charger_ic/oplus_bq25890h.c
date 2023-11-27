@@ -302,14 +302,14 @@ static int bq25890h_input_current_limit_write(int value)
 	if(bq25890h_registers_read_full()) {
 		bq25890h_config_interface(charger_ic, REG00_BQ25890H_ADDRESS, REG00_BQ25890H_INPUT_CURRENT_LIMIT_400MA, REG00_BQ25890H_INPUT_CURRENT_LIMIT_MASK);
 		bq25890h_dump_registers();
-		printk("bq25890h_input_current_limit_write\n");
+		pr_debug("bq25890h_input_current_limit_write\n");
 		return 0;
 	}
 
 	if(charger_ic->charging_state == CHARGING_STATUS_FULL && charger_ic->in_rechging == false){
 		bq25890h_config_interface(charger_ic, REG00_BQ25890H_ADDRESS, REG00_BQ25890H_INPUT_CURRENT_LIMIT_400MA, REG00_BQ25890H_INPUT_CURRENT_LIMIT_MASK);
 		bq25890h_dump_registers();
-		printk("bq25890h_input_current_limit_write, CHARGING_STATUS_FULL\n");
+		pr_debug("bq25890h_input_current_limit_write, CHARGING_STATUS_FULL\n");
 		return 0;
 	}
 	*/
@@ -432,7 +432,7 @@ static int bq25890h_input_current_limit_write(int value)
 
 aicl_pre_step:
 	if((j >= 2) && (j <= ARRAY_SIZE(bq25890h_usbin_input_current_limit) - 1))
-		aicl_result = bq25890h_usbin_input_current_limit[j];		
+		aicl_result = bq25890h_usbin_input_current_limit[j];
 	chg_debug( "usb input max current limit aicl chg_vol=%d j[%d]=%d sw_aicl_point:%d aicl_pre_step\n", chg_vol, j, bq25890h_usbin_input_current_limit[j], aicl_point_temp);
 	switch (j) {
 		case 0:
@@ -465,7 +465,7 @@ aicl_pre_step:
 	return rc;
 aicl_end:
 	if((j >= 2) && (j <= ARRAY_SIZE(bq25890h_usbin_input_current_limit) - 1))
-		aicl_result = bq25890h_usbin_input_current_limit[j];		
+		aicl_result = bq25890h_usbin_input_current_limit[j];
 	chg_debug( "usb input max current limit aicl chg_vol=%d j[%d]=%d sw_aicl_point:%d aicl_end\n", chg_vol, j, bq25890h_usbin_input_current_limit[j], aicl_point_temp);
 	switch (j) {
 		case 0:
@@ -533,16 +533,16 @@ static int bq25890h_input_current_limit_write(int value)
                 j = j-1;
             }
 			if((j >= 2) && (j <= ARRAY_SIZE(bq25890h_usbin_input_current_limit) - 1))
-				aicl_result = bq25890h_usbin_input_current_limit[j];		
+				aicl_result = bq25890h_usbin_input_current_limit[j];
             chg_debug( "usb input max current limit aicl chg_vol=%d j[%d]=%d sw_aicl_point:%d\n", chg_vol, j, bq25890h_usbin_input_current_limit[j], charger_ic->sw_aicl_point);
             bq25890h_config_interface(chip, REG00_BQ25890H_ADDRESS, j << REG00_BQ25890H_INPUT_CURRENT_LIMIT_SHIFT, REG00_BQ25890H_INPUT_CURRENT_LIMIT_MASK);
             return 0;
         }
     }
     j = i;
-	
+
 	if((j >= 2) && (j <= ARRAY_SIZE(bq25890h_usbin_input_current_limit) - 1))
-		aicl_result = bq25890h_usbin_input_current_limit[j];		
+		aicl_result = bq25890h_usbin_input_current_limit[j];
 
     chg_debug( "usb input max current limit aicl chg_vol=%d j[%d]=%d\n", chg_vol, j, bq25890h_usbin_input_current_limit[j]);
     rc = bq25890h_config_interface(charger_ic, REG00_BQ25890H_ADDRESS, j << REG00_BQ25890H_INPUT_CURRENT_LIMIT_SHIFT, REG00_BQ25890H_INPUT_CURRENT_LIMIT_MASK);
@@ -593,7 +593,7 @@ static int bq25890h_set_vindpm_vol(struct chip_bq25890h *chip, int vol)
 static int oplus_chg_get_dyna_aicl_result(void)
 {
 	return aicl_result;
-	
+
 }
 #endif /* CONFIG_OPLUS_SHORT_C_BATT_CHECK */
 
@@ -703,7 +703,7 @@ int bq25890h_set_rechg_voltage(int recharge_mv)
 {
 	int reg = 0;
 	int rc = 0;
-	
+
 	if (atomic_read(&charger_ic->charger_suspended) == 1) {
 		return 0;
 	}
@@ -830,7 +830,7 @@ int bq25890h_enable_charging(void)
     if (rc < 0) {
 		chg_err("Couldn'tbq25890h_enable_charging rc = %d\n", rc);
 	}
-	
+
 	bq25890h_set_wdt_timer(REG07_BQ25890H_I2C_WATCHDOG_TIME_40S);
 
 	return rc;
@@ -852,9 +852,9 @@ int bq25890h_disable_charging(void)
 	//{
 	//	bq25890h_input_current_limit_write(400);
 	//}
-	bq25890h_config_interface(charger_ic, REG00_BQ25890H_ADDRESS, 
+	bq25890h_config_interface(charger_ic, REG00_BQ25890H_ADDRESS,
 		REG00_BQ25890H_INPUT_CURRENT_LIMIT_400MA, REG00_BQ25890H_INPUT_CURRENT_LIMIT_MASK);
-	
+
 	bq25890h_set_wdt_timer(REG07_BQ25890H_I2C_WATCHDOG_TIME_DISABLE);
 	bq25890h_set_vindpm_vol(charger_ic, 4500);
 
@@ -1102,7 +1102,7 @@ int bq25890h_reset_charger(void)
 	if (rc < 0) {
 		chg_err("Couldn't reset REG14 rc = %d\n", rc);
 	}
-	
+
 
 	return rc;
 }
@@ -1158,10 +1158,10 @@ void bq25890h_dump_registers(void)
 	if(dump_count == DUMP_REG_LOG_CNT_30S) {
 		///if(1) {
 		dump_count = 0;
-		printk( "bq25890h_reg[0-a]:0x%02x(0),0x%02x(1),0x%02x(2),0x%02x(3),0x%02x(4),0x%02x(5),0x%02x(6),0x%02x(7),0x%02x(8),0x%02x(9),0x%02x(a)\n",
+		pr_debug( "bq25890h_reg[0-a]:0x%02x(0),0x%02x(1),0x%02x(2),0x%02x(3),0x%02x(4),0x%02x(5),0x%02x(6),0x%02x(7),0x%02x(8),0x%02x(9),0x%02x(a)\n",
 			val_buf[0],val_buf[1],val_buf[2],val_buf[3],val_buf[4],val_buf[5],val_buf[6],val_buf[7],
 			val_buf[8],val_buf[9],val_buf[10]);
-		printk( "bq25890h_reg[b-14]:0x%02x(b),0x%02x(c),0x%02x(d),0x%02x(e),0x%02x(f),0x%02x(10),0x%02x(11),0x%02x(12),0x%02x(13),0x%02x(14)\n",
+		pr_debug( "bq25890h_reg[b-14]:0x%02x(b),0x%02x(c),0x%02x(d),0x%02x(e),0x%02x(f),0x%02x(10),0x%02x(11),0x%02x(12),0x%02x(13),0x%02x(14)\n",
 			val_buf[11],val_buf[12],val_buf[13],val_buf[14],val_buf[15],val_buf[16],val_buf[17],val_buf[18],
 			val_buf[19],val_buf[20]);
 
@@ -1232,7 +1232,7 @@ int bq25890h_hardware_init(void)
 	#else
 	bq25890h_float_voltage_write(4320);
 	#endif
-	
+
 	bq25890h_set_enable_volatile_writes(charger_ic);
 
 	bq25890h_set_complete_charge_timeout(charger_ic, OVERTIME_DISABLED);
@@ -1327,11 +1327,11 @@ void is_iindpm_mode(void)
 		if (charger_type == POWER_SUPPLY_TYPE_USB) {
 			rc = bq25890h_config_interface(charger_ic, REG00_BQ25890H_ADDRESS, REG00_BQ25890H_INPUT_CURRENT_LIMIT_500MA, REG00_BQ25890H_INPUT_CURRENT_LIMIT_MASK);
 			bq25890h_dump_registers();
-			printk("is_iindpm_mode_usb\n");
+			pr_debug("is_iindpm_mode_usb\n");
 		} else if (charger_type == POWER_SUPPLY_TYPE_USB_DCP){
 			rc = bq25890h_config_interface(charger_ic, REG00_BQ25890H_ADDRESS, REG00_BQ25890H_INPUT_CURRENT_LIMIT_2000MA, REG00_BQ25890H_INPUT_CURRENT_LIMIT_MASK);
 			bq25890h_dump_registers();
-			printk("is_iindpm_mode_dcp\n");
+			pr_debug("is_iindpm_mode_dcp\n");
 		}
 	}
 }
@@ -1479,7 +1479,7 @@ enum charger_type mt_charger_type_detection_bq25890h(void)
 
 	addr = BQ25890H_FIRST_REG + 0x0b;
 
-	printk("mt_charger_type_detection0\n");
+	pr_debug("mt_charger_type_detection0\n");
 	for (i = 0; i < 15; i++) {
 		usleep_range(20000, 20200);
 		if (!upmu_get_rgs_chrdet()) {
@@ -1491,12 +1491,12 @@ enum charger_type mt_charger_type_detection_bq25890h(void)
 	hw_bc12_init();
 	usleep_range(10000, 10200);
 
-	printk("mt_charger_type_detection1\n");
+	pr_debug("mt_charger_type_detection1\n");
 	//bq25890h_config_interface(charger_ic, REG00_BQ25890H_ADDRESS, 0, 0x80);
 	bq25890h_config_interface(charger_ic, REG02_BQ25890H_ADDRESS, 0x01, 0);
 	bq25890h_config_interface(charger_ic, REG02_BQ25890H_ADDRESS, 0x02, 0);
 	bq25890h_dump_registers();
-	
+
 	rc = bq25890h_read_reg(charger_ic, REG02_BQ25890H_ADDRESS, &val_buf);
 	val_buf &= 0x02;
 	while (val_buf == 0x02 && count < 20) {
@@ -1511,7 +1511,7 @@ enum charger_type mt_charger_type_detection_bq25890h(void)
 		}
 	}
 
-	printk("mt_charger_type_detection2, count=%d\n", count);
+	pr_debug("mt_charger_type_detection2, count=%d\n", count);
 	if (count == 20) {
 		MTK_CHR_Type_num = CHARGER_UNKNOWN;
 		bq25890h_config_interface(charger_ic, REG02_BQ25890H_ADDRESS, 0, 0xff);
@@ -1521,7 +1521,7 @@ enum charger_type mt_charger_type_detection_bq25890h(void)
 	rc = bq25890h_read_reg(charger_ic, addr, &val_buf);
 	bq25890h_dump_registers();
 	val_buf = val_buf & 0xe0;
-	printk("mt_charger_type_detection3, val_buf=[0x%x]\n", val_buf);
+	pr_debug("mt_charger_type_detection3, val_buf=[0x%x]\n", val_buf);
 
 	if (val_buf == 0x0) {
 		MTK_CHR_Type_num = CHARGER_UNKNOWN;
@@ -1537,11 +1537,11 @@ enum charger_type mt_charger_type_detection_bq25890h(void)
 
 	/* the 2nd detection */
 	if (MTK_CHR_Type_num == CHARGER_UNKNOWN && upmu_get_rgs_chrdet()) {
-		printk("mt_charger_type_detection: 2nd...\n");
+		pr_debug("mt_charger_type_detection: 2nd...\n");
 		bq25890h_config_interface(charger_ic, REG02_BQ25890H_ADDRESS, 0x01, 0);
 		bq25890h_config_interface(charger_ic, REG02_BQ25890H_ADDRESS, 0x02, 0);
 		bq25890h_dump_registers();
-		
+
 		rc = bq25890h_read_reg(charger_ic, REG02_BQ25890H_ADDRESS, &val_buf);
 		val_buf &= 0x02;
 		while (val_buf == 0x02 && count < 20) {
@@ -1556,7 +1556,7 @@ enum charger_type mt_charger_type_detection_bq25890h(void)
 			}
 		}
 
-		printk("mt_charger_type_detection: 2nd, count=%d\n", count);
+		pr_debug("mt_charger_type_detection: 2nd, count=%d\n", count);
 		if (count == 20) {
 			MTK_CHR_Type_num = APPLE_2_1A_CHARGER;
 			bq25890h_config_interface(charger_ic, REG02_BQ25890H_ADDRESS, 0, 0xff);
@@ -1566,7 +1566,7 @@ enum charger_type mt_charger_type_detection_bq25890h(void)
 		rc = bq25890h_read_reg(charger_ic, addr, &val_buf);
 		bq25890h_dump_registers();
 		val_buf = val_buf & 0xe0;
-		printk("mt_charger_type_detection: 2nd, val_buf=[0x%x]\n", val_buf);
+		pr_debug("mt_charger_type_detection: 2nd, val_buf=[0x%x]\n", val_buf);
 		if (val_buf == 0x0) {
 			MTK_CHR_Type_num = APPLE_2_1A_CHARGER;
 		} else if (val_buf == 0x20) {
@@ -1599,7 +1599,7 @@ static void do_charger_modefy_work(struct work_struct *data)
 static struct delayed_work bq25890h_irq_delay_work;
 bool fg_bq25890h_irq_delay_work_running = false;
 static void do_bq25890h_irq_delay_work(struct work_struct *data)
-{	
+{
 	int val_buf = 0;
 	int val_reg = 0;
 	int i = 0;
@@ -1609,7 +1609,7 @@ static void do_bq25890h_irq_delay_work(struct work_struct *data)
 		pr_err("%s charger_ic null,return\n", __func__);
 		return ;
 	}
-	
+
 	for (i = 0; i < 10; i++) {
 		bq25890h_read_reg(charger_ic, REG0C_BQ25890H_ADDRESS, &val_reg);
 		val_buf = val_reg & 0x40;
@@ -1618,7 +1618,7 @@ static void do_bq25890h_irq_delay_work(struct work_struct *data)
 		}
 		usleep_range(10000, 10200);
 	}
-	printk("[OPLUS_CHG] do_bq25890h_irq_delay_work flag=%d, val_reg[0x%x]\n", otg_overcurrent_flag, val_reg);
+	pr_debug("[OPLUS_CHG] do_bq25890h_irq_delay_work flag=%d, val_reg[0x%x]\n", otg_overcurrent_flag, val_reg);
 	if (otg_overcurrent_flag >= 8) {
 		bq25890h_otg_disable();
 	}
@@ -1695,7 +1695,7 @@ static int bq25890h_irq_registration(void)
 		IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
 		"BQ25890H-eint", chip);
 	if (ret < 0) {
-		printk("BQ25890H request_irq IRQ LINE NOT AVAILABLE!.");
+		pr_debug("BQ25890H request_irq IRQ LINE NOT AVAILABLE!.");
 		return -EFAULT;
 	}
 	return 0;
@@ -1732,7 +1732,7 @@ static int bq25890h_driver_probe(struct i2c_client *client, const struct i2c_dev
 	charger_ic_flag = 1;
 	//chip->chg_ops = &bq25890h_chg_ops;
 	//oplus_chg_shortc_hw_parse_dt(chip);
-	
+
 	INIT_DELAYED_WORK(&bq25890h_irq_delay_work, do_bq25890h_irq_delay_work);
 	bq25890h_parse_dts();
 	bq25890h_irq_registration();

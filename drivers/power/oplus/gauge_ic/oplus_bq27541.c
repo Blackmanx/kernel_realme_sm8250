@@ -366,7 +366,7 @@ static int bq27541_get_gauge_i2c_err(void)
 	if (!gauge_ic) {
 		return 0;
 	}
-	pr_err("%s gauge_i2c_err = %d suspend = %d\n", __func__, gauge_i2c_err, atomic_read(&gauge_ic->suspended));
+	pr_debug("%s gauge_i2c_err = %d suspend = %d\n", __func__, gauge_i2c_err, atomic_read(&gauge_ic->suspended));
 
 	return gauge_i2c_err;
 }
@@ -1099,7 +1099,7 @@ static int zy0603_update_afi_buf(struct chip_bq27541 *chip, u16 base_addr, u16 l
 	u8 read_buf[16 + 4] = {0};
 	u16 addr;
 
-	printk("update %s ...\n", msg);
+	pr_debug("update %s ...\n", msg);
 	for (i=0; i < len1; i++) {
 		checksum = 0xFF;
 		addr = base_addr + i*16;
@@ -1224,13 +1224,13 @@ static void zy0603_afi_update_work(struct work_struct *work)
 error_occured:
 	msleep(M_DELAY_10_S);
 	if (oplus_check_afi_update_condition()) {
-		printk(KERN_ERR "[%s] zy0603_afi_param_update [%d, %d]\n", __func__, oplus_vooc_get_fastchg_started(), oplus_vooc_get_allow_reading());
+		pr_debug(KERN_ERR "[%s] zy0603_afi_param_update [%d, %d]\n", __func__, oplus_vooc_get_fastchg_started(), oplus_vooc_get_allow_reading());
 		if (oplus_vooc_get_allow_reading()) {
 			if (!zy0603_unseal(chip, 0)) {
 				chip->afi_update_done = false;
 				ret = zy0603_afi_param_update(chip);
 				if (ret < 0) {
-					printk(KERN_ERR "[%s] zy0603_afi_param_update fail\n", __func__);
+					pr_debug(KERN_ERR "[%s] zy0603_afi_param_update fail\n", __func__);
 				}
 
 				do {
@@ -1238,19 +1238,19 @@ error_occured:
 					if (!zy0603_seal(chip, 0)) {
 						chip->afi_update_done = true;
 						chip->error_occured = true;
-						printk(KERN_ERR "[%s] zy0603_seal ok\n", __func__);
+						pr_debug(KERN_ERR "[%s] zy0603_seal ok\n", __func__);
 					} else {
 						error_flag = 1;
 					}
 				} while (error_flag);
 			}
-			printk(KERN_ERR "[%s] zy0603_afi_param_update done\n", __func__);
+			pr_debug(KERN_ERR "[%s] zy0603_afi_param_update done\n", __func__);
 		}
 	}
 	chip->need_check = true;
 /*	if (chip->error_occured) {
 		schedule_delayed_work(&gauge_ic->afi_update, 0);
-		printk(KERN_ERR "[%s] error_occured retrigger afi update\n", __func__);
+		pr_debug(KERN_ERR "[%s] error_occured retrigger afi update\n", __func__);
 	}
 */
 }
@@ -1262,7 +1262,7 @@ static bool zy0603_afi_update_done(void)
 	}
 
 	if (gauge_ic->batt_zy0603 && gauge_ic->afi_count > 0 && !gauge_ic->afi_update_done) {
-		printk(KERN_ERR "[%s] return for afi_update_done not finished\n");
+		pr_debug(KERN_ERR "[%s] return for afi_update_done not finished\n");
 		return false;
 	} else {
 		return true;
@@ -1277,19 +1277,19 @@ static int zy0603_protect_check(void)
 	/* static bool error_occured = false; */
 	int checksum_error_flag = 0, qmaxfg_error_flag = 0;
 
-	/*printk(KERN_ERR "[%s] v12 unseal start\n", __func__);*/
+	/*pr_debug(KERN_ERR "[%s] v12 unseal start\n", __func__);*/
 	if (!gauge_ic || (gauge_ic && !gauge_ic->batt_zy0603) || (gauge_ic && gauge_ic->afi_count == 0)) {
-		/*printk(KERN_ERR "[%s] return for %s\n", __func__, !gauge_ic ? "guage is null" : "is not zy0603 gauge");*/
+		/*pr_debug(KERN_ERR "[%s] return for %s\n", __func__, !gauge_ic ? "guage is null" : "is not zy0603 gauge");*/
 		return -1;
 	}
 
-	/*printk(KERN_ERR "[%s] ssdf and pf disable = %d\n", __func__, gauge_ic->disabled);*/
+	/*pr_debug(KERN_ERR "[%s] ssdf and pf disable = %d\n", __func__, gauge_ic->disabled);*/
 	/* if (oplus_vooc_get_allow_reading() && gauge_ic->disabled !error_occured) { */
 	if (oplus_vooc_get_allow_reading() && gauge_ic->disabled && gauge_ic->need_check) {
 		if (zy0603_static_checksum_check(gauge_ic)) {
 			checksum_error_flag = 1;
 			checksum_error++;
-			printk(KERN_ERR "[%s] staticchecksum_error = %d\n", __func__, checksum_error);
+			pr_debug(KERN_ERR "[%s] staticchecksum_error = %d\n", __func__, checksum_error);
 			if (CHECKSUM_ERROR_CNT <= checksum_error) {
 				checksum_error = 0;
 				if (gauge_ic && gauge_ic->afi_update_done) {
@@ -1304,7 +1304,7 @@ static int zy0603_protect_check(void)
 			qmaxfg_error_flag = 1;
 			qmax_fgstatus_error++;
 
-			printk(KERN_ERR "[%s] qmax_fgstatus_error = %d\n", __func__, qmax_fgstatus_error);
+			pr_debug(KERN_ERR "[%s] qmax_fgstatus_error = %d\n", __func__, qmax_fgstatus_error);
 			if (CHECKSUM_ERROR_CNT <= qmax_fgstatus_error) {
 				qmax_fgstatus_error = 0;
 				if (gauge_ic && gauge_ic->afi_update_done) {
@@ -1317,7 +1317,7 @@ static int zy0603_protect_check(void)
 		}
 		/* error_occured = true; */
 	}
-	/*printk(KERN_ERR "[%s] checksum_error[%d %d] qmaxfg_error[%d, %d]\n",
+	/*pr_debug(KERN_ERR "[%s] checksum_error[%d %d] qmaxfg_error[%d, %d]\n",
 		__func__, checksum_error_flag, checksum_error, qmaxfg_error_flag, qmax_fgstatus_error);*/
 
 	return 0;
@@ -2315,7 +2315,7 @@ static int bq27541_get_battery_temperature(void)
 				temp_status = TEMP_HT_39C;
 				delta_temp = 0;
 			}
-			printk(KERN_ERR "SJC-TEST: temp_status[%d], delta_temp[%d]\n", temp_status, delta_temp);
+			pr_debug(KERN_ERR "SJC-TEST: temp_status[%d], delta_temp[%d]\n", temp_status, delta_temp);
 		}
 		pre_batt_balancing_config = batt_balancing_config;
 
@@ -2328,16 +2328,16 @@ static int bq27541_get_battery_temperature(void)
 					|| gauge_ic->bq28z610_device_chem == DEVICE_CHEMISTRY_C2A2) {
 				if (cb_count >= 4 && temp_status == TEMP_LT_16C) {
 					temp = temp - 20;
-					printk(KERN_ERR "SJC-TEST C2A1: - 20\n");
+					pr_debug(KERN_ERR "SJC-TEST C2A1: - 20\n");
 				} else if (cb_count >= 3 && temp_status != TEMP_HT_39C) {
 					temp = temp - 15;
-					printk(KERN_ERR "SJC-TEST C2A1: - 15\n");
+					pr_debug(KERN_ERR "SJC-TEST C2A1: - 15\n");
 				} else if (cb_count >= 2) {
 					temp = temp - 10;
-					printk(KERN_ERR "SJC-TEST C2A1: - 10\n");
+					pr_debug(KERN_ERR "SJC-TEST C2A1: - 10\n");
 				} else if (cb_count >= 1) {
 					temp = temp - 5;
-					printk(KERN_ERR "SJC-TEST C2A1: - 5\n");
+					pr_debug(KERN_ERR "SJC-TEST C2A1: - 5\n");
 				}
 
 				if (temp_status == TEMP_LT_16C) {
@@ -2353,22 +2353,22 @@ static int bq27541_get_battery_temperature(void)
 			} else {
 				if (cb_count >= 6 && temp_status == TEMP_LT_16C) {
 					temp = temp - (60 + delta_temp);
-					printk(KERN_ERR "SJC-TEST: - %d\n", 60 + delta_temp);
+					pr_debug(KERN_ERR "SJC-TEST: - %d\n", 60 + delta_temp);
 				} else if (cb_count >= 5 && temp_status != TEMP_HT_39C) {
 					temp = temp - (50 + delta_temp);
-					printk(KERN_ERR "SJC-TEST: - %d\n", 50 + delta_temp);
+					pr_debug(KERN_ERR "SJC-TEST: - %d\n", 50 + delta_temp);
 				} else if (cb_count >= 4) {
 					temp = temp - (40 + delta_temp);
-					printk(KERN_ERR "SJC-TEST: - %d\n", 40 + delta_temp);
+					pr_debug(KERN_ERR "SJC-TEST: - %d\n", 40 + delta_temp);
 				} else if (cb_count >= 3) {
 					temp = temp - (30 + delta_temp);
-					printk(KERN_ERR "SJC-TEST: - %d\n", 30 + delta_temp);
+					pr_debug(KERN_ERR "SJC-TEST: - %d\n", 30 + delta_temp);
 				} else if (cb_count >= 2) {
 					temp = temp - (20 + delta_temp);
-					printk(KERN_ERR "SJC-TEST: - %d\n", 20 + delta_temp);
+					pr_debug(KERN_ERR "SJC-TEST: - %d\n", 20 + delta_temp);
 				} else if (cb_count >= 1) {
 					temp = temp - (10 + delta_temp);
-					printk(KERN_ERR "SJC-TEST: - %d\n", 10 + delta_temp);
+					pr_debug(KERN_ERR "SJC-TEST: - %d\n", 10 + delta_temp);
 				}
 
 				if (temp_status == TEMP_LT_16C) {
@@ -2387,36 +2387,36 @@ static int bq27541_get_battery_temperature(void)
 					|| gauge_ic->bq28z610_device_chem == DEVICE_CHEMISTRY_C2A2) {
 				if (cb_count >= 4 && temp_status == TEMP_LT_16C) {
 					temp = temp - 20;
-					printk(KERN_ERR "SJC-TEST 4 C2A1: - 20\n");
+					pr_debug(KERN_ERR "SJC-TEST 4 C2A1: - 20\n");
 				} else if (cb_count >= 3 && temp_status != TEMP_HT_39C) {
 					temp = temp - 15;
-					printk(KERN_ERR "SJC-TEST 3 C2A1: - 15\n");
+					pr_debug(KERN_ERR "SJC-TEST 3 C2A1: - 15\n");
 				} else if (cb_count >= 2) {
 					temp = temp - 10;
-					printk(KERN_ERR "SJC-TEST 2 C2A1: - 10\n");
+					pr_debug(KERN_ERR "SJC-TEST 2 C2A1: - 10\n");
 				} else if (cb_count >= 1) {
 					temp = temp - 5;
-					printk(KERN_ERR "SJC-TEST 1 C2A1: - 5\n");
+					pr_debug(KERN_ERR "SJC-TEST 1 C2A1: - 5\n");
 				}
 			} else {
 				if (cb_count >= 6 && temp_status == TEMP_LT_16C) {
 					temp = temp - (60 + delta_temp);
-					printk(KERN_ERR "SJC-TEST 6: - %d\n", 60 + delta_temp);
+					pr_debug(KERN_ERR "SJC-TEST 6: - %d\n", 60 + delta_temp);
 				} else if (cb_count >= 5 && temp_status != TEMP_HT_39C) {
 					temp = temp - (50 + delta_temp);
-					printk(KERN_ERR "SJC-TEST 5: - %d\n", 50 + delta_temp);
+					pr_debug(KERN_ERR "SJC-TEST 5: - %d\n", 50 + delta_temp);
 				} else if (cb_count >= 4) {
 					temp = temp - (40 + delta_temp);
-					printk(KERN_ERR "SJC-TEST 4: - %d\n", 40 + delta_temp);
+					pr_debug(KERN_ERR "SJC-TEST 4: - %d\n", 40 + delta_temp);
 				} else if (cb_count >= 3) {
 					temp = temp - (30 + delta_temp);
-					printk(KERN_ERR "SJC-TEST 3: - %d\n", 30 + delta_temp);
+					pr_debug(KERN_ERR "SJC-TEST 3: - %d\n", 30 + delta_temp);
 				} else if (cb_count >= 2) {
 					temp = temp - (20 + delta_temp);
-					printk(KERN_ERR "SJC-TEST 2: - %d\n", 20 + delta_temp);
+					pr_debug(KERN_ERR "SJC-TEST 2: - %d\n", 20 + delta_temp);
 				} else if (cb_count >= 1) {
 					temp = temp - (10 + delta_temp);
-					printk(KERN_ERR "SJC-TEST 1: - %d\n", 10 + delta_temp);
+					pr_debug(KERN_ERR "SJC-TEST 1: - %d\n", 10 + delta_temp);
 				}
 			}
 
@@ -2904,7 +2904,7 @@ static int bq27541_get_sub_battery_average_current(void)
 	int ret;
 	int curr = 0;
 	int retry = 5;
-	
+
 	if (!sub_gauge_ic) {
 		return 0;
 	}
@@ -3458,7 +3458,7 @@ static int bq28z610_get_battery_bcc_parameters(char *buf)
 	(!oplus_vooc_get_fastchg_dummy_started()), oplus_vooc_bcc_get_temp_range(), oplus_pps_get_pps_fastchg_started(),
 	oplus_pps_bcc_get_temp_range(), oplus_voocphy_get_fastchg_ing(), oplus_voocphy_bcc_get_temp_range());
 
-	printk(KERN_ERR "%s : ----dod0_1[%d], dod0_2[%d], dod0_passed_q[%d], qmax_1[%d], qmax_2[%d], qmax_passed_q[%d] \
+	pr_debug(KERN_ERR "%s : ----dod0_1[%d], dod0_2[%d], dod0_passed_q[%d], qmax_1[%d], qmax_2[%d], qmax_passed_q[%d] \
 		voltage_cell1[%d], temperature[%d], batt_current[%d], max_current[%d], min_current[%d], voltage_cell2[%d], \
 		soc_ext_1[%d], soc_ext_2[%d], atl_last_geat_current[%d], charging_flag[%d], bcc_curr_done[%d], is_zy0603[%d], batt_type[%d]", __func__,
 		buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5], buffer[6], buffer[7],
@@ -3479,12 +3479,12 @@ static int bq28z610_get_battery_bcc_parameters(char *buf)
 #ifdef BCC_SET_DEBUG_PARMS
 	if (bcc_debug_mode & BCC_Y_DEBUG) {
 		memcpy(&buf[0], bcc_debug_buf, BCC_PAGE_SIZE);
-		printk(KERN_ERR "%s bcc_debug_buf:%s\n", __func__, bcc_debug_buf);
+		pr_debug(KERN_ERR "%s bcc_debug_buf:%s\n", __func__, bcc_debug_buf);
 		return 0;
 	}
 #endif
 
-	printk(KERN_ERR "%s buf:%s\n", __func__, buf);
+	pr_debug(KERN_ERR "%s buf:%s\n", __func__, buf);
 
 	return 0;
 }
@@ -3509,7 +3509,7 @@ static int bq28z610_get_fastchg_battery_bcc_parameters(char *buf)
 
 	buffer[16] = oplus_chg_get_bcc_curr_done_status();
 
-	printk(KERN_ERR "%s : ----dod0_1[%d], dod0_2[%d], dod0_passed_q[%d], qmax_1[%d], qmax_2[%d], qmax_passed_q[%d] \
+	pr_debug(KERN_ERR "%s : ----dod0_1[%d], dod0_2[%d], dod0_passed_q[%d], qmax_1[%d], qmax_2[%d], qmax_passed_q[%d] \
 		voltage_cell1[%d], temperature[%d], batt_current[%d], max_current[%d], min_current[%d], voltage_cell2[%d], \
 		soc_ext_1[%d], soc_ext_2[%d], atl_last_geat_current[%d], charging_flag[%d], bcc_curr_done[%d], is_zy0603[%d], batt_type[%d]", __func__,
 		buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5], buffer[6], buffer[7],
@@ -3517,7 +3517,7 @@ static int bq28z610_get_fastchg_battery_bcc_parameters(char *buf)
 
 	bq28z610_bcc_pre_calibration(buffer);
 
-	printk(KERN_ERR "%s buf:%s\n", __func__, buf);
+	pr_debug(KERN_ERR "%s buf:%s\n", __func__, buf);
 
 	return 0;
 }
@@ -3599,12 +3599,12 @@ static int bq28z610_get_prev_battery_bcc_parameters(char *buf)
 #ifdef BCC_SET_DEBUG_PARMS
 	if (bcc_debug_mode & BCC_Y_DEBUG) {
 		memcpy(&buf[0], bcc_debug_buf, BCC_PAGE_SIZE);
-		printk(KERN_ERR "%s bcc_debug_buf:%s\n", __func__, bcc_debug_buf);
+		pr_debug(KERN_ERR "%s bcc_debug_buf:%s\n", __func__, bcc_debug_buf);
 		return 0;
 	}
 #endif
 
-	printk(KERN_ERR "%s bcc_buf:%s\n", __func__, buf);
+	pr_debug(KERN_ERR "%s bcc_buf:%s\n", __func__, buf);
 
 	return 0;
 }
@@ -3619,25 +3619,25 @@ static int bq28z610_set_bcc_debug_parameters(const char *buf)
 #ifdef BCC_SET_DEBUG_PARMS
 	if (strlen(buf) <= BCC_PAGE_SIZE) {
 		if (strncpy(temp_buf, buf, 7)) {
-			printk(KERN_ERR "%s temp_buf:%s\n", __func__, temp_buf);
+			pr_debug(KERN_ERR "%s temp_buf:%s\n", __func__, temp_buf);
 		}
 		if (!strncmp(temp_buf, "Y_DEBUG", 7)) {
 			bcc_debug_mode = BCC_Y_DEBUG;
-			printk(KERN_ERR "%s BCC_Y_DEBUG:%d\n",
+			pr_debug(KERN_ERR "%s BCC_Y_DEBUG:%d\n",
 				__func__, bcc_debug_mode);
 		} else {
 			bcc_debug_mode = BCC_N_DEBUG;
-			printk(KERN_ERR "%s BCC_N_DEBUG:%d\n",
+			pr_debug(KERN_ERR "%s BCC_N_DEBUG:%d\n",
 				__func__, bcc_debug_mode);
 		}
 		strncpy(bcc_debug_buf, buf + 8, BCC_PAGE_SIZE);
-		printk(KERN_ERR "%s bcc_debug_buf:%s, temp_buf\n",
+		pr_debug(KERN_ERR "%s bcc_debug_buf:%s, temp_buf\n",
 			__func__, bcc_debug_buf, temp_buf);
 		return ret;
 	}
 #endif
 
-	printk(KERN_ERR "%s buf:%s\n", __func__, buf);
+	pr_debug(KERN_ERR "%s buf:%s\n", __func__, buf);
 	return ret;
 }
 
@@ -4596,23 +4596,23 @@ static int bq27441_battery_full_param_write_cmd(struct chip_bq27541 *chip)
 		pr_err("%s 0x50 -->write [0x%02x][0x%02x]\n", __func__, CNTL1_VAL_9[0], CNTL1_VAL_9[1]);
 
 		bq27541_i2c_txsubcmd_onebyte(chip, 0x60, (0xFFFF - (CNTL1_VAL_1[0] + CNTL1_VAL_1[1] +
-											CNTL1_VAL_2[0] + CNTL1_VAL_2[1] + 
-											CNTL1_VAL_3[0] + CNTL1_VAL_3[1] +  
-											CNTL1_VAL_4[0] + CNTL1_VAL_4[1] + 
-											CNTL1_VAL_5[0] + CNTL1_VAL_5[1] + 
-											CNTL1_VAL_6[0] + CNTL1_VAL_6[1] + 
-											CNTL1_VAL_7[0] + CNTL1_VAL_7[1] + 
-											CNTL1_VAL_8[0] + CNTL1_VAL_8[1] + 
+											CNTL1_VAL_2[0] + CNTL1_VAL_2[1] +
+											CNTL1_VAL_3[0] + CNTL1_VAL_3[1] +
+											CNTL1_VAL_4[0] + CNTL1_VAL_4[1] +
+											CNTL1_VAL_5[0] + CNTL1_VAL_5[1] +
+											CNTL1_VAL_6[0] + CNTL1_VAL_6[1] +
+											CNTL1_VAL_7[0] + CNTL1_VAL_7[1] +
+											CNTL1_VAL_8[0] + CNTL1_VAL_8[1] +
 											CNTL1_VAL_9[0] + CNTL1_VAL_9[1])));
 		pr_err("%s 0x60 -->write [0x%02x]\n", __func__,(0xFFFF - (
-											CNTL1_VAL_1[0] + CNTL1_VAL_1[1] + 
-											CNTL1_VAL_2[0] + CNTL1_VAL_2[1] + 
-											CNTL1_VAL_3[0] + CNTL1_VAL_3[1] +  
-											CNTL1_VAL_4[0] + CNTL1_VAL_4[1] + 
-											CNTL1_VAL_5[0] + CNTL1_VAL_5[1] + 
-											CNTL1_VAL_6[0] + CNTL1_VAL_6[1] + 
-											CNTL1_VAL_7[0] + CNTL1_VAL_7[1] + 
-											CNTL1_VAL_8[0] + CNTL1_VAL_8[1] + 
+											CNTL1_VAL_1[0] + CNTL1_VAL_1[1] +
+											CNTL1_VAL_2[0] + CNTL1_VAL_2[1] +
+											CNTL1_VAL_3[0] + CNTL1_VAL_3[1] +
+											CNTL1_VAL_4[0] + CNTL1_VAL_4[1] +
+											CNTL1_VAL_5[0] + CNTL1_VAL_5[1] +
+											CNTL1_VAL_6[0] + CNTL1_VAL_6[1] +
+											CNTL1_VAL_7[0] + CNTL1_VAL_7[1] +
+											CNTL1_VAL_8[0] + CNTL1_VAL_8[1] +
 											CNTL1_VAL_9[0] + CNTL1_VAL_9[1])));
 		usleep_range(30000,30000);
 
@@ -4621,7 +4621,7 @@ static int bq27441_battery_full_param_write_cmd(struct chip_bq27541 *chip)
 		bq27541_write_i2c_block(chip, 0x3E, 2, CNTL1_VAL_1);
 		usleep_range(15000,15000);
 		pr_err("%s 0x3E -->write [0x%02x][0x%02x]\n", __func__, CNTL1_VAL_1[0], CNTL1_VAL_1[1]);
-	
+
 		rc = bq27541_read_i2c_block(chip, 0x5B, 2, read_buf);
 		pr_err("%s 0x5B -->read [0x%02x][0x%02x]\n", __func__, read_buf[0], read_buf[1]);
 
@@ -4643,7 +4643,7 @@ static int bq27441_battery_full_param_write_cmd(struct chip_bq27541 *chip)
 		bq27541_write_i2c_block(chip, 0x3E, 2, CNTL1_VAL_1);
 		usleep_range(15000,15000);
 		pr_err("%s 0x3E -->write [0x%02x][0x%02x]\n", __func__, CNTL1_VAL_1[0], CNTL1_VAL_1[1]);
-	
+
 		rc = bq27541_read_i2c_block(chip, 0x5D, 2, read_buf);
 		pr_err("%s 0x5D -->read [0x%02x][0x%02x]\n", __func__, read_buf[0], read_buf[1]);
 
@@ -4659,7 +4659,7 @@ static int bq27441_battery_full_param_write_cmd(struct chip_bq27541 *chip)
 		pr_err("%s 0x60 -->write [0x%02x]\n", __func__, (read_buf[0] + read_buf[1] + reg_data - CNTL1_VAL_1[0] - CNTL1_VAL_1[1] ));
 		usleep_range(15000,15000);
 
-	
+
 		CNTL1_VAL_1[0] = 0x52;
 		CNTL1_VAL_1[1] = 0x00;
 		bq27541_write_i2c_block(chip, 0x3E, 2, CNTL1_VAL_1);
@@ -4837,7 +4837,7 @@ static int bq27411_write_soc_smooth_parameter(struct chip_bq27541 *chip, bool is
 	}
 	/*enable block data control */
 	bq27541_i2c_txsubcmd_onebyte(chip, BQ27411_BLOCK_DATA_CONTROL, 0x00);
-	
+
 	//only for wite battery full param in guage dirver probe on 7250 platform
 	if(chip->battery_full_param)
 	{
@@ -5476,7 +5476,7 @@ static int gauge_reg_dump(void) {
 			}
 		}
 	}
-	printk(KERN_ERR "[OPLUS_CHG] gauge regs: %s device_type:%d\n", buf, gauge_ic->device_type);
+	pr_debug(KERN_ERR "[OPLUS_CHG] gauge regs: %s device_type:%d\n", buf, gauge_ic->device_type);
 	return 0;
 }
 
@@ -5596,7 +5596,7 @@ static int bq28z610_get_2cell_voltage(void)
 	bq27541_i2c_txsubcmd(BQ28Z610_MAC_CELL_BALANCE_TIME_EN_ADDR, BQ28Z610_MAC_CELL_BALANCE_TIME_CMD);
 	usleep_range(1000, 1000);
 	bq27541_read_i2c_block(BQ28Z610_MAC_CELL_BALANCE_TIME_ADDR, BQ28Z610_MAC_CELL_BALANCE_TIME_SIZE, balance_time);
-	pr_err("Cell_balance_time_remaining1 = %dS, Cell_balance_time_remaining2 = %dS\n", 
+	pr_err("Cell_balance_time_remaining1 = %dS, Cell_balance_time_remaining2 = %dS\n",
 	(balance_time[1] << 8) | balance_time[0], (balance_time[3] << 8) | balance_time[2]);
 
 	return 0;
@@ -5836,10 +5836,10 @@ static bool get_smem_batt_info(oplus_gauge_auth_result *auth, int kk) {
 
 static bool init_gauge_auth(oplus_gauge_auth_result *rst, struct bq27541_authenticate_data *authenticate_data) {
 
-	int len = GAUGE_AUTH_MSG_LEN < AUTHEN_MESSAGE_MAX_COUNT	? GAUGE_AUTH_MSG_LEN : AUTHEN_MESSAGE_MAX_COUNT; 
+	int len = GAUGE_AUTH_MSG_LEN < AUTHEN_MESSAGE_MAX_COUNT	? GAUGE_AUTH_MSG_LEN : AUTHEN_MESSAGE_MAX_COUNT;
 	if (NULL == rst || NULL == authenticate_data) {
 		pr_err("Gauge authenticate failed\n");
-		return false; 
+		return false;
 	}
 	/*//comment for keeping authenticattion in kernel
 	if (rst->result) {

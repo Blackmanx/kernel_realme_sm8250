@@ -16,7 +16,7 @@
 #include <linux/device.h>
 #include <linux/types.h>
 #define pps_err(fmt, ...) \
-        printk(KERN_ERR "[OPLUS_PPS][%s]"fmt, __func__, ##__VA_ARGS__)
+        pr_debug(KERN_ERR "[OPLUS_PPS][%s]"fmt, __func__, ##__VA_ARGS__)
 /*pps curve*/
 #define PPS_VOL_MAX_V1               		10000
 #define PPS_VOL_MAX_V2               		20000

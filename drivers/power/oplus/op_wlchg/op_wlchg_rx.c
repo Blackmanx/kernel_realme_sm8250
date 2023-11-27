@@ -24,13 +24,13 @@
 #include "../charger_ic/oplus_battery_msm8250.h"
 
 #define chg_debug(fmt, ...)                                                    \
-	printk(KERN_NOTICE "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
+	pr_debug(KERN_NOTICE "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
 
 #define chg_err(fmt, ...)                                                      \
-	printk(KERN_ERR "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
+	pr_debug(KERN_ERR "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
 
 #define chg_info(fmt, ...)                                                     \
-	printk(KERN_INFO "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
+	pr_debug(KERN_INFO "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
 
 static struct rx_chip *g_rx_chip;
 static struct op_chg_chip *g_op_chip;

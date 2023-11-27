@@ -39,13 +39,13 @@
 #endif
 
 #define chg_debug(fmt, ...)                                                    \
-	printk(KERN_NOTICE "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
+	pr_debug(KERN_NOTICE "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
 
 #define chg_err(fmt, ...)                                                      \
-	printk(KERN_ERR "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
+	pr_debug(KERN_ERR "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
 
 #define chg_info(fmt, ...)                                                     \
-	printk(KERN_INFO "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
+	pr_debug(KERN_INFO "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
 
 #define JEITA_VOTER       "JEITA_VOTER"
 #define STEP_VOTER        "STEP_VOTER"
@@ -4167,7 +4167,7 @@ static void wlchg_usbin_int_func(struct work_struct *work)
 	if (normal_charger != NULL)
 		vote(normal_charger->awake_votable, WIRED_CONN_VOTER, true, 0);
 
-	printk(KERN_ERR
+	pr_debug(KERN_ERR
 	       "[OP_CHG][%s]: op-wlchg test level[%d], chip->otg_switch[%d]\n",
 	       __func__, level, g_op_chip->otg_switch);
 	if (level == 1) {
@@ -4698,10 +4698,10 @@ static void op_wait_wpc_chg_quit_work(struct work_struct *work)
 	int wpc_con_level = 0;
 
 	level = wlchg_get_usbin_val();
-	//printk(KERN_ERR "[OP_CHG][%s]: op-wlchg test wired_connect level[%d]\n", __func__, level);
+	//pr_debug(KERN_ERR "[OP_CHG][%s]: op-wlchg test wired_connect level[%d]\n", __func__, level);
 	if (level == 1) {
 		wpc_con_level = wlchg_rx_get_chip_con();
-		printk(KERN_ERR
+		pr_debug(KERN_ERR
 		       "[OP_CHG][%s]: op-wlchg test wpc_connect level[%d]\n",
 		       __func__, wpc_con_level);
 		if (wpc_con_level == 0 || wpc_chg_quit_max_cnt >= 5) {
@@ -6310,7 +6310,7 @@ bool oplus_wpc_get_otg_charging(void)
 		chg_err("wlchg driver is not ready\n");
 		return 0;
 	}
-	
+
 	if(g_op_chip->wireless_mode == WIRELESS_MODE_TX) {
 		return true;
 	} else {
@@ -6383,7 +6383,7 @@ void oplus_wpc_set_vbat_en_val(int value)
 
 void oplus_wpc_set_booster_en_val(int value)
 {
-	return;    
+	return;
 }
 
 void oplus_wpc_set_ext1_wired_otg_en_val(int value)
@@ -6430,7 +6430,7 @@ void oplus_wpc_set_rtx_function_prepare(void)
 		return;
 	}
 
-	wlchg_reset_variables(g_op_chip);	
+	wlchg_reset_variables(g_op_chip);
 }
 
 bool oplus_wpc_check_chip_is_null(void)

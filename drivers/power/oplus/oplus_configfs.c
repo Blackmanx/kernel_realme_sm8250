@@ -1133,7 +1133,7 @@ static ssize_t short_c_limit_chg_store(struct device *dev, struct device_attribu
 		return -EINVAL;
 	}
 
-	printk(KERN_ERR "[OPLUS_CHG] [short_c_bat] set limit chg[%d]\n", !!val);
+	pr_debug(KERN_ERR "[OPLUS_CHG] [short_c_bat] set limit chg[%d]\n", !!val);
 	chip->short_c_batt.limit_chg = !!val;
 	//for userspace logic
 	if (!!val == 0) {
@@ -1175,7 +1175,7 @@ static ssize_t short_c_limit_rechg_store(struct device *dev, struct device_attri
 		return -EINVAL;
 	}
 
-	printk(KERN_ERR "[OPLUS_CHG] [short_c_bat] set limit rechg[%d]\n", !!val);
+	pr_debug(KERN_ERR "[OPLUS_CHG] [short_c_bat] set limit rechg[%d]\n", !!val);
 	chip->short_c_batt.limit_rechg = !!val;
 
 	return count;
@@ -1252,7 +1252,7 @@ static ssize_t short_c_hw_feature_store(struct device *dev, struct device_attrib
 		return -EINVAL;
 	}
 
-	printk(KERN_ERR "[OPLUS_CHG] [short_c_hw_check]: set is_feature_hw_on [%d]\n", val);
+	pr_debug(KERN_ERR "[OPLUS_CHG] [short_c_hw_check]: set is_feature_hw_on [%d]\n", val);
 	chip->short_c_batt.is_feature_hw_on = val;
 
 	return count;

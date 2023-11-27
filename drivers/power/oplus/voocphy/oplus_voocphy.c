@@ -91,19 +91,19 @@ int voocphy_log_level = 3;
 #define voocphy_info(fmt, ...)	\
 do {						\
 	if (voocphy_log_level >= 3)	\
-		printk(KERN_INFO "%s:" fmt, __func__, ##__VA_ARGS__);\
+		pr_debug(KERN_INFO "%s:" fmt, __func__, ##__VA_ARGS__);\
 } while(0);
 
 #define voocphy_dbg(fmt, ...)	\
 do {					\
 	if (voocphy_log_level >= 2)	\
-		printk(KERN_DEBUG "%s:" fmt, __func__, ##__VA_ARGS__);\
+		pr_debug(KERN_DEBUG "%s:" fmt, __func__, ##__VA_ARGS__);\
 } while(0);
 
 #define voocphy_err(fmt, ...)   \
 do {                                    \
 	if (voocphy_log_level >= 1)     \
-		printk(KERN_ERR "%s:" fmt, __func__, ##__VA_ARGS__);\
+		pr_debug(KERN_ERR "%s:" fmt, __func__, ##__VA_ARGS__);\
 } while(0);
 
 #define IRQ_EVNET_NUM	8
@@ -865,7 +865,7 @@ int oplus_voocphy_print_dbg_info(struct oplus_voocphy_manager *chip)
 			fg_dump_reg = true;
 			fg_send_info = true;
 			memcpy(&chip->reg_dump[9], chip->int_column_pre, sizeof(chip->int_column_pre));
-			printk("cp int happened %s\n", bidirect_int_flag[i].except_info);
+			pr_debug("cp int happened %s\n", bidirect_int_flag[i].except_info);
 			goto chg_exception;
 		}
 		for (i = 1; i < 7; i++) {
@@ -873,7 +873,7 @@ int oplus_voocphy_print_dbg_info(struct oplus_voocphy_manager *chip)
 				fg_dump_reg = true;
 				fg_send_info = true;
 				memcpy(&chip->reg_dump[9], chip->int_column_pre, sizeof(chip->int_column_pre));
-				printk("cp int happened %s\n", bidirect_int_flag[i].except_info);
+				pr_debug("cp int happened %s\n", bidirect_int_flag[i].except_info);
 				goto chg_exception;
 			}
 		}
@@ -882,14 +882,14 @@ int oplus_voocphy_print_dbg_info(struct oplus_voocphy_manager *chip)
 				fg_dump_reg = true;
 				fg_send_info = true;
 				memcpy(&chip->reg_dump[9], chip->int_column_pre, sizeof(chip->int_column_pre));
-				printk("cp int happened %s\n", bidirect_int_flag[i].except_info);
+				pr_debug("cp int happened %s\n", bidirect_int_flag[i].except_info);
 				goto chg_exception;
 			}
 		}
 	} else {
 		for (i = 0; i < IRQ_EVNET_NUM; i++) {
 			if ((int_flag[i].mask & chip->int_flag) && int_flag[i].mark_except) {
-				printk("cp int happened %s\n", int_flag[i].except_info);
+				pr_debug("cp int happened %s\n", int_flag[i].except_info);
 				if(int_flag[i].mask != VOUT_OVP_FLAG_MASK &&
 			   	int_flag[i].mask != ADAPTER_INSERT_FLAG_MASK &&
 			   	int_flag[i].mask != VBAT_INSERT_FLAG_MASK) {
@@ -903,7 +903,7 @@ int oplus_voocphy_print_dbg_info(struct oplus_voocphy_manager *chip)
 	/*print irq event*/
 	for (i = 0; i < IRQ_EVNET_NUM; i++) {
 		if ((vooc_flag[i].mask & chip->vooc_flag) && vooc_flag[i].mark_except) {
-			printk("vooc happened %s\n", vooc_flag[i].except_info);
+			pr_debug("vooc happened %s\n", vooc_flag[i].except_info);
 			goto chg_exception;
 		}
 	}
@@ -948,7 +948,7 @@ chg_exception:
 		}
 	}
 
-	printk(KERN_ERR "voocphydbg data[%d %d %d %d %d], status[%d, %d], init[%d, %d], set[%d, %d]"
+	pr_debug(KERN_ERR "voocphydbg data[%d %d %d %d %d], status[%d, %d], init[%d, %d], set[%d, %d]"
 	       "comm[rcv:%d, 0x%0x, 0x%0x, %d, 0x%0x, 0x%0x reply:0x%0x 0x%0x], "
 	       "irqinfo[%d, %d, %d, %d, %d, %d, %d, %d] other[%d]\n",
 	       chip->cp_vsys, chip->cp_ichg, chip->icharging, chip->cp_vbus,chip->gauge_vbatt, //data
@@ -3765,7 +3765,7 @@ void oplus_voocphy_handle_voocphy_status(struct work_struct *work)
 		oplus_voocphy_wake_check_chg_out_work(3000);
 		oplus_chg_wake_update_work();
 	} else if (intval == FAST_NOTIFY_BTB_TEMP_OVER) {
-		printk(KERN_ERR "!!![voocphy] FAST_NOTIFY_BTB_TEMP_OVER: [%d]\n", intval);
+		pr_debug(KERN_ERR "!!![voocphy] FAST_NOTIFY_BTB_TEMP_OVER: [%d]\n", intval);
 	} else if (intval == FAST_NOTIFY_SWITCH_TEMP_RANGE) {
 		voocphy_info("FAST_NOTIFY_SWITCH_TEMP_RANGE\r\n");
 		oplus_chg_set_chargerid_switch_val(0);
@@ -6346,7 +6346,7 @@ int oplus_voocphy_parse_batt_curves(struct oplus_voocphy_manager *chip)
 	if(chip->parallel_charge_support) {
 		for(i = 0;i < 7;i++) {
 		sprintf(buf, "svooc_parallel_curve_%d", i);
-		printk("%s\n", buf);
+		pr_debug("%s\n", buf);
 		rc = of_property_read_u32_array(node, buf, svooc_parallel_curve[i].curve_val, 2);
 			if (rc) {
 				svooc_parallel_curve[i].curve_val[0] = 0;
@@ -7356,12 +7356,12 @@ void oplus_voocphy_adapter_plugout_handler(void)
 {
 	if (!g_voocphy_chip)
 		return;
-	printk(KERN_ERR "[%s]: [%d %d %d %d]\n", __func__, oplus_vooc_get_fastchg_started(),
+	pr_debug(KERN_ERR "[%s]: [%d %d %d %d]\n", __func__, oplus_vooc_get_fastchg_started(),
 	oplus_vooc_get_fastchg_to_normal(), oplus_vooc_get_fastchg_to_warm(), oplus_vooc_get_fastchg_dummy_started());
 	if (oplus_vooc_get_fastchg_started() == true && oplus_vooc_get_fastchg_to_normal() == false
 		&& oplus_vooc_get_fastchg_to_warm() == false && oplus_voocphy_user_exit_fastchg(g_voocphy_chip) == false
 		&& oplus_voocphy_get_btb_temp_over() == false) {
-		printk(KERN_ERR "%s:plug out normal\n", __func__);
+		pr_debug(KERN_ERR "%s:plug out normal\n", __func__);
 		oplus_vooc_reset_fastchg_after_usbout();
 		if (g_oplus_chip) {
 			oplus_chg_set_chargerid_switch_val(0);
@@ -7371,18 +7371,18 @@ void oplus_voocphy_adapter_plugout_handler(void)
 			g_oplus_chip->chargerid_volt_got = false;
 			g_oplus_chip->charger_type = POWER_SUPPLY_TYPE_UNKNOWN;
 			g_voocphy_chip->fastchg_start = false;
-			printk(KERN_ERR "%s:chargerid_volt_got 0 false\n", __func__);
+			pr_debug(KERN_ERR "%s:chargerid_volt_got 0 false\n", __func__);
 			oplus_chg_wake_update_work();
 		}
 	} else {
-		printk(KERN_ERR "%s:plug out fastchg_to_normal or fastchg_to_warm or 5v2a\n", __func__);
+		pr_debug(KERN_ERR "%s:plug out fastchg_to_normal or fastchg_to_warm or 5v2a\n", __func__);
 		if (oplus_vooc_get_fastchg_started() == false && g_oplus_chip) {
 			oplus_vooc_reset_fastchg_after_usbout();
 			oplus_chg_set_chargerid_switch_val(0);
 			oplus_vooc_switch_mode(NORMAL_CHARGER_MODE);
 			g_oplus_chip->chargerid_volt = 0;
 			g_oplus_chip->chargerid_volt_got = false;
-			printk(KERN_ERR "%s:chargerid_volt_got 1 false\n", __func__);
+			pr_debug(KERN_ERR "%s:chargerid_volt_got 1 false\n", __func__);
 			g_oplus_chip->charger_type = POWER_SUPPLY_TYPE_UNKNOWN;
 			oplus_chg_wake_update_work();
 		}

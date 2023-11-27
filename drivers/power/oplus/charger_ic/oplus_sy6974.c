@@ -82,7 +82,7 @@ void (*enable_aggressive_segmentation_fn)(bool);
 #include "../oplus_vooc.h"
 #include "../oplus_gauge.h"
 #include "oplus_sy6974.h"
-#define SY6974 4 
+#define SY6974 4
 extern int oplus_get_rtc_ui_soc(void);
 extern int oplus_set_rtc_ui_soc(int value);
 extern void set_charger_ic(int sel);
@@ -356,10 +356,10 @@ static int sy6974_input_current_limit_write(int value)
 	} else if (value >= 3000)
 		goto aicl_end;
 
-aicl_pre_step:		
+aicl_pre_step:
 	chg_debug("usb input max current limit aicl chg_vol=%d j[%d]=%d sw_aicl_point:%d aicl_pre_step\n", chg_vol, j, sy6974_usbin_input_current_limit[j], aicl_point_temp);
 	goto aicl_rerun;
-aicl_end:		
+aicl_end:
 	chg_debug("usb input max current limit aicl chg_vol=%d j[%d]=%d sw_aicl_point:%d aicl_end\n", chg_vol, j, sy6974_usbin_input_current_limit[j], aicl_point_temp);
 	goto aicl_rerun;
 aicl_rerun:
@@ -597,7 +597,7 @@ static int sy6974_set_rechg_voltage(int recharge_mv)
 	int reg = 0;
 	int rc = 0;
 	struct chip_sy6974 *chip = charger_ic;
-	
+
 	if (atomic_read(&chip->charger_suspended) == 1) {
 		chg_err("charger in suspended.\n");
 		return 0;
@@ -889,7 +889,7 @@ int sy6974_otg_enable(void)
 	} else {
 		chg_debug("sy6974_otg_enable rc=%d\n", rc);
 	}
-	
+
 	sy6974_set_wdt_timer(REG05_SY6974_WATCHDOG_TIMER_DISABLE);
 	oplus_otg_online = 1;
 	oplus_chg_set_otg_online(true);
@@ -918,7 +918,7 @@ int sy6974_otg_disable(void)
 		chg_err("Couldn't disable OTG mode rc=%d\n", rc);
 	else
 		chg_debug("sy6974_otg_disable rc=%d\n", rc);
-	
+
 	sy6974_set_wdt_timer(REG05_SY6974_WATCHDOG_TIMER_40S);
 	oplus_otg_online = 0;
 	oplus_chg_set_otg_online(false);
@@ -1094,7 +1094,7 @@ static void sy6974_dump_registers(void)
 	if (dump_count == DUMP_REG_LOG_CNT_30S) {
 		dump_count = 0;
 		chg_debug("sy6974_reg: [0x%02x,0x%02x,0x%02x,0x%02x], [0x%02x,0x%02x,0x%02x,0x%02x], [0x%02x,0x%02x,0x%02x,0x%02x]\n",
-			val_buf[0], val_buf[1], val_buf[2], val_buf[3], val_buf[4], val_buf[5], 
+			val_buf[0], val_buf[1], val_buf[2], val_buf[3], val_buf[4], val_buf[5],
 			val_buf[6], val_buf[7], val_buf[8], val_buf[9], val_buf[10], val_buf[11]);
 	}
 	dump_count++;
@@ -1365,7 +1365,7 @@ enum charger_type mt_charger_type_detection_sy6974(void)
 
 	chgr_type_addr = REG08_SY6974_ADDRESS;
 
-	printk("mt_charger_type_detection0\n");
+	pr_debug("mt_charger_type_detection0\n");
 	for (i = 0; i < 15; i++) {
 		usleep_range(20000, 20200);
 		if (!upmu_get_rgs_chrdet()) {
@@ -1377,7 +1377,7 @@ enum charger_type mt_charger_type_detection_sy6974(void)
 	hw_bc12_init();
 	usleep_range(10000, 10200);
 
-	printk("mt_charger_type_detection1\n");
+	pr_debug("mt_charger_type_detection1\n");
 	sy6974_config_interface(charger_ic, REG07_SY6974_ADDRESS,
 			REG07_SY6974_IINDET_EN_FORCE_DET, REG07_SY6974_IINDET_EN_MASE);
 	sy6974_dump_registers();
@@ -1395,7 +1395,7 @@ enum charger_type mt_charger_type_detection_sy6974(void)
 		}
 	}
 
-	printk("mt_charger_type_detection2, count=%d\n", count);
+	pr_debug("mt_charger_type_detection2, count=%d\n", count);
 	if (count == 20) {
 		MTK_CHR_Type_num = CHARGER_UNKNOWN;
 		return MTK_CHR_Type_num;
@@ -1404,7 +1404,7 @@ enum charger_type mt_charger_type_detection_sy6974(void)
 	rc = sy6974_read_reg(charger_ic, chgr_type_addr, &val_buf);
 	sy6974_dump_registers();
 	val_buf = val_buf & REG08_SY6974_VBUS_STAT_MASK;
-	printk("mt_charger_type_detection3, val_buf=[0x%x]\n", val_buf);
+	pr_debug("mt_charger_type_detection3, val_buf=[0x%x]\n", val_buf);
 
 	if (val_buf == REG08_SY6974_VBUS_STAT_UNKNOWN) {
 		MTK_CHR_Type_num = CHARGER_UNKNOWN;
@@ -1421,7 +1421,7 @@ enum charger_type mt_charger_type_detection_sy6974(void)
 
 	/* the 2nd detection */
 	if (MTK_CHR_Type_num == CHARGER_UNKNOWN && upmu_get_rgs_chrdet()) {
-		printk("mt_charger_type_detection: 2nd...\n");
+		pr_debug("mt_charger_type_detection: 2nd...\n");
 		sy6974_config_interface(charger_ic, REG07_SY6974_ADDRESS,
 				REG07_SY6974_IINDET_EN_FORCE_DET, REG07_SY6974_IINDET_EN_MASE);
 		sy6974_dump_registers();
@@ -1440,7 +1440,7 @@ enum charger_type mt_charger_type_detection_sy6974(void)
 			}
 		}
 
-		printk("mt_charger_type_detection: 2nd, count=%d\n", count);
+		pr_debug("mt_charger_type_detection: 2nd, count=%d\n", count);
 		if (count == 20) {
 			MTK_CHR_Type_num = APPLE_2_1A_CHARGER;
 			return MTK_CHR_Type_num;
@@ -1449,7 +1449,7 @@ enum charger_type mt_charger_type_detection_sy6974(void)
 		rc = sy6974_read_reg(charger_ic, chgr_type_addr, &val_buf);
 		sy6974_dump_registers();
 		val_buf = val_buf & REG08_SY6974_VBUS_STAT_MASK;
-		printk("mt_charger_type_detection: 2nd, val_buf=[0x%x]\n", val_buf);
+		pr_debug("mt_charger_type_detection: 2nd, val_buf=[0x%x]\n", val_buf);
 		if (val_buf == REG08_SY6974_VBUS_STAT_UNKNOWN) {
 			MTK_CHR_Type_num = APPLE_2_1A_CHARGER;
 		} else if (val_buf == REG08_SY6974_VBUS_STAT_SDP
@@ -1486,10 +1486,10 @@ enum charger_type mt_charger_type_detection_sy6974(void)
 		return STANDARD_HOST;
 	}
 	addr = SY6974_FIRST_REG + 8;
-	printk("mt_charger_type_detection0\n");
+	pr_debug("mt_charger_type_detection0\n");
 	hw_bc12_init();
 	usleep_range(40000, 40200);
-	printk("mt_charger_type_detection1\n");
+	pr_debug("mt_charger_type_detection1\n");
 	sy6974_config_interface(charger_ic, REG00_SY6974_ADDRESS, 0, 0x80);
 	usleep_range(5000, 5200);
 	sy6974_config_interface(charger_ic, REG07_SY6974_ADDRESS, 0x80, 0);
@@ -1509,12 +1509,12 @@ enum charger_type mt_charger_type_detection_sy6974(void)
 		chg_debug("count time out,return apple adapter\n");
 		return MTK_CHR_Type_num;
 	}
-	printk("mt_charger_type_detection2\n");
+	pr_debug("mt_charger_type_detection2\n");
 	rc = sy6974_read_reg(charger_ic, addr, &val_buf);
-	printk("mt_charger_type_detection\n");
+	pr_debug("mt_charger_type_detection\n");
 	sy6974_dump_registers();
 	val_buf = val_buf & 0xc0;
-	printk("val_buf = 0x%x\n",val_buf);
+	pr_debug("val_buf = 0x%x\n",val_buf);
 	if (val_buf == 0) {
 		MTK_CHR_Type_num = CHARGER_UNKNOWN;
 	}
@@ -1555,7 +1555,7 @@ enum charger_type mt_charger_type_detection_sy6974(void)
 		rc = sy6974_read_reg(charger_ic, addr, &val_buf);
 		sy6974_dump_registers();
 		val_buf = val_buf & 0xc0;
-		printk("val_buf =0x%x\n",val_buf);
+		pr_debug("val_buf =0x%x\n",val_buf);
 		if (val_buf == 0) {
 			MTK_CHR_Type_num = APPLE_2_1A_CHARGER;
 		}
@@ -1586,7 +1586,7 @@ static void do_charger_modefy_work(struct work_struct *data)
 	}
 	*/
 }
-	
+
 static struct delayed_work sy6974_irq_delay_work;
 bool fg_sy6974_irq_delay_work_running = false;
 static void do_sy6974_irq_delay_work(struct work_struct *data)
@@ -1596,7 +1596,7 @@ static void do_sy6974_irq_delay_work(struct work_struct *data)
 	int i = 0;
 	int otg_overcurrent_flag = 0;
 	struct chip_sy6974 *chip = charger_ic;
-	
+
 	if (!chip) {
 		pr_err("%s chip null,return\n", __func__);
 		return;
@@ -1608,15 +1608,15 @@ static void do_sy6974_irq_delay_work(struct work_struct *data)
 		if (val_buf == 0x40) {
 			otg_overcurrent_flag++;
 		}
-		
+
 		usleep_range(10000, 10200);
 	}
-	printk("[OPLUS_CHG] do_sy6974_irq_delay_work disable vbus out flag=%d, val_reg[0x%x]\n", otg_overcurrent_flag, val_reg);
+	pr_debug("[OPLUS_CHG] do_sy6974_irq_delay_work disable vbus out flag=%d, val_reg[0x%x]\n", otg_overcurrent_flag, val_reg);
 	if (otg_overcurrent_flag >= 8) {
 		sy6974_otg_disable();
 	}
 	fg_sy6974_irq_delay_work_running = false;
-	return; 
+	return;
 }
 
 static irqreturn_t sy6974_irq_handler_fn(int irq, void *dev_id)
@@ -1688,7 +1688,7 @@ static int sy6974_irq_registration(void)
 			IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
 			"SY6974-eint", chip);
 	if (ret < 0) {
-		printk("SY6974 request_irq IRQ LINE NOT AVAILABLE!");
+		pr_debug("SY6974 request_irq IRQ LINE NOT AVAILABLE!");
 		return -EFAULT;
 	}
 	return 0;
@@ -1718,13 +1718,13 @@ static int sy6974_driver_probe(struct i2c_client *client, const struct i2c_devic
 	charger_ic = chip;
 	chip->client = client;
 	chip->dev = &client->dev;
-	
+
 	reg = sy6974_check_registers();
 	if (reg < 0) {
 		return -ENODEV;
 	}
 	//charger_ic_flag = 2;
-	
+
 	INIT_DELAYED_WORK(&sy6974_irq_delay_work, do_sy6974_irq_delay_work);
 	sy6974_parse_dts();
 	sy6974_irq_registration();

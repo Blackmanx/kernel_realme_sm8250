@@ -207,7 +207,7 @@ static int __p922x_read_reg(struct oplus_p922x_ic *chip, int reg, char *returnDa
 	int ret = 0;
 	int i;
 	char val_buf[20];
-	
+
 	for (i = 0; i < count; i++) {
 		val_buf[i] = 0;
 	}
@@ -227,7 +227,7 @@ static int __p922x_read_reg(struct oplus_p922x_ic *chip, int reg, char *returnDa
 	for (i = 0; i < count; i++) {
 		*(returnData + i) = val_buf[i];
 	}
-	
+
 	return 0;
 }
 
@@ -305,7 +305,7 @@ static int p922x_config_interface (struct oplus_p922x_ic *chip, int RegNum, int 
 	ret = __p922x_write_reg(chip, RegNum, p922x_reg);
 
 	mutex_unlock(&p922x_i2c_access);
-	
+
 	return ret;
 }
 
@@ -318,7 +318,7 @@ static void p922x_clear_irq(struct oplus_p922x_ic *chip, char mark0, char mark1)
 	write_data[0] = 0x17 | mark0;
 	write_data[1] = 0x00 | mark1;
 	p922x_write_reg_multi_byte(chip, 0x0038, write_data, 2);
-	
+
 	write_data[0] = 0x17 | mark0;
 	write_data[1] = 0x00 | mark1;
 	p922x_write_reg_multi_byte(chip, 0x0056, write_data, 2);
@@ -413,7 +413,7 @@ static void p922x_set_FOD_parameter(struct oplus_p922x_ic *chip, char parameter)
 		p922x_config_interface(chip, 0x0072, 0x96, 0xFF);
 		p922x_config_interface(chip, 0x0073, 0x3F, 0xFF);
 
-		chip->p922x_chg_status.FOD_parameter = parameter;	
+		chip->p922x_chg_status.FOD_parameter = parameter;
 	} else if (parameter == 1) {
 		chg_err("<~WPC~>set FOD parameter BPP1\n");
 		p922x_config_interface(chip, 0x0068, 0x85, 0xFF);
@@ -607,7 +607,7 @@ static void p922x_set_rx_terminate_voltage(struct oplus_p922x_ic *chip, int vol_
 static int p922x_increase_vc_by_step(struct oplus_p922x_ic *chip, int src_value, int limit_value, int step_value)
 {
 	int temp_value;
-	
+
 	if (src_value >= limit_value) {
 		return 0;
 	}
@@ -623,7 +623,7 @@ static int p922x_increase_vc_by_step(struct oplus_p922x_ic *chip, int src_value,
 static int p922x_decrease_vc_by_step(struct oplus_p922x_ic *chip, int src_value, int limit_value, int step_value)
 {
 	int temp_value = 0;
-	
+
 	if (src_value <= limit_value) {
 		return 0;
 	}
@@ -631,7 +631,7 @@ static int p922x_decrease_vc_by_step(struct oplus_p922x_ic *chip, int src_value,
 	if (src_value >= step_value) {
 		temp_value = src_value - step_value;
 	}
-	
+
 	if (temp_value < limit_value) {
 		temp_value = limit_value;
 	}
@@ -845,7 +845,7 @@ static void p922x_self_reset(struct oplus_p922x_ic *chip, bool to_BPP)
 //static void p922x_read_debug_registers(struct oplus_p922x_ic *chip)
 //{
 //	char debug_data[10];
-	
+
 //	p922x_read_reg(chip, 0x04B0, debug_data, 10);
 //	chg_err("<linshangbo> P9415 DEBUG DATA: 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X\n",
 //			debug_data[0], debug_data[1], debug_data[2], debug_data[3], debug_data[4], debug_data[5], debug_data[6], debug_data[7], debug_data[8], debug_data[9]);
@@ -867,8 +867,8 @@ bool p922x_wpc_get_normal_charging(void)
 	if (!p922x_chip) {
 		chg_err("<~WPC~> p922x_chip is NULL\n");
 		return false;
-	} 
-	
+	}
+
 	if(p922x_chip->wireless_mode == WIRELESS_MODE_RX) {
 		if(p922x_chip->p922x_chg_status.fastchg_ing) {
 			return false;
@@ -884,7 +884,7 @@ bool p922x_wpc_get_fast_charging(void)
 {
 	if (!p922x_chip) {
 		return false;
-	} 
+	}
 
 	if(p922x_chip->wireless_mode == WIRELESS_MODE_RX) {
 		if(p922x_chip->p922x_chg_status.fastchg_ing) {
@@ -920,8 +920,8 @@ bool p922x_wpc_get_otg_charging(void)
 	if (!p922x_chip) {
 		chg_err("<~WPC~> p922x_chip is NULL\n");
 		return false;
-	} 
-	
+	}
+
 	if(p922x_chip->wireless_mode == WIRELESS_MODE_TX) {
 		return true;
 	} else {
@@ -1090,7 +1090,7 @@ void p922x_reg_print(void)
 
 #if 0
 	p922x_read_reg(p922x_chip, 0x4e0, debug_data, 13);
-	chg_err("<~WPC~>0x4E0 REG: 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X \n", 
+	chg_err("<~WPC~>0x4E0 REG: 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X 0x%02X \n",
 			debug_data[0],debug_data[1],debug_data[2],debug_data[3],debug_data[4],debug_data[5],debug_data[6],debug_data[7],
 			debug_data[8],debug_data[9],debug_data[10],debug_data[11],debug_data[12]);
 
@@ -1192,7 +1192,7 @@ booster_en[%d], chargepump_en[%d], wrx_en[%d], wrx_otg_en[%d], mps_otg_en[%d], \
 		//p922x_get_vrect_iout_offline(p922x_chip);
 		return;
 	}
-	
+
 	chg_err("<~WPC~> [Chg sta: %d] [Adap type: %d] [Chg type: %d] [Dock Ver: %d] \
 [Chg Vol: %d] [Chg Curr: %d] [Curr limit: %d] [ffc: %d] [silent: %d]\n",
 			p922x_chip->p922x_chg_status.charge_status,
@@ -1619,23 +1619,23 @@ static int p922x_check_idt_fw_update(struct oplus_p922x_ic *chip)
 
 		fw_buf = idt_firmware;
 		fw_size = ARRAY_SIZE(idt_firmware);
-	
+
 		fw_ver_start_addr = fw_size - 128;
 		chg_err("<IDT UPDATE>The new fw version: %02x %02x %02x %02x\n",
 				fw_buf[fw_ver_start_addr + 0x04], fw_buf[fw_ver_start_addr + 0x05],
 				fw_buf[fw_ver_start_addr + 0x06], fw_buf[fw_ver_start_addr + 0x07]);
-			
-		if ((temp[0] != fw_buf[fw_ver_start_addr + 0x04]) || (temp[1] != fw_buf[fw_ver_start_addr + 0x05]) 
+
+		if ((temp[0] != fw_buf[fw_ver_start_addr + 0x04]) || (temp[1] != fw_buf[fw_ver_start_addr + 0x05])
 			|| (temp[2] != fw_buf[fw_ver_start_addr + 0x06]) || (temp[3] != fw_buf[fw_ver_start_addr + 0x07])) {
 			chg_err("<IDT UPDATE>Need update the idt fw!\n");
 
 			chip->p922x_chg_status.charge_current = 0;
 			mp2650_charging_current_write_fast(chip->p922x_chg_status.charge_current);
 
-			if (p922x_MTP(chip, fw_buf, fw_size) == 0) {					
+			if (p922x_MTP(chip, fw_buf, fw_size) == 0) {
 				chip->p922x_chg_status.check_fw_update = true;
 			} else {
-				idt_update_retry_cnt++;					
+				idt_update_retry_cnt++;
 				if (idt_update_retry_cnt > 5) {
 					chip->p922x_chg_status.check_fw_update = true;
 				} else {
@@ -1675,7 +1675,7 @@ bool p922x_firmware_is_updating(void)
 	if (!p922x_chip) {
 		return 0;
 	}
-	
+
 	return p922x_chip->p922x_chg_status.idt_fw_updating;
 }
 
@@ -1699,7 +1699,7 @@ static int p922x_get_vrect_iout(struct oplus_p922x_ic * chip)
 	p922x_read_reg(chip, 0x0044, val_buf, 2);
 	iout_value = val_buf[0] | val_buf[1] << 8;
 
-	chg_err("<~WPC~> Vout:%d,  Vrect:%d, Iout:%d\n", vout_value, vrect_value, iout_value); 
+	chg_err("<~WPC~> Vout:%d,  Vrect:%d, Iout:%d\n", vout_value, vrect_value, iout_value);
 
 	chip->p922x_chg_status.vrect = vrect_value;
 
@@ -1768,10 +1768,10 @@ int p922x_get_CEP_flag(struct oplus_p922x_ic * chip)
 		chg_err("<~WPC~> CEP value isn't ready!\n");
 		return -1;
 	}
-	
+
 	//-2 <= CEP <= 2
-	if ((chip->p922x_chg_status.CEP_value == 0) || (chip->p922x_chg_status.CEP_value == 1) 
-		|| (chip->p922x_chg_status.CEP_value == 2) || (chip->p922x_chg_status.CEP_value == 0xFF)  
+	if ((chip->p922x_chg_status.CEP_value == 0) || (chip->p922x_chg_status.CEP_value == 1)
+		|| (chip->p922x_chg_status.CEP_value == 2) || (chip->p922x_chg_status.CEP_value == 0xFF)
 		|| (chip->p922x_chg_status.CEP_value == 0xFE)) {
 		return 0;
 	} else {
@@ -1803,7 +1803,7 @@ static int p922x_detect_CEP(struct oplus_p922x_ic * chip)
 	rc = p922x_read_reg(chip, 0x0033, &temp, 1);
 	if (rc) {
 		chip->p922x_chg_status.CEP_ready = false;
-		
+
 		chg_err("Couldn't read CEP rc = %x\n", rc);
 		return rc;
 	}
@@ -1859,7 +1859,7 @@ static bool p922x_get_self_reset(void)
 	struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
 		return false;
 	}
 
@@ -1909,7 +1909,7 @@ void p922x_restart_charger(struct oplus_p922x_ic *chip)
 	//mp2650_enable_charging();
 	//msleep(100);
 	chargepump_disable();
-	p922x_set_rx_charge_current(chip, WPC_CHARGE_CURRENT_FASTCHG);			
+	p922x_set_rx_charge_current(chip, WPC_CHARGE_CURRENT_FASTCHG);
 	//mp2650_input_current_limit_without_aicl(1000);
 	//p922x_set_rx_charge_voltage(chip, WPC_CHARGE_VOLTAGE_CHGPUMP_TO_CHARGER);
 }
@@ -1951,7 +1951,7 @@ static int p922x_fastcharge_debug_by_adb(struct oplus_p922x_ic *chip)
 
 	if (chip->p922x_chg_status.vout_debug_mode) {
 		chg_err("<~WPC~> Vout debug mode is running...\n");
-			
+
 		return 0;
 	}
 
@@ -1960,17 +1960,17 @@ static int p922x_fastcharge_debug_by_adb(struct oplus_p922x_ic *chip)
 	if (p922x_get_CEP_flag(chip) != 0) {
 		return 0;
 	}
-	
+
 	iout_max_value = chip->p922x_chg_status.iout_stated_current + WPC_CHARGE_CURRENT_OFFSET;
 	if (chip->p922x_chg_status.iout_stated_current > WPC_CHARGE_CURRENT_OFFSET) {
 		iout_min_value = chip->p922x_chg_status.iout_stated_current - WPC_CHARGE_CURRENT_OFFSET;
 	} else {
 		iout_min_value = 0;
 	}
-	
+
 	if (chip->p922x_chg_status.iout > iout_max_value) {
 		chg_err("<~WPC~> The Iout > %d.\n", iout_max_value);
-	
+
 		if (chip->p922x_chg_status.charge_voltage > WPC_CHARGE_VOLTAGE_CHGPUMP_MIN) {
 			temp_value = chip->p922x_chg_status.iout - iout_max_value;
 			if (chip->p922x_chg_status.iout > 2100) {
@@ -1980,12 +1980,12 @@ static int p922x_fastcharge_debug_by_adb(struct oplus_p922x_ic *chip)
 			} else {
 				p922x_set_rx_charge_voltage(chip, chip->p922x_chg_status.charge_voltage - 20);
 			}
-	
+
 			p922x_reset_CEP_flag(chip);
 		}
 	} else if (chip->p922x_chg_status.iout < iout_min_value) {
 		chg_err("<~WPC~> The Iout < %d.\n", iout_min_value);
-	
+
 		if (chip->p922x_chg_status.charge_voltage < WPC_CHARGE_VOLTAGE_CHGPUMP_MAX) {
 			temp_value = iout_min_value - chip->p922x_chg_status.iout;
 			if ((temp_value > 100) && (chip->p922x_chg_status.iout < 1800)) {
@@ -1995,7 +1995,7 @@ static int p922x_fastcharge_debug_by_adb(struct oplus_p922x_ic *chip)
 			} else {
 				p922x_set_rx_charge_voltage(chip, chip->p922x_chg_status.charge_voltage + 20);
 			}
-	
+
 			p922x_reset_CEP_flag(chip);
 		}
 	} else {
@@ -2029,25 +2029,25 @@ static void p922x_fastcharge_current_adjust_40w(struct oplus_p922x_ic *chip, boo
 	if (is_init) {
 		adjust_current_delay = 0;
 	}
-	
+
 	chg_err("<~WPC~> ~~~~~~~~40W fastcharg current adjust(delay %d)~~~~~~~~\n", adjust_current_delay);
 
 	if ((g_oplus_chip->batt_volt >= 4500) && (!chip->p922x_chg_status.wpc_ffc_charge)) {
 		chg_err("<~WPC~> batt_volt[%d] >= 4.5V, Not in FFC\n", g_oplus_chip->batt_volt);
 		p922x_ready_to_switch_to_charger(chip, true);
 		return;
-	} else if (chip->p922x_chg_status.wpc_ffc_charge && (g_oplus_chip->batt_volt >= 4500) 
+	} else if (chip->p922x_chg_status.wpc_ffc_charge && (g_oplus_chip->batt_volt >= 4500)
 				&& ((g_oplus_chip->icharging < 0) && ((-1 * g_oplus_chip->icharging) < 900))) {
 		chg_err("<~WPC~> batt_volt[%d] >= 4.5V, batt_cur[%d] < 900ma, In FFC\n", g_oplus_chip->batt_volt, (-1 * g_oplus_chip->icharging));
 		chip->p922x_chg_status.wpc_ffc_charge = false;
 		p922x_ready_to_switch_to_charger(chip, true);
 		return;
-	} else if (!chip->p922x_chg_status.wpc_ffc_charge && g_oplus_chip->batt_volt >= 4370 ) {	
+	} else if (!chip->p922x_chg_status.wpc_ffc_charge && g_oplus_chip->batt_volt >= 4370 ) {
 		chg_err("<~WPC~> batt_volt[%d], Not in FFC\n", g_oplus_chip->batt_volt);
 		p922x_ready_to_switch_to_charger(chip, true);
 		return;
 	} else if (((g_oplus_chip->temperature < WPC_CHARGE_FFC_TEMP_MIN) || (g_oplus_chip->temperature > WPC_CHARGE_FFC_TEMP_MAX)) && (g_oplus_chip->batt_volt > 4370)) {
-		chg_err("<~WPC~> batt_volt[%d], temperature[%d]\n", g_oplus_chip->batt_volt, g_oplus_chip->temperature);			
+		chg_err("<~WPC~> batt_volt[%d], temperature[%d]\n", g_oplus_chip->batt_volt, g_oplus_chip->temperature);
 		chip->p922x_chg_status.wpc_ffc_charge = false;
 		p922x_ready_to_switch_to_charger(chip, true);
 		return;
@@ -2072,7 +2072,7 @@ static void p922x_fastcharge_current_adjust_40w(struct oplus_p922x_ic *chip, boo
 	if ((p922x_get_CEP_flag(chip) != 0) || chip->p922x_chg_status.wpc_skewing_proc) {
 		return;
 	}
-	
+
 	if(adjust_current_delay > 0) {
 		adjust_current_delay--;
 		return;
@@ -2140,7 +2140,7 @@ static void p922x_fastcharge_current_adjust_40w(struct oplus_p922x_ic *chip, boo
 			return;
 		}
 	}
-	
+
 	if (g_oplus_chip->temperature >= 420) {
 		chg_err("<~WPC~> The tempearture is >= 42. fastchg current: %d\n", fasctchg_current[chip->p922x_chg_status.fastcharge_level]);
 
@@ -2189,7 +2189,7 @@ static void p922x_fastcharge_current_adjust_40w(struct oplus_p922x_ic *chip, boo
 ADJUST_FINISH:
 	chip->p922x_chg_status.iout_stated_current = fasctchg_current[chip->p922x_chg_status.fastcharge_level];
 	if (chip->p922x_chg_status.iout_stated_current > chip->p922x_chg_status.fastchg_current_limit) {
-		chg_err("<~WPC~> charge_current[%d] > charge_current_limit[%d]\n", 
+		chg_err("<~WPC~> charge_current[%d] > charge_current_limit[%d]\n",
 				chip->p922x_chg_status.iout_stated_current, chip->p922x_chg_status.fastchg_current_limit);
 		chip->p922x_chg_status.iout_stated_current = chip->p922x_chg_status.fastchg_current_limit;
 	}
@@ -2204,14 +2204,14 @@ static void p922x_fastcharge_skewing_proc_40w(struct oplus_p922x_ic *chip, bool 
 		skewing_proc_delay = 0;
 		return;
 	}
-	
+
 	chg_err("<~WPC~> ~~~~~~~~40W fastcharg skewing proc(delay %d)~~~~~~~~\n", skewing_proc_delay);
 
 	if(skewing_proc_delay > 0) {
 		skewing_proc_delay--;
 		return;
-	} 
-	
+	}
+
 	if (chip->p922x_chg_status.iout <= fasctchg_current[FASTCHARGE_LEVEL_3]) {
 		chg_err("<~WPC~> iout = %dmA <= %d\n", chip->p922x_chg_status.iout, fasctchg_current[FASTCHARGE_LEVEL_3]);
 		chip->p922x_chg_status.wpc_ffc_charge = false;
@@ -2224,7 +2224,7 @@ static void p922x_fastcharge_skewing_proc_40w(struct oplus_p922x_ic *chip, bool 
 	}
 
 	if (chip->p922x_chg_status.iout_stated_current > chip->p922x_chg_status.fastchg_current_limit) {
-		chg_err("<~WPC~> charge_current[%d] > charge_current_limit[%d]\n", 
+		chg_err("<~WPC~> charge_current[%d] > charge_current_limit[%d]\n",
 				chip->p922x_chg_status.iout_stated_current, chip->p922x_chg_status.fastchg_current_limit);
 		chip->p922x_chg_status.iout_stated_current = chip->p922x_chg_status.fastchg_current_limit;
 	}
@@ -2269,7 +2269,7 @@ static void p922x_TX_message_process(struct oplus_p922x_ic *chip)
 }
 
 static int p922x_resume_chargepump_fastchg(struct oplus_p922x_ic *chip)
-{	
+{
 	if ((chip->p922x_chg_status.wpc_reach_4370mv == false)
 		&& (g_oplus_chip->batt_volt <= 4370)
 		&& (g_oplus_chip->temperature < 390)
@@ -2784,7 +2784,7 @@ static int oplus_wpc_set_input_current(struct oplus_p922x_ic *chip)
 						chg_err("<~WPC~> set BPP current limit 700ma\n");
 						chip->p922x_chg_status.BPP_current_limit = 700;
 						chip->p922x_chg_status.BPP_current_step_cnt = BPP_CURRENT_INCREASE_TIME;
-					} else if (chip->p922x_chg_status.BPP_current_limit < 
+					} else if (chip->p922x_chg_status.BPP_current_limit <
 							chip->p922x_chg_status.wpc_chg_param.bpp_input_ma){
 						chg_err("<~WPC~> set BPP current limit 750ma\n");
 						chip->p922x_chg_status.BPP_current_limit = chip->p922x_chg_status.wpc_chg_param.bpp_input_ma;
@@ -2915,7 +2915,7 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 	switch (chip->p922x_chg_status.charge_status) {
 	case WPC_CHG_STATUS_DEFAULT:
 		if (chip->p922x_chg_status.rx_runing_mode == RX_RUNNING_MODE_EPP) {
-			chg_err("<~WPC~> Change to EPP charge\n");  
+			chg_err("<~WPC~> Change to EPP charge\n");
 			work_delay = 7;
 			chip->p922x_chg_status.charge_status = WPC_CHG_STATUS_READY_FOR_EPP;
 			break;
@@ -3023,7 +3023,7 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 				}
 #endif
 				break;
-			} 
+			}
 
 			p922x_set_FOD_parameter(chip, 12);
 
@@ -3081,7 +3081,7 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 				chip->p922x_chg_status.skewing_info = true;
 				if (chip->p922x_chg_status.cep_info < to_cep_info(chip->p922x_chg_status.CEP_value))
 					chip->p922x_chg_status.cep_info = to_cep_info(chip->p922x_chg_status.CEP_value);
-			} 
+			}
 #endif
 		}
 		break;
@@ -3144,12 +3144,12 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 			//msleep(5);
 
 			chargepump_dwp_disable();
-			
+
 			vout_value = p922x_get_vout(chip);
 			batt_volt = oplus_gauge_get_batt_mvolts();
 
 			chg_err("<~WPC~> Vout: %d, Vbatt: %d\n", vout_value, batt_volt);
-			
+
 			if ((chargepump_check_dwp_status() == -2)
 				|| (chip->p922x_chg_status.vout < (batt_volt * 4 - 500))) {
 				chg_err("<~WPC~> chargepump fail or Vout < 2*Vbatt - 500!\n");
@@ -3162,7 +3162,7 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 				mdelay(5);
 				vout_value = p922x_get_vout(chip);
 
-				if ((chip->p922x_chg_status.vout < (batt_volt * 4 - 500)) 
+				if ((chip->p922x_chg_status.vout < (batt_volt * 4 - 500))
 					 || (chargepump_check_dwp_status() == -2)) {
 					chg_err("<~WPC~> 40times: chargepump fail or Vout < 2*Vbatt - 500!\n");
 					chargepump_disable();
@@ -3199,7 +3199,7 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 		chip->p922x_chg_status.wpc_ffc_charge = true;
 		chip->p922x_chg_status.has_reach_max_temperature = false;
 		chip->p922x_chg_status.fastcharge_level = FASTCHARGE_LEVEL_UNKNOW;
-		
+
 		p922x_set_rx_terminate_voltage(chip, WPC_TERMINATION_VOLTAGE_FFC);
 #ifndef FASTCHG_TEST_BY_TIME
 		p922x_fastcharge_current_adjust_40w(chip, true);
@@ -3234,16 +3234,16 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 				break;
 			}
 		}
-#else		
+#else
 		if ((g_oplus_chip->batt_volt >= 4500) && (!chip->p922x_chg_status.wpc_ffc_charge)) {
 			chg_err("<~WPC~> batt_volt[%d] >= 4.5V, Not in FFC\n", g_oplus_chip->batt_volt);
 			cep_nonzero_cnt = 0;
 			p922x_ready_to_switch_to_charger(chip, true);
 			break;
-		} else if (chip->p922x_chg_status.wpc_ffc_charge && (g_oplus_chip->batt_volt >= 4500) 
+		} else if (chip->p922x_chg_status.wpc_ffc_charge && (g_oplus_chip->batt_volt >= 4500)
 					&& ((g_oplus_chip->icharging < 0) && ((-1 * g_oplus_chip->icharging) < 900))) {
 			chg_err("<~WPC~> batt_volt[%d] >= 4.5V, batt_cur[%d] < 900ma, In FFC\n", g_oplus_chip->batt_volt, (-1 * g_oplus_chip->icharging));
-			
+
 			cep_nonzero_cnt = 0;
 			chip->p922x_chg_status.wpc_ffc_charge = false;
 			p922x_ready_to_switch_to_charger(chip, true);
@@ -3260,15 +3260,15 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 
 			chg_err("<~WPC~> batt_volt[%d], temperature[%d]\n", g_oplus_chip->batt_volt, g_oplus_chip->temperature);
 
-			cep_nonzero_cnt = 0;			
+			cep_nonzero_cnt = 0;
 			chip->p922x_chg_status.wpc_ffc_charge = false;
 			p922x_ready_to_switch_to_charger(chip, true);
 
 			break;
 		}
-		
+
 		if ((p922x_get_CEP_flag(chip) == 0) && (chip->p922x_chg_status.wpc_skewing_proc == false)) {
-			cep_nonzero_cnt = 0; 
+			cep_nonzero_cnt = 0;
 
 			if (chip->p922x_chg_status.work_silent_mode || chip->p922x_chg_status.call_mode) {
 				cep_nonzero_cnt = 0;
@@ -3413,16 +3413,16 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 			}
 		}
 		break;
-	    
+
 	case WPC_CHG_STATUS_INCREASE_CURRENT_FOR_CHARGER:
 		chg_err("<~WPC~> ..........WPC_CHG_STATUS_INCREASE_CURRENT_FOR_CHARGER..........\n");
-		temp_value = p922x_increase_vc_by_step(chip, 
-												chip->p922x_chg_status.charge_current, 
+		temp_value = p922x_increase_vc_by_step(chip,
+												chip->p922x_chg_status.charge_current,
 												chip->p922x_chg_status.fastchg_current_limit,
 												500);
 		if (temp_value != 0) {
 			p922x_set_rx_charge_current(chip, temp_value);
-			work_delay = WPC_INCREASE_CURRENT_DELAY; 
+			work_delay = WPC_INCREASE_CURRENT_DELAY;
 			chip->p922x_chg_status.charge_status = WPC_CHG_STATUS_ADJUST_VOL_AFTER_INC_CURRENT;
 		} else {
 			self_reset_cnt = 0;
@@ -3434,13 +3434,13 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 		chg_err("<~WPC~> ..........WPC_CHG_STATUS_ADJUST_VOL_AFTER_INC_CURRENT..........\n");
 		if (chip->p922x_chg_status.iout > (chip->p922x_chg_status.iout_stated_current + WPC_CHARGE_CURRENT_OFFSET)) {
 			chg_err("<~WPC~>  IDT Iout > %dmA!\n", (chip->p922x_chg_status.iout_stated_current + WPC_CHARGE_CURRENT_OFFSET));
-			temp_value = p922x_increase_vc_by_step(chip, 
-													chip->p922x_chg_status.charge_voltage, 
-													WPC_CHARGE_VOLTAGE_FASTCHG_MAX, 
+			temp_value = p922x_increase_vc_by_step(chip,
+													chip->p922x_chg_status.charge_voltage,
+													WPC_CHARGE_VOLTAGE_FASTCHG_MAX,
 													WPC_CHARGE_VOLTAGE_CHANGE_STEP_1V);
 			if (temp_value != 0) {
 				p922x_set_rx_charge_voltage(chip, temp_value);
-			} else {					
+			} else {
 				self_reset_cnt = 0;
 				chip->p922x_chg_status.charge_status = WPC_CHG_STATUS_FAST_CHARGING_FROM_CHARGER;
 			}
@@ -3468,9 +3468,9 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 
 		if (g_oplus_chip->temperature >= 420) {
 			chg_err("<~WPC~> The tempearture is >= 42\n");
-			temp_value = p922x_decrease_vc_by_step(chip, 
-													chip->p922x_chg_status.charge_current, 
-													WPC_CHARGE_CURRENT_DEFAULT, 
+			temp_value = p922x_decrease_vc_by_step(chip,
+													chip->p922x_chg_status.charge_current,
+													WPC_CHARGE_CURRENT_DEFAULT,
 													WPC_CHARGE_CURRENT_CHANGE_STEP_200MA);
 			if (temp_value != 0) {
 				p922x_set_rx_charge_current(chip, temp_value);
@@ -3484,13 +3484,13 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 					chip->p922x_chg_status.charge_status = WPC_CHG_STATUS_INCREASE_CURRENT_FOR_CHARGER;
 					break;
 				}
-		} 
+		}
 
-		if ((chip->p922x_chg_status.charge_current <= WPC_CHARGE_CURRENT_DEFAULT) 
+		if ((chip->p922x_chg_status.charge_current <= WPC_CHARGE_CURRENT_DEFAULT)
 			&& (chip->p922x_chg_status.charge_voltage > WPC_CHARGE_VOLTAGE_FASTCHG)) {
 			chg_err("<~WPC~> The charge current <= 500mA. The charge voltage turn to 12V\n");
 			p922x_set_rx_charge_voltage(chip, WPC_CHARGE_VOLTAGE_FASTCHG);
-			work_delay = WPC_ADJUST_CV_DELAY; 
+			work_delay = WPC_ADJUST_CV_DELAY;
 			break;
 		}
 
@@ -3535,9 +3535,9 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 				chg_err("<~WPC~> The Iout > %dmA.\n", iout_max_value);
 
 				if (chip->p922x_chg_status.charge_voltage >= WPC_CHARGE_VOLTAGE_FASTCHG_MAX) {
-					temp_value = p922x_decrease_vc_by_step(chip, 
-															chip->p922x_chg_status.charge_current, 
-															WPC_CHARGE_CURRENT_DEFAULT, 
+					temp_value = p922x_decrease_vc_by_step(chip,
+															chip->p922x_chg_status.charge_current,
+															WPC_CHARGE_CURRENT_DEFAULT,
 															WPC_CHARGE_CURRENT_CHANGE_STEP_50MA);
 					if (temp_value != 0) {
 						p922x_set_rx_charge_current(chip, temp_value);
@@ -3545,9 +3545,9 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 						break;
 					}
 				} else {
-					temp_value = p922x_increase_vc_by_step(chip, 
-															chip->p922x_chg_status.charge_voltage, 
-															WPC_CHARGE_VOLTAGE_FASTCHG_MAX, 
+					temp_value = p922x_increase_vc_by_step(chip,
+															chip->p922x_chg_status.charge_voltage,
+															WPC_CHARGE_VOLTAGE_FASTCHG_MAX,
 															WPC_CHARGE_VOLTAGE_CHANGE_STEP_20MV);
 					if (temp_value != 0) {
 						p922x_set_rx_charge_voltage(chip, temp_value);
@@ -3559,8 +3559,8 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 				chg_err("<~WPC~> The Iout < %dmA.\n", iout_min_value);
 
 				if (chip->p922x_chg_status.charge_voltage > WPC_CHARGE_VOLTAGE_FASTCHG_MIN) {
-					temp_value = p922x_decrease_vc_by_step(chip, 
-															chip->p922x_chg_status.charge_voltage, 
+					temp_value = p922x_decrease_vc_by_step(chip,
+															chip->p922x_chg_status.charge_voltage,
 															WPC_CHARGE_VOLTAGE_FASTCHG_MIN,
 															WPC_CHARGE_VOLTAGE_CHANGE_STEP_20MV);
 					if (temp_value != 0) {
@@ -3569,8 +3569,8 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 						break;
 					}
 				} else {
-					temp_value = p922x_increase_vc_by_step(chip, 
-															chip->p922x_chg_status.charge_current, 
+					temp_value = p922x_increase_vc_by_step(chip,
+															chip->p922x_chg_status.charge_current,
 															chip->p922x_chg_status.fastchg_current_limit,
 															WPC_CHARGE_CURRENT_CHANGE_STEP_50MA);
 					if (temp_value != 0) {
@@ -3587,17 +3587,17 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 				chg_err("<~WPC~> CEP nonzero >= 3.\n");
 
 				if (chip->p922x_chg_status.charge_current > WPC_CHARGE_CURRENT_FASTCHG_MID) {
-					temp_value = p922x_decrease_vc_by_step(chip, 
-															chip->p922x_chg_status.charge_current, 
-															WPC_CHARGE_CURRENT_FASTCHG_MID, 
+					temp_value = p922x_decrease_vc_by_step(chip,
+															chip->p922x_chg_status.charge_current,
+															WPC_CHARGE_CURRENT_FASTCHG_MID,
 															WPC_CHARGE_CURRENT_CHANGE_STEP_50MA);
 					if (temp_value != 0) {
 						p922x_set_rx_charge_current(chip, temp_value);
 						break;
 					}
 				} else if (chip->p922x_chg_status.charge_voltage > WPC_CHARGE_VOLTAGE_FASTCHG_MIN) {
-					temp_value = p922x_decrease_vc_by_step(chip, 
-															chip->p922x_chg_status.charge_voltage, 
+					temp_value = p922x_decrease_vc_by_step(chip,
+															chip->p922x_chg_status.charge_voltage,
 															WPC_CHARGE_VOLTAGE_FASTCHG_MIN,
 															WPC_CHARGE_VOLTAGE_CHANGE_STEP_20MV);
 					if (temp_value != 0) {
@@ -3629,9 +3629,9 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 	case WPC_CHG_STATUS_READY_FOR_FTM:
 		chg_err("<~WPC~> ..........WPC_CHG_STATUS_READY_FOR_FTM..........\n");
 		if (p922x_get_CEP_flag(chip) == 0) {
-			temp_value = p922x_increase_vc_by_step(chip, 
-													chip->p922x_chg_status.charge_voltage, 
-													WPC_CHARGE_VOLTAGE_FTM, 
+			temp_value = p922x_increase_vc_by_step(chip,
+													chip->p922x_chg_status.charge_voltage,
+													WPC_CHARGE_VOLTAGE_FTM,
 													WPC_CHARGE_VOLTAGE_CHANGE_STEP_1V);
 			if (temp_value != 0) {
 				p922x_set_rx_charge_voltage(chip, temp_value);
@@ -3645,12 +3645,12 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 				chargepump_enable();
 				chargepump_set_for_LDO();
 				chargepump_enable_watchdog();
-				
+
 				chip->p922x_chg_status.charge_status = WPC_CHG_STATUS_FTM_WORKING;
 			}
-		}	
+		}
 		break;
-		
+
 	case WPC_CHG_STATUS_FTM_WORKING:
 		chg_err("<~WPC~> ..........WPC_CHG_STATUS_FTM_WORKING..........\n");
 		chargepump_kick_watchdog();
@@ -3670,11 +3670,11 @@ static int p922x_charge_status_process(struct oplus_p922x_ic *chip)
 			chip->p922x_chg_status.charge_status = WPC_CHG_STATUS_INCREASE_VOLTAGE_FOR_CHARGEPUMP;
 		}
 		break;
-		
+
 	default:
 		break;
 	}
-	
+
 	return 0;
 }
 
@@ -3927,7 +3927,7 @@ static void p922x_get_running_mode(struct oplus_p922x_ic *chip)
 		 chg_err("Couldn't read 0x0088 rc = %x\n",rc);
 	} else {
 		chg_err("<~WPC~>REG 0x0088 = %x\n", temp);
-		
+
 		if (temp == 0x31) {
 			chg_err("<~WPC~> RX running in EPP!\n");
 			chip->p922x_chg_status.adapter_type = ADAPTER_TYPE_EPP;
@@ -3947,7 +3947,7 @@ int p922x_get_idt_con_val(void)
 	struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -3971,7 +3971,7 @@ int p922x_get_idt_int_val(void)
 	struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -4061,7 +4061,7 @@ static void p922x_idt_connect_int_func(struct work_struct *work)
 			chip->p922x_chg_status.vout_debug_mode = false;
 			chip->p922x_chg_status.iout_debug_mode = false;
 #endif
-			
+
 			schedule_delayed_work(&chip->p922x_task_work, round_jiffies_relative(msecs_to_jiffies(100)));
 
 			oplus_chg_restart_update_work();
@@ -4072,7 +4072,7 @@ static void p922x_idt_connect_int_func(struct work_struct *work)
 
 	} else {
 		chg_err(" !!!!! <~WPC~>[-TEST-] wpc dock has disconnected!< < < < < < < < < < < < <\n");
-		if (p922x_chip->p922x_chg_status.charge_online == true) {			
+		if (p922x_chip->p922x_chg_status.charge_online == true) {
 			p922x_chip->p922x_chg_status.charge_online = false;
 			if (g_oplus_chip->charger_type == POWER_SUPPLY_TYPE_WIRELESS)
 				g_oplus_chip->charger_type = POWER_SUPPLY_TYPE_UNKNOWN;
@@ -4127,7 +4127,7 @@ static void p922x_idt_connect_int_func(struct work_struct *work)
 }
 
 static void p922x_idt_event_shedule_work(void)
-{    
+{
 	if (!p922x_chip) {
 		chg_err(" p922x_chip is NULL\n");
 	} else {
@@ -4136,7 +4136,7 @@ static void p922x_idt_event_shedule_work(void)
 }
 
 static void p922x_idt_connect_shedule_work(void)
-{    
+{
 	if (!p922x_chip) {
 		chg_err(" p922x_chip is NULL\n");
 	} else {
@@ -4185,7 +4185,7 @@ static void p922x_idt_con_irq_init(struct oplus_p922x_ic *chip)
 static void p922x_idt_int_eint_register(struct oplus_p922x_ic *chip)
 {
 	int retval = 0;
-	
+
 	p922x_set_idt_int_active(chip);
 	retval = request_irq(chip->idt_int_irq, irq_idt_event_int_handler, IRQF_TRIGGER_FALLING, "p922x_idt_int", chip);	//0X01:rising edge,0x02:falling edge
 	if (retval < 0) {
@@ -4200,7 +4200,7 @@ static void p922x_idt_int_eint_register(struct oplus_p922x_ic *chip)
 static void p922x_idt_con_eint_register(struct oplus_p922x_ic *chip)
 {
 	int retval = 0;
-	
+
 	pr_err("%s tongfeng test start, irq happened\n", __func__);
 	p922x_set_idt_con_active(chip);
 	retval = request_irq(chip->idt_con_irq, irq_idt_connect_int_handler, IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING, "p922x_con_int", chip);	//0X01:rising edge,0x02:falling edge
@@ -4218,27 +4218,27 @@ static int p922x_idt_con_gpio_init(struct oplus_p922x_ic *chip)
 	}
 
 	//idt_con
-	chip->idt_con_active = 
+	chip->idt_con_active =
 			pinctrl_lookup_state(chip->pinctrl, "idt_connect_active");
 	if (IS_ERR_OR_NULL(chip->idt_con_active)) {
 		chg_err("get idt_con_active fail\n");
 		return -EINVAL;
 	}
 
-	chip->idt_con_sleep = 
+	chip->idt_con_sleep =
 			pinctrl_lookup_state(chip->pinctrl, "idt_connect_sleep");
 	if (IS_ERR_OR_NULL(chip->idt_con_sleep)) {
 		chg_err("get idt_con_sleep fail\n");
 		return -EINVAL;
 	}
 
-	chip->idt_con_default = 
+	chip->idt_con_default =
 			pinctrl_lookup_state(chip->pinctrl, "idt_connect_default");
 	if (IS_ERR_OR_NULL(chip->idt_con_default)) {
 		chg_err("get idt_con_default fail\n");
 		return -EINVAL;
 	}
-	
+
 
 	if (chip->idt_con_gpio > 0) {
 		gpio_direction_input(chip->idt_con_gpio);
@@ -4253,7 +4253,7 @@ static int p922x_idt_int_gpio_init(struct oplus_p922x_ic *chip)
 {
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -4264,21 +4264,21 @@ static int p922x_idt_int_gpio_init(struct oplus_p922x_ic *chip)
 	}
 
 	//idt_int
-	chip->idt_int_active = 
+	chip->idt_int_active =
 			pinctrl_lookup_state(chip->pinctrl, "idt_int_active");
 	if (IS_ERR_OR_NULL(chip->idt_int_active)) {
 		chg_err("get idt_int_active fail\n");
 		return -EINVAL;
 	}
 
-	chip->idt_int_sleep = 
+	chip->idt_int_sleep =
 			pinctrl_lookup_state(chip->pinctrl, "idt_int_sleep");
 	if (IS_ERR_OR_NULL(chip->idt_int_sleep)) {
 		chg_err("get idt_int_sleep fail\n");
 		return -EINVAL;
 	}
 
-	chip->idt_int_default = 
+	chip->idt_int_default =
 			pinctrl_lookup_state(chip->pinctrl, "idt_int_default");
 	if (IS_ERR_OR_NULL(chip->idt_int_default)) {
 		chg_err("get idt_int_default fail\n");
@@ -4298,7 +4298,7 @@ static int p922x_ext1_wired_otg_gpio_init(struct oplus_p922x_ic *chip)
 {
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -4309,21 +4309,21 @@ static int p922x_ext1_wired_otg_gpio_init(struct oplus_p922x_ic *chip)
 	}
 
 	//vbat_en
-	chip->ext1_wired_otg_en_active = 
+	chip->ext1_wired_otg_en_active =
 			pinctrl_lookup_state(chip->pinctrl, "ext1_wired_otg_en_active");
 	if (IS_ERR_OR_NULL(chip->ext1_wired_otg_en_active)) {
 		chg_err("get ext1_wired_otg_en_active fail\n");
 		return -EINVAL;
 	}
 
-	chip->ext1_wired_otg_en_sleep = 
+	chip->ext1_wired_otg_en_sleep =
 			pinctrl_lookup_state(chip->pinctrl, "ext1_wired_otg_en_sleep");
 	if (IS_ERR_OR_NULL(chip->ext1_wired_otg_en_sleep)) {
 		chg_err("get ext1_wired_otg_en_sleep fail\n");
 		return -EINVAL;
 	}
 
-	chip->ext1_wired_otg_en_default = 
+	chip->ext1_wired_otg_en_default =
 			pinctrl_lookup_state(chip->pinctrl, "ext1_wired_otg_en_default");
 	if (IS_ERR_OR_NULL(chip->ext1_wired_otg_en_default)) {
 		chg_err("get ext1_wired_otg_en_default fail\n");
@@ -4345,7 +4345,7 @@ void p922x_set_ext1_wired_otg_en_val(int value)
     struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -4379,7 +4379,7 @@ void p922x_set_ext1_wired_otg_en_val(int value)
 				chip->ext1_wired_otg_en_sleep);
 	}
 
-	chg_err("<~WPC~>set value:%d, gpio_val:%d\n", 
+	chg_err("<~WPC~>set value:%d, gpio_val:%d\n",
 		value, gpio_get_value(chip->ext1_wired_otg_en_gpio));
 }
 
@@ -4388,7 +4388,7 @@ int p922x_get_ext1_wired_otg_en_val(void)
 	struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -4413,7 +4413,7 @@ static int p922x_ext2_wireless_otg_gpio_init(struct oplus_p922x_ic *chip)
 {
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -4423,21 +4423,21 @@ static int p922x_ext2_wireless_otg_gpio_init(struct oplus_p922x_ic *chip)
 		return -EINVAL;
 	}
 
-	chip->ext2_wireless_otg_en_active = 
+	chip->ext2_wireless_otg_en_active =
 			pinctrl_lookup_state(chip->pinctrl, "ext2_wireless_otg_en_active");
 	if (IS_ERR_OR_NULL(chip->ext2_wireless_otg_en_active)) {
 		chg_err("get ext2_wireless_otg_en_active fail\n");
 		return -EINVAL;
 	}
 
-	chip->ext2_wireless_otg_en_sleep = 
+	chip->ext2_wireless_otg_en_sleep =
 			pinctrl_lookup_state(chip->pinctrl, "ext2_wireless_otg_en_sleep");
 	if (IS_ERR_OR_NULL(chip->ext2_wireless_otg_en_sleep)) {
 		chg_err("get ext2_wireless_otg_en_sleep fail\n");
 		return -EINVAL;
 	}
 
-	chip->ext2_wireless_otg_en_default = 
+	chip->ext2_wireless_otg_en_default =
 			pinctrl_lookup_state(chip->pinctrl, "ext2_wireless_otg_en_default");
 	if (IS_ERR_OR_NULL(chip->ext2_wireless_otg_en_default)) {
 		chg_err("get ext2_wireless_otg_en_default fail\n");
@@ -4459,7 +4459,7 @@ void p922x_set_ext2_wireless_otg_en_val(int value)
     struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -4493,7 +4493,7 @@ void p922x_set_ext2_wireless_otg_en_val(int value)
 				chip->ext2_wireless_otg_en_sleep);
 	}
 
-	chg_err("<~WPC~>set value:%d, gpio_val:%d\n", 
+	chg_err("<~WPC~>set value:%d, gpio_val:%d\n",
 		value, gpio_get_value(chip->ext2_wireless_otg_en_gpio));
 }
 
@@ -4502,7 +4502,7 @@ int p922x_get_ext2_wireless_otg_en_val(void)
 	struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -4526,7 +4526,7 @@ static int p922x_vbat_en_gpio_init(struct oplus_p922x_ic *chip)
 {
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -4537,21 +4537,21 @@ static int p922x_vbat_en_gpio_init(struct oplus_p922x_ic *chip)
 	}
 
 	//vbat_en
-	chip->vbat_en_active = 
+	chip->vbat_en_active =
 			pinctrl_lookup_state(chip->pinctrl, "vbat_en_active");
 	if (IS_ERR_OR_NULL(chip->vbat_en_active)) {
 		chg_err("get vbat_en_active fail\n");
 		return -EINVAL;
 	}
 
-	chip->vbat_en_sleep = 
+	chip->vbat_en_sleep =
 			pinctrl_lookup_state(chip->pinctrl, "vbat_en_sleep");
 	if (IS_ERR_OR_NULL(chip->vbat_en_sleep)) {
 		chg_err("get vbat_en_sleep fail\n");
 		return -EINVAL;
 	}
 
-	chip->vbat_en_default = 
+	chip->vbat_en_default =
 			pinctrl_lookup_state(chip->pinctrl, "vbat_en_default");
 	if (IS_ERR_OR_NULL(chip->vbat_en_default)) {
 		chg_err("get vbat_en_default fail\n");
@@ -4570,7 +4570,7 @@ void p922x_set_vbat_en_val(int value)
     struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -4597,7 +4597,7 @@ void p922x_set_vbat_en_val(int value)
 				chip->vbat_en_sleep);
 	}
 
-	chg_err("<~WPC~>set value:%d, gpio_val:%d\n", 
+	chg_err("<~WPC~>set value:%d, gpio_val:%d\n",
 		value, gpio_get_value(chip->vbat_en_gpio));
 }
 
@@ -4606,7 +4606,7 @@ int p922x_get_vbat_en_val(void)
 	struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -4630,7 +4630,7 @@ static int p922x_booster_en_gpio_init(struct oplus_p922x_ic *chip)
 {
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -4641,21 +4641,21 @@ static int p922x_booster_en_gpio_init(struct oplus_p922x_ic *chip)
 	}
 
 	//booster_en
-	chip->booster_en_active = 
+	chip->booster_en_active =
 			pinctrl_lookup_state(chip->pinctrl, "booster_en_active");
 	if (IS_ERR_OR_NULL(chip->booster_en_active)) {
 		chg_err("get booster_en_active fail\n");
 		return -EINVAL;
 	}
 
-	chip->booster_en_sleep = 
+	chip->booster_en_sleep =
 			pinctrl_lookup_state(chip->pinctrl, "booster_en_sleep");
 	if (IS_ERR_OR_NULL(chip->booster_en_sleep)) {
 		chg_err("get booster_en_sleep fail\n");
 		return -EINVAL;
 	}
 
-	chip->booster_en_default = 
+	chip->booster_en_default =
 			pinctrl_lookup_state(chip->pinctrl, "booster_en_default");
 	if (IS_ERR_OR_NULL(chip->booster_en_default)) {
 		chg_err("get booster_en_default fail\n");
@@ -4672,11 +4672,11 @@ static int p922x_booster_en_gpio_init(struct oplus_p922x_ic *chip)
 }
 
 void p922x_set_booster_en_val(int value)
-{    
+{
     struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -4712,7 +4712,7 @@ int p922x_get_booster_en_val(void)
 	struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -4734,11 +4734,11 @@ int p922x_get_booster_en_val(void)
 
 
 void p922x_set_cp_ldo_5v_val(int value)
-{    
+{
     struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -4765,7 +4765,7 @@ void p922x_set_cp_ldo_5v_val(int value)
 				chip->cp_ldo_5v_sleep);
 	}
 
-	chg_err("set value:%d, gpio_val:%d\n", 
+	chg_err("set value:%d, gpio_val:%d\n",
 		value, gpio_get_value(chip->cp_ldo_5v_gpio));
 }
 
@@ -4774,7 +4774,7 @@ int p922x_get_cp_ldo_5v_val(void)
 	struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -4799,7 +4799,7 @@ int p922x_set_tx_cep_timeout_1500ms(void)
 	struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -4819,7 +4819,7 @@ static int p922x_set_dock_led_pwm_pulse(int pwm_pulse)
 	struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -4846,7 +4846,7 @@ static int p922x_set_dock_fan_pwm_pulse(int pwm_pulse)
 	struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -4873,7 +4873,7 @@ static int p922x_set_silent_mode(bool is_silent)
 	struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: p922x_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -4899,7 +4899,7 @@ static int p922x_cp_ldo_5v_gpio_init(struct oplus_p922x_ic *chip)
 {
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -4909,21 +4909,21 @@ static int p922x_cp_ldo_5v_gpio_init(struct oplus_p922x_ic *chip)
 		return -EINVAL;
 	}
 
-	chip->cp_ldo_5v_active = 
+	chip->cp_ldo_5v_active =
 			pinctrl_lookup_state(chip->pinctrl, "cp_ldo_5v_active");
 	if (IS_ERR_OR_NULL(chip->cp_ldo_5v_active)) {
 		chg_err("get cp_ldo_5v_active fail\n");
 		return -EINVAL;
 	}
 
-	chip->cp_ldo_5v_sleep = 
+	chip->cp_ldo_5v_sleep =
 			pinctrl_lookup_state(chip->pinctrl, "cp_ldo_5v_sleep");
 	if (IS_ERR_OR_NULL(chip->cp_ldo_5v_sleep)) {
 		chg_err("get cp_ldo_5v_sleep fail\n");
 		return -EINVAL;
 	}
 
-	chip->cp_ldo_5v_default = 
+	chip->cp_ldo_5v_default =
 			pinctrl_lookup_state(chip->pinctrl, "cp_ldo_5v_default");
 	if (IS_ERR_OR_NULL(chip->cp_ldo_5v_default)) {
 		chg_err("get cp_ldo_5v_default fail\n");
@@ -4942,7 +4942,7 @@ static int p922x_cp_ldo_5v_gpio_init(struct oplus_p922x_ic *chip)
 static int oplus_wrx_en_gpio_init(struct oplus_p922x_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -4972,7 +4972,7 @@ static int oplus_wrx_en_gpio_init(struct oplus_p922x_ic *chip)
 		gpio_direction_output(chip->wrx_en_gpio, 0);
 	}
 	pinctrl_select_state(chip->pinctrl, chip->wrx_en_default);
-	printk(KERN_ERR "[OPLUS_CHG][%s]: gpio value[%d]!\n", __func__,
+	pr_debug(KERN_ERR "[OPLUS_CHG][%s]: gpio value[%d]!\n", __func__,
 		gpio_get_value(chip->wrx_en_gpio));
 
 	return 0;
@@ -4983,7 +4983,7 @@ void oplus_set_wrx_en_value(int value)
 	struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_p922x_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -5032,7 +5032,7 @@ int oplus_get_wrx_en_val(void)
 static int oplus_wrx_otg_en_gpio_init(struct oplus_p922x_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_wpc_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_wpc_chip not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -5062,7 +5062,7 @@ static int oplus_wrx_otg_en_gpio_init(struct oplus_p922x_ic *chip)
 		gpio_direction_output(chip->wrx_otg_en_gpio, 0);
 	}
 	pinctrl_select_state(chip->pinctrl, chip->wrx_otg_en_default);
-	printk(KERN_ERR "[OPLUS_CHG][%s]: gpio value[%d]!\n", __func__,
+	pr_debug(KERN_ERR "[OPLUS_CHG][%s]: gpio value[%d]!\n", __func__,
 		gpio_get_value(chip->wrx_otg_en_gpio));
 	return 0;
 }
@@ -5072,7 +5072,7 @@ void oplus_set_wrx_otg_en_value(int value)
 	struct oplus_p922x_ic *chip = p922x_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_wpc_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_wpc_chip not ready!\n", __func__);
 		return;
 	}
 	if (chip->wrx_otg_en_gpio <= 0) {
@@ -5136,7 +5136,7 @@ static bool oplus_wls_pg_is_support(struct oplus_p922x_ic *chip)
 static int oplus_wls_pg_gpio_init(struct oplus_p922x_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_wpc_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_wpc_chip not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -5162,7 +5162,7 @@ static int oplus_wls_pg_gpio_init(struct oplus_p922x_ic *chip)
 		gpio_direction_output(chip->wrx_otg_en_gpio, 1);
 	}
 	pinctrl_select_state(chip->pinctrl, chip->wls_pg_default);
-	printk(KERN_ERR "[OPLUS_CHG][%s]: gpio value[%d]!\n", __func__,
+	pr_debug(KERN_ERR "[OPLUS_CHG][%s]: gpio value[%d]!\n", __func__,
 		gpio_get_value(chip->wls_pg_gpio));
 	return 0;
 }
@@ -5177,7 +5177,7 @@ static int p922x_idt_gpio_init(struct oplus_p922x_ic *chip)
 	// Parsing gpio idt_int
 	chip->idt_int_gpio = of_get_named_gpio(node, "qcom,idt_int-gpio", 0);
 	if (chip->idt_int_gpio < 0 ) {
-		pr_err("chip->idt_int_gpio not specified\n");	
+		pr_err("chip->idt_int_gpio not specified\n");
 	} else {
 		if (gpio_is_valid(chip->idt_int_gpio)) {
 			rc = gpio_request(chip->idt_int_gpio, "idt-idt-gpio");
@@ -5200,7 +5200,7 @@ static int p922x_idt_gpio_init(struct oplus_p922x_ic *chip)
 	// Parsing gpio idt_connect
 	chip->idt_con_gpio = of_get_named_gpio(node, "qcom,idt_connect-gpio", 0);
 	if (chip->idt_con_gpio < 0) {
-		pr_err("chip->idt_con_gpio not specified\n");	
+		pr_err("chip->idt_con_gpio not specified\n");
 	} else {
 		if (gpio_is_valid(chip->idt_con_gpio)) {
 			rc = gpio_request(chip->idt_con_gpio, "idt-connect-gpio");
@@ -5216,14 +5216,14 @@ static int p922x_idt_gpio_init(struct oplus_p922x_ic *chip)
 				}
 			}
 		}
-		
+
 		pr_err("chip->idt_con_gpio =%d\n",chip->idt_con_gpio);
 	}
 
 	// Parsing gpio vbat_en
 	chip->vbat_en_gpio = of_get_named_gpio(node, "qcom,vbat_en-gpio", 0);
 	if (chip->vbat_en_gpio < 0) {
-		pr_err("chip->vbat_en_gpio not specified\n");	
+		pr_err("chip->vbat_en_gpio not specified\n");
 	} else {
 		if (gpio_is_valid(chip->vbat_en_gpio)) {
 			rc = gpio_request(chip->vbat_en_gpio, "vbat-en-gpio");
@@ -5236,14 +5236,14 @@ static int p922x_idt_gpio_init(struct oplus_p922x_ic *chip)
 				}
 			}
 		}
-		
+
 		pr_err("chip->vbat_en_gpio =%d\n",chip->vbat_en_gpio);
 	}
 
 	// Parsing gpio ext1 otg
 	chip->ext1_wired_otg_en_gpio = of_get_named_gpio(node, "qcom,ext1_wired_otg_en-gpio", 0);
 	if (chip->ext1_wired_otg_en_gpio < 0) {
-		pr_err("chip->ext1_wired_otg_en_gpio not specified\n");	
+		pr_err("chip->ext1_wired_otg_en_gpio not specified\n");
 	} else {
 		if (gpio_is_valid(chip->ext1_wired_otg_en_gpio)) {
 			rc = gpio_request(chip->ext1_wired_otg_en_gpio, "ext1_wired_otg_en-gpio");
@@ -5256,14 +5256,14 @@ static int p922x_idt_gpio_init(struct oplus_p922x_ic *chip)
 				}
 			}
 		}
-		
+
 		pr_err("chip->ext1_wired_otg_en_gpio =%d\n",chip->ext1_wired_otg_en_gpio);
 	}
 
 	// Parsing gpio ext2 wireless otg
 	chip->ext2_wireless_otg_en_gpio = of_get_named_gpio(node, "qcom,ext2_wireless_otg_en-gpio", 0);
 	if (chip->ext2_wireless_otg_en_gpio < 0) {
-		pr_err("chip->ext2_wireless_otg_en_gpio not specified\n");	
+		pr_err("chip->ext2_wireless_otg_en_gpio not specified\n");
 	} else {
 		if (gpio_is_valid(chip->ext2_wireless_otg_en_gpio)) {
 			rc = gpio_request(chip->ext2_wireless_otg_en_gpio, "ext2_wireless_otg_en-gpio");
@@ -5283,7 +5283,7 @@ static int p922x_idt_gpio_init(struct oplus_p922x_ic *chip)
 	// Parsing gpio booster_en
 	chip->booster_en_gpio = of_get_named_gpio(node, "qcom,booster_en-gpio", 0);
 	if (chip->booster_en_gpio < 0) {
-		pr_err("chip->booster_en_gpio not specified\n");	
+		pr_err("chip->booster_en_gpio not specified\n");
 	} else {
 		if (gpio_is_valid(chip->booster_en_gpio)) {
 			rc = gpio_request(chip->booster_en_gpio, "booster-en-gpio");
@@ -5296,14 +5296,14 @@ static int p922x_idt_gpio_init(struct oplus_p922x_ic *chip)
 				}
 			}
 		}
-		
+
 		pr_err("chip->booster_en_gpio =%d\n",chip->booster_en_gpio);
 	}
 
 	// Parsing gpio 5v_en
 	chip->cp_ldo_5v_gpio = of_get_named_gpio(node, "qcom,cp_ldo_5v-gpio", 0);
 	if (chip->cp_ldo_5v_gpio < 0) {
-		pr_err("chip->cp_ldo_5v_gpio not specified\n");	
+		pr_err("chip->cp_ldo_5v_gpio not specified\n");
 	} else {
 		if (gpio_is_valid(chip->cp_ldo_5v_gpio)) {
 			rc = gpio_request(chip->cp_ldo_5v_gpio, "cp-ldo-5v-gpio");
@@ -5528,12 +5528,12 @@ static void p922x_task_work_process(struct work_struct *work)
 	struct delayed_work *dwork = to_delayed_work(work);
 	struct oplus_p922x_ic *chip = container_of(dwork, struct oplus_p922x_ic, p922x_task_work);
 	static int idt_disconnect_cnt = 0;
-	
+
 	chg_err("<~WPC~> in\n");
 
 	if (p922x_get_idt_con_val() == 0) {
 		chg_err("<~WPC~> idt_connect == 0\n");
-		
+
 		idt_disconnect_cnt++;
 		if (idt_disconnect_cnt >= 2) {
 			if (p922x_chip->p922x_chg_status.charge_online) {
@@ -5546,7 +5546,7 @@ static void p922x_task_work_process(struct work_struct *work)
 	} else {
 		idt_disconnect_cnt = 0;
 	}
-	
+
 	if (p922x_chip->p922x_chg_status.charge_online) {
 		oplus_wpc_get_fastchg_allow(chip);
 		p922x_charge_set_max_current_by_tbatt(chip);
@@ -5584,7 +5584,7 @@ static void p922x_CEP_work_process(struct work_struct *work)
 {
 	struct delayed_work *dwork = to_delayed_work(work);
 	struct oplus_p922x_ic *chip = container_of(dwork, struct oplus_p922x_ic, p922x_CEP_work);
-	
+
 	if (p922x_chip->p922x_chg_status.charge_online) {
 		p922x_detect_CEP(chip);
 		schedule_delayed_work(&chip->p922x_CEP_work, P922X_CEP_INTERVAL);
@@ -7052,7 +7052,7 @@ static int p922x_wireless_get_prop(struct power_supply *psy,
 		val->intval = 0;
 		rc = 0;
 		break;
-	case POWER_SUPPLY_PROP_CURRENT_NOW:	
+	case POWER_SUPPLY_PROP_CURRENT_NOW:
 #ifdef oplus_wireless
 		if (chip->wireless_mode == WIRELESS_MODE_RX)
 			val->intval = p922x_chip->p922x_chg_status.iout;
@@ -7303,7 +7303,7 @@ struct oplus_wpc_operations p922x_ops = {
 	.wpc_print_log = p922x_wpc_print_log,
 };
 
-static int p922x_driver_probe(struct i2c_client *client, const struct i2c_device_id *id) 
+static int p922x_driver_probe(struct i2c_client *client, const struct i2c_device_id *id)
 {
 	struct oplus_p922x_ic	*chip;
 	struct oplus_wpc_chip *wpc_chip;
@@ -7385,7 +7385,7 @@ static int p922x_driver_probe(struct i2c_client *client, const struct i2c_device
 #endif
 	chg_debug( " call end\n");
 
-	return 0;                                                                                       
+	return 0;
 
 }
 
@@ -7393,7 +7393,7 @@ static int p922x_driver_probe(struct i2c_client *client, const struct i2c_device
 static struct i2c_driver p922x_i2c_driver;
 
 static int p922x_driver_remove(struct i2c_client *client)
-{    
+{
 	return 0;
 }
 
@@ -7415,7 +7415,7 @@ static const struct dev_pm_ops p922x_pm_ops = {
 };
 #else
 static int p922x_resume(struct i2c_client *client)
-{	
+{
 	return 0;
 }
 
@@ -7431,7 +7431,7 @@ static void p922x_reset(struct i2c_client *client)
     int wait_wpc_disconn_cnt = 0;
 
 	p922x_set_vbat_en_val(1);
-	
+
     wpc_con_level = p922x_get_idt_con_val();
     if(wpc_con_level == 1) {
         msleep(100);
@@ -7451,7 +7451,7 @@ static void p922x_reset(struct i2c_client *client)
 
 /**********************************************************
   *
-  *   [platform_driver API] 
+  *   [platform_driver API]
   *
   *********************************************************/
 

@@ -126,9 +126,9 @@ MODULE_PARM_DESC(sy6970_chg_dbg_enable, "debug charger sy6970");
 #undef chg_debug
 #define chg_debug(fmt, ...) \
 	if (sy6970_chg_dbg_enable & SY6970_DEBUG ) { \
-		printk(KERN_ERR "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
 	} else { \
-		printk(KERN_NOTICE "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
+		pr_debug(KERN_NOTICE "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
 	}
 #endif
 
@@ -136,16 +136,16 @@ MODULE_PARM_DESC(sy6970_chg_dbg_enable, "debug charger sy6970");
 #undef chg_info
 #define chg_info(fmt, ...) \
 	if (sy6970_chg_dbg_enable & SY6970_INFO) { \
-		printk(KERN_ERR "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
 	} else { \
-		printk(KERN_NOTICE "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
+		pr_debug(KERN_NOTICE "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
 	}
 #else
 #define chg_info(fmt, ...) \
 	if (sy6970_chg_dbg_enable & SY6970_INFO) { \
-                printk(KERN_ERR "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
+                pr_debug(KERN_ERR "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
         } else { \
-                printk(KERN_NOTICE "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
+                pr_debug(KERN_NOTICE "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
         }
 #endif
 
@@ -153,9 +153,9 @@ MODULE_PARM_DESC(sy6970_chg_dbg_enable, "debug charger sy6970");
 #undef chg_err
 #define chg_err(fmt, ...) \
 	if (sy6970_chg_dbg_enable & SY6970_ERR) { \
-		printk(KERN_ERR "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
 	} else { \
-		printk(KERN_NOTICE "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
+		pr_debug(KERN_NOTICE "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
 	}
 #endif
 
@@ -2484,7 +2484,7 @@ static struct charger_ops sy6970_chg_ops = {
 	.enable_otg = sy6970_set_otg,
 	.set_boost_current_limit = sy6970_set_boost_ilmt,
 	.enable_discharge = NULL,
-	
+
 	/* PE+/PE+20 */
 	.send_ta_current_pattern = NULL,
 	.set_pe20_efficiency_table = NULL,
@@ -3021,7 +3021,7 @@ static int oplus_sy6970_charger_suspend(void)
 		g_oplus_chip->slave_charger_enable = false;
 		g_oplus_chip->sub_chg_ops->charger_suspend();
 	}
-	printk("%s\n",__func__);
+	pr_debug("%s\n",__func__);
 	return 0;
 }
 
@@ -3076,7 +3076,7 @@ int oplus_sy6970_charger_unsuspend(void)
 	if ((g_oplus_chip != NULL) && (g_oplus_chip->is_double_charger_support)) {
 		g_oplus_chip->sub_chg_ops->charger_unsuspend();
 	}
-	printk("%s\n",__func__);
+	pr_debug("%s\n",__func__);
 	sy6970_enable_charger(g_bq);
 	return 0;
 }
@@ -3426,7 +3426,7 @@ bool oplus_sy6970_need_retry_aicl(void)
 static bool oplus_shortc_check_is_gpio(struct oplus_chg_chip *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return false;
 	}
 
@@ -3442,7 +3442,7 @@ static bool oplus_sy6970_get_shortc_hw_gpio_status(void)
 	bool shortc_hw_status = true;
 	struct oplus_chg_chip *chip = g_oplus_chip;
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return shortc_hw_status;
 	}
 
@@ -3565,7 +3565,7 @@ enum boot_reason_t get_boot_reason(void)
 static void oplus_mt_power_off(void)
 {
 	if (!g_oplus_chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -3573,7 +3573,7 @@ static void oplus_mt_power_off(void)
 		if(!mt6357_get_vbus_status())
 			kernel_power_off();
 	} else {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: ac_online is true, return!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: ac_online is true, return!\n", __func__);
 	}
 }
 #endif

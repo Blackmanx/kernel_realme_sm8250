@@ -172,8 +172,8 @@ void charger_ic_enable_ship_mode(struct oplus_chg_chip *chip)
 	//else if(is_project(19747)){
 	//	rt9471_enable_shipmode(true);
 	//	rt9467_enable_shipmode(true);
-	//} 
-	//else 
+	//}
+	//else
 	if (is_project(0x206AC))
 	{
 		if (!chip->is_double_charger_support) {
@@ -390,7 +390,7 @@ void enter_ship_mode_function(struct oplus_chg_chip *chip)
 {
 	if(chip != NULL){
 		if (chip->enable_shipmode) {
-			printk("enter_ship_mode_function\n");
+			pr_debug("enter_ship_mode_function\n");
 			smbchg_enter_shipmode(chip);
 			charger_ic_enable_ship_mode(chip);
 		}
@@ -462,7 +462,7 @@ int mtk_chr_is_charger_exist(unsigned char *exist)
 void oplus_set_otg_switch_status(bool value)
 {
 	if (pinfo != NULL ) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: otg switch[%d]\n", __func__, value);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: otg switch[%d]\n", __func__, value);
 		musb_ctrl_host(value);
 	}
 }
@@ -1294,7 +1294,7 @@ bool oplus_pmic_check_chip_is_null(void)
 static bool oplus_usbtemp_check_is_gpio(struct oplus_chg_chip *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return false;
 	}
 
@@ -1309,7 +1309,7 @@ static bool oplus_usbtemp_check_is_support(void)
 	struct oplus_chg_chip *chip = g_oplus_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return false;
 	}
 
@@ -1460,7 +1460,7 @@ static void oplus_get_usbtemp_volt(struct oplus_chg_chip *chip)
 	int usbtemp_volt = 0;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 #if 0
@@ -1482,7 +1482,7 @@ static void oplus_get_usbtemp_volt(struct oplus_chg_chip *chip)
 	}
 	usbtemp_volt = (usbtemp_volt * 1500) >> 12;
 	chip->usbtemp_volt_r = usbtemp_volt;
-	
+
 	iio_read_channel_processed(usb_chan2, &usbtemp_volt);
 	if (usbtemp_volt <= 0) {
 		usbtemp_volt = USB_25C_VOLT;
@@ -1502,7 +1502,7 @@ int usb_port_volt_to_temp(int volt)
 	int usb_r = 0;
 	int RES1 = 0, RES2 = 0;
 	int Usb_temp_Value = 25, TMP1 = 0, TMP2 = 0;
-	
+
 	if(usb_debug_temp != 65535)
 		return usb_debug_temp;
 
@@ -1547,7 +1547,7 @@ static void get_usb_temp(struct oplus_chg_chip *chip)
 	int i = 0;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -1568,7 +1568,7 @@ static void get_usb_temp(struct oplus_chg_chip *chip)
 	chip->usb_temp_l = con_temp_18097[i];
 #else /*ODM_WT_EDIT*/
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -1583,7 +1583,7 @@ static bool oplus_chg_get_vbus_status(struct oplus_chg_chip *chip)
 {
     int charger_type;
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return false;
 	}
 
@@ -1647,7 +1647,7 @@ static int oplus_usbtemp_monitor_main(void *data)
 					count_r++;
 				if (((chip->usb_temp_l >= USB_57C)  && (chip->usb_temp_l <= USB_100C))&&(abs(retry_usb_temp_l-chip->usb_temp_l)<5))
 					count_l++;
-				
+
 				retry_usb_temp_r = chip->usb_temp_r;
 				retry_usb_temp_l = chip->usb_temp_l;
 				pr_debug("high temp: %d,%d,%d,%d,%d,%d\n", chip->usb_temp_r, chip->usb_temp_l,retry_usb_temp_r,retry_usb_temp_l,count_r,count_l);
@@ -2308,10 +2308,10 @@ int charger_manager_notifier(struct charger_manager *info, int event)
 
 int notify_battery_full(void)
 {
-	printk("notify_battery_full_is_ok\n");
+	pr_debug("notify_battery_full_is_ok\n");
 
 	if (charger_manager_notifier(pinfo, CHARGER_NOTIFY_EOC)) {
-		printk("notifier fail\n");
+		pr_debug("notifier fail\n");
 		return 1;
 	} else {
 		return 0;
@@ -3774,7 +3774,7 @@ int oplus_get_typec_cc_orientation(void)
 			typec_cc_orientation = 0;
 		}
 		if (typec_cc_orientation != 0)
-			printk(KERN_ERR "[OPLUS_CHG][%s]: cc[%d]\n", __func__, typec_cc_orientation);
+			pr_debug(KERN_ERR "[OPLUS_CHG][%s]: cc[%d]\n", __func__, typec_cc_orientation);
 	} else {
 		typec_cc_orientation = 0;
 	}
@@ -4173,7 +4173,7 @@ static ssize_t show_StopCharging_Test(struct device *dev,struct device_attribute
 {
 	g_oplus_chip->stop_chg = false;
 	oplus_chg_turn_off_charging(g_oplus_chip);
-	printk("StopCharging_Test\n");
+	pr_debug("StopCharging_Test\n");
 	return sprintf(buf, "chr=%d\n", g_oplus_chip->stop_chg);
 }
 
@@ -4187,7 +4187,7 @@ static ssize_t show_StartCharging_Test(struct device *dev,struct device_attribut
 {
 	g_oplus_chip->stop_chg = true;
 	oplus_chg_turn_on_charging(g_oplus_chip);
-	printk("StartCharging_Test\n");
+	pr_debug("StartCharging_Test\n");
 	return sprintf(buf, "chr=%d\n", g_oplus_chip->stop_chg);
 }
 static ssize_t store_StartCharging_Test(struct device *dev,struct device_attribute *attr, const char *buf, size_t size)
@@ -4337,7 +4337,7 @@ static int oplus_charger_probe(struct platform_device *pdev)
 					default:
 						oplus_chip->chg_ops = &oplus_chg_default_ops;
 				}
-			}		
+			}
 		}
         } else {
             if (oplus_gauge_ic_chip_is_null() || oplus_vooc_check_chip_is_null()
@@ -4460,7 +4460,7 @@ static int oplus_charger_probe(struct platform_device *pdev)
 
         ret = oplus_power_supply_init(oplus_chip);
 
-        printk("oplus_charger_probe end %p, prev %p, next %p\n",
+        pr_debug("oplus_charger_probe end %p, prev %p, next %p\n",
                &oplus_chip->batt_psy->dev.power.wakeup->entry,
                oplus_chip->batt_psy->dev.power.wakeup->entry.prev,
                oplus_chip->batt_psy->dev.power.wakeup->entry.next);
@@ -4532,7 +4532,7 @@ static struct platform_driver oplus_charger_driver = {
 
 
 static int __init oplus_charger_init(void)
-{	
+{
 	return platform_driver_register(&oplus_charger_driver);
 }
 late_initcall(oplus_charger_init);

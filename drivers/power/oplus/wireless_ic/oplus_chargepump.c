@@ -73,7 +73,7 @@ static int __chargepump_read_reg(int reg, int *returnData)
 		chg_err("chargepump_ic is NULL!\n");
 		return -1;
 	}
-	
+
 	ret = i2c_smbus_read_byte_data(chip->client, (unsigned char)reg);
 
 	if (ret < 0) {
@@ -149,7 +149,7 @@ static int chargepump_config_interface(int RegNum, int val, int MASK)
 
 	mutex_lock(&chargepump_i2c_access);
 
-	
+
 	ret = __chargepump_read_reg(RegNum, &chargepump_reg);
 
 	//chg_err(" Reg[%x]=0x%x\n", RegNum, chargepump_reg);
@@ -174,8 +174,8 @@ int chargepump_set_for_otg(char enable)
 {
 #ifndef OP20A
 	int ret;
-	
-	if (chargepump_ic == NULL) {	
+
+	if (chargepump_ic == NULL) {
 		chg_err(" chargepump_ic is NULL!\n");
 		return -1;
 	}
@@ -244,15 +244,15 @@ int chargepump_set_for_otg(char enable)
 		}
 	}
 #endif
-	
+
 	return 0;
 }
 
 int chargepump_set_for_EPP(void)
 {
 	int ret;
-	
-	if (chargepump_ic == NULL) {	
+
+	if (chargepump_ic == NULL) {
 		chg_err(" chargepump_ic is NULL!\n");
 		return -1;
 	}
@@ -265,7 +265,7 @@ int chargepump_set_for_EPP(void)
 		chg_err(" write reg 0x08 error!\n");
 		return ret;
 	}
-	
+
 	msleep(20);
 	ret = chargepump_config_interface(0x01, 0x02, 0xFF);
 	if (ret) {
@@ -358,7 +358,7 @@ int chargepump_set_for_LDO(void)
 #ifndef OP20A
 	int ret;
 
-	if (chargepump_ic == NULL) {	
+	if (chargepump_ic == NULL) {
 		chg_err(" chargepump_ic is NULL!\n");
 		return -1;
 	}
@@ -392,13 +392,13 @@ int chargepump_enable_voltage_diff_detect(void)
 #ifndef OP20A
 	int ret;
 
-	if (chargepump_ic == NULL) {	
+	if (chargepump_ic == NULL) {
 		chg_err(" chargepump_ic is NULL!\n");
 		return -1;
 	}
 
 	chg_err("<~WPC~> chargepump_enable_voltage_diff_detect!\n");
-	
+
 	ret = chargepump_config_interface(0x03, 0x50, 0xFF);
 	if (ret) {
 		chg_err(" write reg 0x03 error!\n");
@@ -413,16 +413,16 @@ int chargepump_enable_watchdog(void)
 {
 #ifndef OP20A
 	int ret;
-	
+
 	chg_err("<~WPC~> chargepump_enable_watchdog!\n");
-	
+
 	ret = chargepump_config_interface(0x07, 0x98, 0xFF);
 	if (ret) {
 		chg_err(" write reg 0x07 error!\n");
 		return ret;
 	}
 #endif
-	
+
 	return 0;
 }
 
@@ -430,9 +430,9 @@ int chargepump_kick_watchdog(void)
 {
 #ifndef OP20A
 	int ret;
-		
+
 	chg_err("<~WPC~> chargepump_kick_watchdog!\n");
-		
+
 	ret = chargepump_config_interface(0x07, 0x98, 0xFF);
 	if (ret) {
 		chg_err(" write reg 0x07 error!\n");
@@ -440,16 +440,16 @@ int chargepump_kick_watchdog(void)
 	}
 #else
 	int ret;
-		
+
 	//chg_err("<~WPC~>  chargepump_kick_watchdog!\n");
-		
+
 	ret = chargepump_config_interface(0x0A, 0x71, 0xFF);
 	if (ret) {
 		chg_err(" write reg 0x0A error!\n");
 		return ret;
 	}
 #endif
-		
+
 	return 0;
 }
 
@@ -504,9 +504,9 @@ int chargepump_check_dwp_status(void)
 }
 
 void chargepump_set_chargepump_en_val(struct chip_chargepump *chip, int value)
-{    
+{
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: chargepump_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: chargepump_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -533,7 +533,7 @@ void chargepump_set_chargepump_en_val(struct chip_chargepump *chip, int value)
 				chip->chargepump_en_default);
 	}
 
-	chg_err("<~WPC~> set value:%d, gpio_val:%d\n", 
+	chg_err("<~WPC~> set value:%d, gpio_val:%d\n",
 		value, gpio_get_value(chip->chargepump_en_gpio));
 }
 
@@ -542,7 +542,7 @@ int chargepump_get_chargepump_en_val(void)
 	struct chip_chargepump *chip = chargepump_ic;
 
 	if (!chip) {
-		/*printk(KERN_ERR "[OPLUS_CHG][%s]: chargepump_ic not ready!\n", __func__);*/
+		/*pr_debug(KERN_ERR "[OPLUS_CHG][%s]: chargepump_ic not ready!\n", __func__);*/
 		return -1;
 	}
 
@@ -566,9 +566,9 @@ int chargepump_dwp_enable(void)
 {
 #ifdef OP20A
 	int ret;
-		
+
 	chg_err("<~WPC~> chargepump_dwp_enable!\n");
-		
+
 	ret = chargepump_config_interface(0x00, 0xCA, 0xFF);
 	if (ret) {
 		chg_err(" write reg 0x00 error!\n");
@@ -583,16 +583,16 @@ int chargepump_dwp_disable(void)
 {
 #ifdef OP20A
 	int ret;
-			
+
 	chg_err("<~WPC~> chargepump_dwp_disable!\n");
-			
+
 	ret = chargepump_config_interface(0x00, 0xC2, 0xFF);
 	if (ret) {
 		chg_err(" write reg 0x00 error!\n");
 		return ret;
 	}
 #endif
-	
+
 	return 0;
 }
 
@@ -601,8 +601,8 @@ int chargepump_enable(void)
 	int ret = 0;
 
 	chg_err("<~WPC~> chargepump_enable!\n");
-	
-	if (chargepump_ic != NULL) {	
+
+	if (chargepump_ic != NULL) {
 		chargepump_set_chargepump_en_val(chargepump_ic, 1);
 		chargepump_ic->is_chargepump_enable = true;
 		return ret;
@@ -617,7 +617,7 @@ int chargepump_disable(void)
 	int ret = 0;
 
 	chg_err("<~WPC~> chargepump_disable!\n");
-	
+
 	if (chargepump_ic != NULL) {
 		chargepump_set_for_otg(0);
 		chargepump_set_chargepump_en_val(chargepump_ic, 0);
@@ -643,13 +643,13 @@ void chargepump_print_log(void)
 
 #ifdef OP20A
 	chargepump_read_reg(0x04, &reg_value);
-	chg_err(" <~WPC~> chargepump 0x04: 0x%02X\n", reg_value);	
+	chg_err(" <~WPC~> chargepump 0x04: 0x%02X\n", reg_value);
 #else
 	chargepump_read_reg(0x08, &reg_value);
-	chg_err(" <~WPC~> chargepump 0x08: 0x%02X\n", reg_value);	
+	chg_err(" <~WPC~> chargepump 0x08: 0x%02X\n", reg_value);
 
 	chargepump_read_reg(0x09, &reg_value);
-	chg_err(" <~WPC~> chargepump 0x09: 0x%02X\n", reg_value);	
+	chg_err(" <~WPC~> chargepump 0x09: 0x%02X\n", reg_value);
 #endif
 
 }
@@ -662,7 +662,7 @@ int chargepump_hardware_init(void)
 static int chargepump_en_gpio_init(struct chip_chargepump *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: chip_chargepump not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: chip_chargepump not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -690,7 +690,7 @@ static int chargepump_en_gpio_init(struct chip_chargepump *chip)
 		return -EINVAL;
 	}
 
-	gpio_direction_output(chip->chargepump_en_gpio, 0);	
+	gpio_direction_output(chip->chargepump_en_gpio, 0);
 	pinctrl_select_state(chip->pinctrl, chip->chargepump_en_default);
 
 	chg_err("<~WPC~> chargepump_en_gpio: %d \n", gpio_get_value(chip->chargepump_en_gpio));
@@ -811,7 +811,7 @@ static int chargepump_pm_resume(struct device *dev)
 	if(!chip) {
 		return 0;
 	}
-	
+
 	atomic_set(&chip->chargepump_suspended, 0);
 	rc = get_current_time(&resume_tm_sec);
 	if (rc || suspend_tm_sec == -1) {
@@ -820,7 +820,7 @@ static int chargepump_pm_resume(struct device *dev)
 	} else {
 		sleep_time = resume_tm_sec - suspend_tm_sec;
 	}
-	
+
 	/*
 	if(sleep_time < 0) {
 		sleep_time = 0;
@@ -837,7 +837,7 @@ static int chargepump_pm_suspend(struct device *dev)
 	if(!chip) {
 		return 0;
 	}
-	
+
 	atomic_set(&chip->chargepump_suspended, 1);
 	if (get_current_time(&suspend_tm_sec)) {
 		chg_err("RTC read failed\n");
@@ -862,7 +862,7 @@ static int chargepump_resume(struct i2c_client *client)
 	if(!chip) {
 		return 0;
 	}
-	
+
 	atomic_set(&chip->chargepump_suspended, 0);
 	rc = get_current_time(&resume_tm_sec);
 	if (rc || suspend_tm_sec == -1) {
@@ -876,7 +876,7 @@ static int chargepump_resume(struct i2c_client *client)
 	if(sleep_time < 0) {
 		sleep_time = 0;
 	}
-	*/	
+	*/
 
 	return 0;
 }
@@ -888,13 +888,13 @@ static int chargepump_suspend(struct i2c_client *client, pm_message_t mesg)
 	if(!chip) {
 		return 0;
 	}
-	
+
 	atomic_set(&chip->chargepump_suspended, 1);
 	if (get_current_time(&suspend_tm_sec)) {
 		chg_err("RTC read failed\n");
 		suspend_tm_sec = -1;
 	}
-	
+
 	return 0;
 }
 #endif
@@ -906,7 +906,7 @@ static void chargepump_reset(struct i2c_client *client)
 
 /**********************************************************
   *
-  *   [platform_driver API] 
+  *   [platform_driver API]
   *
   *********************************************************/
 

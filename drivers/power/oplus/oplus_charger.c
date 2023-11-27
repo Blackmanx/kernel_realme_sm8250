@@ -291,7 +291,7 @@ bool oplus_chg_is_wls_fastchg_started(void)
 	}
 
 	if (!is_wls_ocm_available(chip)) {
-		/*pr_err("wls ocm not found\n");*/
+		/*pr_debug("wls ocm not found\n");*/
 		return false;
 	}
 	rc = oplus_chg_mod_get_property(chip->wls_ocm, OPLUS_CHG_PROP_FASTCHG_STATUS, &pval);
@@ -312,7 +312,7 @@ bool oplus_chg_is_wls_ffc(void)
 	}
 
 	if (!is_comm_ocm_available(chip)) {
-		/*pr_err("comm ocm not found\n");*/
+		/*pr_debug("comm ocm not found\n");*/
 		return false;
 	}
 
@@ -333,7 +333,7 @@ int oplus_chg_get_wls_type(void)
         }
 
         if (!is_wls_ocm_available(chip)) {
-                /*pr_err("wls ocm not found\n");*/
+                /*pr_debug("wls ocm not found\n");*/
                 return OPLUS_CHG_WLS_UNKNOWN;
         }
         rc = oplus_chg_mod_get_property(chip->wls_ocm, OPLUS_CHG_PROP_WLS_TYPE, &pval);
@@ -431,7 +431,7 @@ int oplus_usb_get_property(struct power_supply *psy,
 			val->intval = chip->usb_online;
 			break;
 		default:
-			pr_err("get prop %d is not supported in usb\n", psp);
+			pr_debug("get prop %d is not supported in usb\n", psp);
 			ret = -EINVAL;
 			break;
 	}
@@ -513,7 +513,7 @@ int oplus_ac_get_property(struct power_supply *psy,
 			val->intval = chip->ac_online;
 			break;
 		default:
-			pr_err("get prop %d is not supported in ac\n", psp);
+			pr_debug("get prop %d is not supported in ac\n", psp);
 			ret = -EINVAL;
 			break;
 	}
@@ -722,13 +722,13 @@ static void oplus_midas_chg_data_init(void)
 	if (oplus_vooc_get_allow_reading() == true) {
 		ret = oplus_gauge_get_passedchg(&val);
 		if (ret) {
-			pr_err("%s: get passedchg error %d\n", __FUNCTION__, val);
+			pr_debug("%s: get passedchg error %d\n", __FUNCTION__, val);
 			midas_chg.cali_passed_chg = midas_chg.passed_chg = 0;
 		} else {
 			midas_chg.cali_passed_chg = midas_chg.passed_chg = val;
 		}
 	} else {
-		pr_err("%s: not allow reading", __FUNCTION__);
+		pr_debug("%s: not allow reading", __FUNCTION__);
 	}
 }
 
@@ -752,11 +752,11 @@ static void oplus_midas_chg_processing(struct oplus_chg_chip *chip)
 	if(oplus_vooc_get_allow_reading() == true) {
 		ret = oplus_gauge_get_passedchg(&val);
 		if (ret) {
-			pr_err("%s: get passedchg error %d\n", __FUNCTION__, val);
+			pr_debug("%s: get passedchg error %d\n", __FUNCTION__, val);
 			return;
 		}
 	} else {
-		pr_err("%s: not allow reading", __FUNCTION__);
+		pr_debug("%s: not allow reading", __FUNCTION__);
 	}
 	if (midas_chg.prev_chg_stat) {
 		/* re-init passedchg after charge */
@@ -807,7 +807,7 @@ int oplus_battery_get_property(struct power_supply *psy,
 	unsigned long cur_chg_time = 0;
 
 	if (chip == NULL) {
-		pr_err("get prop %d is not ready in batt\n", psp);
+		pr_debug("get prop %d is not ready in batt\n", psp);
 		return -EINVAL;
 	}
 
@@ -946,7 +946,7 @@ int oplus_battery_get_property(struct power_supply *psy,
 			val->intval = chip->batt_fcc * 1000;
 			break;
 		default:
-			pr_err("get prop %d is not supported in batt\n", psp);
+			pr_debug("get prop %d is not supported in batt\n", psp);
 			ret = -EINVAL;
 			break;
 	}
@@ -1330,7 +1330,7 @@ static ssize_t critical_log_write(struct file *filp,
 		return -EINVAL;
 	}
 	if (copy_from_user(&write_data, buff, len)) {
-		pr_err("bat_log_write error.\n");
+		pr_debug("bat_log_write error.\n");
 		return -EFAULT;
 	}
 	/*	critical_log = atoi(write_data);*/
@@ -1340,7 +1340,7 @@ static ssize_t critical_log_write(struct file *filp,
 		write_data[len - 1] = '\0';
 	}
 	critical_log = (int)simple_strtoul(write_data, NULL, 10);
-	/*	pr_err("%s:data=%s,critical_log=%d\n",__func__,write_data,critical_log);*/
+	/*	pr_debug("%s:data=%s,critical_log=%d\n",__func__,write_data,critical_log);*/
 	if (critical_log > 256) {
 		critical_log = 256;
 	}
@@ -1368,7 +1368,7 @@ static void init_proc_critical_log(void)
 	p = proc_create("charger_critical_log", 0664, NULL,
 		&chg_critical_log_proc_fops);
 	if (!p) {
-		pr_err("proc_create chg_critical_log_proc_fops fail!\n");
+		pr_debug("proc_create chg_critical_log_proc_fops fail!\n");
 	}
 }
 
@@ -1421,7 +1421,7 @@ static void init_proc_rtc_det(void)
 
 	p = proc_create("rtc_reset", 0664, NULL, &rtc_reset_det_fops);
 	if (!p) {
-		pr_err("proc_create rtc_reset_det_fops fail!\n");
+		pr_debug("proc_create rtc_reset_det_fops fail!\n");
 	}
 }
 static ssize_t vbat_low_read(struct file *filp,
@@ -1468,7 +1468,7 @@ static void init_proc_vbat_low_det(void)
 
 	p = proc_create("vbat_low", 0664, NULL, &vbat_low_det_fops);
 	if (!p) {
-		pr_err("proc_create rtc_reset_det_fops fail!\n");
+		pr_debug("proc_create rtc_reset_det_fops fail!\n");
 	}
 }
 
@@ -2445,7 +2445,7 @@ static ssize_t proc_ui_soc_decimal_write(struct file *filp,
 	} else {
 		  chip->boot_completed = true;
 	}
-	pr_err("proc_ui_soc_decimal_write write");
+	pr_debug("proc_ui_soc_decimal_write write");
 	return len;
 }
 static ssize_t proc_ui_soc_decimal_read(struct file *filp,
@@ -2488,7 +2488,7 @@ static ssize_t proc_ui_soc_decimal_read(struct file *filp,
 	}
 
 	sprintf(read_data, "%d, %d", chip->init_decimal_ui_soc / 10, val);
-	pr_err("APK successful, %d,%d", chip->init_decimal_ui_soc / 10, val);
+	pr_debug("APK successful, %d,%d", chip->init_decimal_ui_soc / 10, val);
 	len = sprintf(page, "%s", read_data);
 
 	if (len > *off) {
@@ -2552,7 +2552,7 @@ void oplus_chg_ui_soc_decimal_init(void)
 	if (chip->batt_rm < 0) {
 		chip->batt_rm = 0;
 	}
-	pr_err("[oplus_chg_ui_soc_decimal_init]!!!soc:%d", (int)((chip->batt_rm * 100000) / chip->batt_fcc));
+	pr_debug("[oplus_chg_ui_soc_decimal_init]!!!soc:%d", (int)((chip->batt_rm * 100000) / chip->batt_fcc));
 
 	if(chip->ui_soc == 100) {
 		chip->ui_soc_integer =  chip->ui_soc  *1000;
@@ -2573,7 +2573,7 @@ void oplus_chg_ui_soc_decimal_init(void)
 		chip->ui_soc_decimal = 0;
 	}
 	chip->decimal_control = true;
-	pr_err("[oplus_chg_ui_soc_decimal_init]!!! 2VBUS ui_soc_decimal:%d", chip->ui_soc_integer + chip->ui_soc_decimal);
+	pr_debug("[oplus_chg_ui_soc_decimal_init]!!! 2VBUS ui_soc_decimal:%d", chip->ui_soc_integer + chip->ui_soc_decimal);
 
 	chip->calculate_decimal_time = 1;
 }
@@ -2588,7 +2588,7 @@ void oplus_chg_ui_soc_decimal_deinit(void)
 		}
 	}
 	chip->decimal_control = false;
-	pr_err("[oplus_chg_ui_soc_decimal_deinit] ui_soc[%d], soc[%d], smooth_soc[%d] chip->ui_soc_decimal[%d]",
+	pr_debug("[oplus_chg_ui_soc_decimal_deinit] ui_soc[%d], soc[%d], smooth_soc[%d] chip->ui_soc_decimal[%d]",
 		chip->ui_soc, chip->soc, chip->smooth_soc, chip->ui_soc_decimal);
 	chip->ui_soc_integer = 0;
 	chip->ui_soc_decimal = 0;
@@ -2642,7 +2642,7 @@ static void oplus_chg_show_ui_soc_decimal(struct work_struct *work)
 		speed = 100000 * icharging * UPDATE_TIME * chip->vbatt_num / (chip->batt_fcc * 3600);
 		if (chip->rsd.smooth_switch_v2 && chip->rsd.reserve_chg_soc)
 			speed = speed * OPLUS_FULL_SOC / (OPLUS_FULL_SOC - chip->rsd.reserve_chg_soc);
-		pr_err("[oplus_chg_show_ui_soc_decimal] icharging = %d, batt_fcc :%d", chip->icharging, chip->batt_fcc);
+		pr_debug("[oplus_chg_show_ui_soc_decimal] icharging = %d, batt_fcc :%d", chip->icharging, chip->batt_fcc);
 		if ((oplus_pps_get_adapter_type() == PPS_ADAPTER_OPLUS_V2 ) && (oplus_pps_get_support_type() == PPS_SUPPORT_2CP)) {
 			if (chip->ui_soc > chip->smooth_soc) {
 				speed = speed / 2;
@@ -2666,7 +2666,7 @@ static void oplus_chg_show_ui_soc_decimal(struct work_struct *work)
 		speed = 500;
 	}
 	chip->ui_soc_decimal += speed;
-	pr_err("[oplus_chg_ui_soc_decimal]chip->ui_soc_decimal+chip_ui_soc: %d , speed: %d, soc :%d\n ",
+	pr_debug("[oplus_chg_ui_soc_decimal]chip->ui_soc_decimal+chip_ui_soc: %d , speed: %d, soc :%d\n ",
 		(chip->ui_soc_decimal + chip->ui_soc_integer), speed , ((chip->batt_rm * 100000) / chip->batt_fcc));
 	if(chip->ui_soc_integer + chip->ui_soc_decimal >= 100000) {
 		chip->ui_soc_integer = 100000;
@@ -2703,13 +2703,13 @@ static ssize_t charging_limit_time_write(struct file *filp,
 		return -EINVAL;
 	}
 	if (copy_from_user(temp, buff, len)) {
-		pr_err("charging_limit_time_write error.\n");
+		pr_debug("charging_limit_time_write error.\n");
 		return -EFAULT;
 	}
 	sscanf(temp, "%d", &limit_time);
 	if (g_charger_chip) {
 		g_charger_chip->limits.max_chg_time_sec = limit_time;
-		printk(KERN_EMERG"charging_feature:max_chg_time_sec = %d\n",
+		pr_debug(KERN_EMERG"charging_feature:max_chg_time_sec = %d\n",
 			g_charger_chip->limits.max_chg_time_sec);
 	}
 	return len;
@@ -2754,7 +2754,7 @@ static ssize_t charging_limit_current_write(struct file *filp,
 		return -EINVAL;
 	}
 	if (copy_from_user(temp, buff, len)) {
-		pr_err("charging_limit_current_write error.\n");
+		pr_debug("charging_limit_current_write error.\n");
 		return -EFAULT;
 	}
 	sscanf(temp, "%d", &limit_current);
@@ -2762,7 +2762,7 @@ static ssize_t charging_limit_current_write(struct file *filp,
 		g_charger_chip->limits.input_current_led_ma_high = limit_current;
 		g_charger_chip->limits.input_current_led_ma_warm = limit_current;
 		g_charger_chip->limits.input_current_led_ma_normal = limit_current;
-		printk(KERN_EMERG"charging_feature:limit_current = %d\n",limit_current);
+		pr_debug(KERN_EMERG"charging_feature:limit_current = %d\n",limit_current);
 	}
 	return len;
 }
@@ -2791,12 +2791,12 @@ static void init_proc_charging_feature(void)
 	p_time = proc_create("charging_limit_time", 0664, NULL,
 			&charging_limit_time_fops);
 	if (!p_time) {
-		pr_err("proc_create charging_feature_fops fail!\n");
+		pr_debug("proc_create charging_feature_fops fail!\n");
 	}
 	p_current = proc_create("charging_limit_current", 0664, NULL,
 			&charging_limit_current_fops);
 	if (!p_current) {
-		pr_err("proc_create charging_feature_fops fail!\n");
+		pr_debug("proc_create charging_feature_fops fail!\n");
 	}
 }
 
@@ -2823,11 +2823,11 @@ int oplus_chg_get_mmi_value(void)
 	struct oplus_chg_chip *chip = g_charger_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return 1;
 	}
 	if (chip->mmi_chg == 0)
-		printk(KERN_ERR "[OPLUS_CHG][%s]: mmi_chg[%d]\n", __func__, chip->mmi_chg);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: mmi_chg[%d]\n", __func__, chip->mmi_chg);
 	return chip->mmi_chg;
 }
 
@@ -3299,7 +3299,7 @@ static int oplus_chg_track_init(struct oplus_chg_chip *chip)
 		oplus_chg_track_cool_down_match_err_load_trigger_work);
 	rc = oplus_chg_track_debugfs_init(chip);
 	if (rc < 0) {
-		pr_err("oplus chg chg debugfs init error, rc=%d\n", rc);
+		pr_debug("oplus chg chg debugfs init error, rc=%d\n", rc);
 		return rc;
 	}
 
@@ -3392,7 +3392,7 @@ int oplus_chg_init(struct oplus_chg_chip *chip)
         rc = mtk_disp_notifier_register("Oplus_Chg_v2", &chip->chg_fb_notify);
 #endif /* CONFIG_FB */
 	if (rc) {
-		pr_err("Unable to register chg_fb_notify: %d\n", rc);
+		pr_debug("Unable to register chg_fb_notify: %d\n", rc);
 	}
 
 #if IS_ENABLED(CONFIG_DRM_PANEL_NOTIFY)
@@ -3401,10 +3401,10 @@ int oplus_chg_init(struct oplus_chg_chip *chip)
 					PANEL_EVENT_NOTIFIER_CLIENT_PRIMARY_CHG, chip->active_panel,
 					&chg_panel_notifier_callback, chip);
 		if (!cookie) {
-			pr_err("Unable to register chg_panel_notifier\n");
+			pr_debug("Unable to register chg_panel_notifier\n");
 			goto err_check_functionality_failed;
 		} else {
-			pr_err("success register chg_panel_notifier\n");
+			pr_debug("success register chg_panel_notifier\n");
 			chip->notifier_cookie = cookie;
 		}
 	}
@@ -3414,10 +3414,10 @@ int oplus_chg_init(struct oplus_chg_chip *chip)
 					PANEL_EVENT_NOTIFIER_CLIENT_SECONDARY_CHG, chip->active_panel_sec,
 					&chg_panel_notifier_callback, chip);
 		if (!cookie) {
-			pr_err("Unable to register panel_sec chg_panel_notifier\n");
+			pr_debug("Unable to register panel_sec chg_panel_notifier\n");
 			goto err_check_functionality_sec_failed;
 		} else {
-			pr_err("success register panel_sec chg_panel_notifier\n");
+			pr_debug("success register panel_sec chg_panel_notifier\n");
 			chip->notifier_cookie_sec = cookie;
 		}
 	}
@@ -5844,9 +5844,9 @@ int oplus_chg_get_fv_when_vooc(struct oplus_chg_chip *chip)
 static void oplus_chg_set_iterm(struct oplus_chg_chip *chip)
 {
 	int iterm =  chip->limits.iterm_ma;
-	
+
 	if (oplus_voocphy_get_bidirect_cp_support()) {
-		iterm = 2 * iterm; 
+		iterm = 2 * iterm;
 	}
 	chip->chg_ops->term_current_set(chip->limits.iterm_ma);
 }
@@ -6877,7 +6877,7 @@ static bool oplus_chg_check_time_is_good(struct oplus_chg_chip *chip)
 {
 #ifdef SELL_MODE
 	chip->chging_over_time = false;
-	printk("oplus_chg_check_time_is_good_sell_mode\n");
+	pr_debug("oplus_chg_check_time_is_good_sell_mode\n");
 	return true;
 #endif //SELL_MODE
 
@@ -6928,7 +6928,7 @@ static int fb_notifier_callback(struct notifier_block *nb,
 			}
 			g_charger_chip->led_on_change = true;
 		} else {
-			pr_err("%s: receives wrong data EARLY_BLANK:%d\n", __func__, blank);
+			pr_debug("%s: receives wrong data EARLY_BLANK:%d\n", __func__, blank);
 		}
 	}
 	return 0;
@@ -6999,7 +6999,7 @@ static int chg_mtk_drm_notifier_callback(struct notifier_block *nb,
 			g_charger_chip->led_on = false;
 			g_charger_chip->led_on_change = true;
 		} else {
-			pr_err("%s: receives wrong data EARLY_BLANK:%d\n", __func__, blank);
+			pr_debug("%s: receives wrong data EARLY_BLANK:%d\n", __func__, blank);
 		}
 	case MTK_DISP_EVENT_BLANK:
 		if (*blank == MTK_DISP_BLANK_UNBLANK) {
@@ -7009,7 +7009,7 @@ static int chg_mtk_drm_notifier_callback(struct notifier_block *nb,
 			g_charger_chip->led_on = false;
 			g_charger_chip->led_on_change = true;
 		} else {
-			pr_err("%s: receives wrong data BLANK:%d\n", __func__, blank);
+			pr_debug("%s: receives wrong data BLANK:%d\n", __func__, blank);
 		}
 	}
 	return 0;
@@ -7438,7 +7438,7 @@ void oplus_chg_variables_reset(struct oplus_chg_chip *chip, bool in)
 				cancel_delayed_work_sync(&g_charger_chip->ui_soc_decimal_work);
 				chip->last_decimal_ui_soc = (chip->ui_soc_integer + chip->ui_soc_decimal);
 				oplus_chg_ui_soc_decimal_deinit();
-				pr_err("[oplus_chg_variables_reset]cancel last_decimal_ui_soc:%d", chip->last_decimal_ui_soc);
+				pr_debug("[oplus_chg_variables_reset]cancel last_decimal_ui_soc:%d", chip->last_decimal_ui_soc);
 			}
 			chip->calculate_decimal_time = 0;
 		}
@@ -9070,7 +9070,7 @@ static void oplus_chg_smooth_to_soc(struct oplus_chg_chip *chip)
 	static int smooth_diff =-1;
 	static int soc_pre = -1;
 	static int status = DISCHARGING_STATUS;
-	pr_err("[oplus_chg_smooth_to_soc] enter the func");
+	pr_debug("[oplus_chg_smooth_to_soc] enter the func");
 	if(chip->charger_exist && chip->batt_exist
 			&& (CHARGING_STATUS_FAIL != chip->charging_state)
 			&& chip->mmi_chg && (chip->stop_chg == 1 || chip->charger_type == 5) && status == DISCHARGING_STATUS){
@@ -9112,7 +9112,7 @@ static void oplus_chg_smooth_to_soc(struct oplus_chg_chip *chip)
 							time = 0;
 						}
 					}
-					pr_err("[oplus_chg_smooth_to_soc] smooth_soc[%d],capacity[%d],smooth_diff[%d]",chip->smooth_soc,capacity,smooth_diff);
+					pr_debug("[oplus_chg_smooth_to_soc] smooth_soc[%d],capacity[%d],smooth_diff[%d]",chip->smooth_soc,capacity,smooth_diff);
 				} else {
 					chip->smooth_soc =chip->soc;
 				}
@@ -9129,7 +9129,7 @@ static void oplus_chg_smooth_to_soc(struct oplus_chg_chip *chip)
 				chip->smooth_soc--;
 				soc_pre = chip->soc;
 			}
-			pr_err("[oplus_chg_smooth_to_soc]charging smooth_soc[%d],capacity[%d],smooth_diff[%d],soc_pre[%d]",chip->smooth_soc,capacity,smooth_diff,soc_pre);
+			pr_debug("[oplus_chg_smooth_to_soc]charging smooth_soc[%d],capacity[%d],smooth_diff[%d],soc_pre[%d]",chip->smooth_soc,capacity,smooth_diff,soc_pre);
 		} else {
 			chip->smooth_soc = chip->soc;
 		}
@@ -9840,7 +9840,7 @@ static void oplus_chg_fast_switch_check(struct oplus_chg_chip *chip)
 		return;
 	}
 
-	if (oplus_pps_get_chg_status() != PPS_NOT_SUPPORT && chip->pps_force_svooc == false 
+	if (oplus_pps_get_chg_status() != PPS_NOT_SUPPORT && chip->pps_force_svooc == false
 				&& chip->chg_ops->oplus_chg_get_pd_type() == PD_PPS_ACTIVE) {
 			return;
 	}
@@ -13630,7 +13630,7 @@ int oplus_chg_match_temp_for_chging(void)
 			g_charger_chip->subboard_temp = g_charger_chip->chg_ops->get_subboard_temp();
 			batt_temp = oplus_gauge_get_batt_temperature();
 			if (get_eng_version() == HIGH_TEMP_AGING || oplus_is_ptcrb_version()) {
-				printk(KERN_ERR "[OPLUS_CHG]CONFIG_HIGH_TEMP_VERSION enable here, \
+				pr_debug(KERN_ERR "[OPLUS_CHG]CONFIG_HIGH_TEMP_VERSION enable here, \
 					disable high tbat shutdown \n");
 				if (batt_temp > 690)
 					batt_temp = 690;
@@ -14402,7 +14402,7 @@ int oplus_chg_get_stop_chg(void)
 {
 	struct oplus_chg_chip *chip = g_charger_chip;
 	if (!chip) {
-                printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+                pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
                 return 0;
         }
 	return chip->stop_chg;
@@ -14414,7 +14414,7 @@ static void quick_mode_check(void)
 	int diff_time = 0, gain_time_ms = 0, batt_curve_current = 0, current_cool_down = 0, current_normal_cool_down = 0;
 	struct timespec ts_now;
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 	if (!chip) {

@@ -1623,7 +1623,7 @@ static int bq2560x_charging(struct charger_device *chg_dev, bool enable)
 				  !ret ? "successfully" : "failed");
 
 	ret = bq2560x_read_byte(bq, &val, BQ2560X_REG_01);
-	printk("wangtao dump charging\n");
+	pr_debug("wangtao dump charging\n");
 	bq2560x_dump_regs(bq);
 	if (!ret)
 		bq->charge_enabled = !!(val & REG01_CHG_CONFIG_MASK);
@@ -2790,7 +2790,7 @@ bool oplus_bq2560x_get_shortc_hw_gpio_status(void)
 static void oplus_mt_power_off(void)
 {
 	if (!g_oplus_chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -2798,7 +2798,7 @@ static void oplus_mt_power_off(void)
 		if(!oplus_bq2560x_check_chrdet_status())
 			kernel_power_off();
 	} else {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: ac_online is true, return!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: ac_online is true, return!\n", __func__);
 	}
 }
 
@@ -3342,7 +3342,7 @@ static int bq2560x_charger_probe(struct i2c_client *client,
 	}
 
 	first_connect = true;
-	
+
 	if (strcmp(bq->chg_dev_name, "primary_chg") == 0) {
 		schedule_delayed_work(&bq->init_work, msecs_to_jiffies(14000));
 #ifdef CONFIG_TCPC_CLASS

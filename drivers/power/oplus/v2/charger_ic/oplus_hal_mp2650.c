@@ -2163,7 +2163,7 @@ void mp2650_dump_registers(void)
 			chg_err("Couldn't  read 0x30 rc = %d\n", rc);
 		}
 
-		printk(KERN_ERR
+		pr_debug(KERN_ERR
 		       "mp2650_dump_reg: [0x%02x, 0x%02x, 0x%02x, 0x%02x], [0x%02x, 0x%02x, 0x%02x, 0x%02x], "
 		       "[0x%02x, 0x%02x, 0x%02x, 0x%02x], [0x%02x, 0x%02x, 0x%02x, 0x%02x], "
 		       "[0x%02x, 0x%02x, 0x%02x, 0x%02x], [0x%02x, 0x%02x, 0x%02x, 0x%02x], "
@@ -2433,7 +2433,7 @@ bool oplus_charger_ic_chip_is_null(void)
 static int mp2650_mps_otg_en_gpio_init(struct chip_mp2650 *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: chip_mp2650 not ready!\n",
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: chip_mp2650 not ready!\n",
 		       __func__);
 		return -EINVAL;
 	}
@@ -2577,7 +2577,7 @@ void mp2650_wireless_set_mps_otg_en_val(int value)
 {
 	struct chip_mp2650 *chip = charger_ic;
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: chip_mp2650 not ready!\n",
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: chip_mp2650 not ready!\n",
 		       __func__);
 		return;
 	}
@@ -2612,7 +2612,7 @@ int mp2650_wireless_get_mps_otg_en_val(void)
 	struct chip_mp2650 *chip = charger_ic;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: chip_mp2650 not ready!\n",
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: chip_mp2650 not ready!\n",
 		       __func__);
 		return -1;
 	}

@@ -69,13 +69,13 @@ static int op20a_init_buf[2][5] = {
 #endif
 
 #define chg_debug(fmt, ...)                                                    \
-	printk(KERN_NOTICE "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
+	pr_debug(KERN_NOTICE "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
 
 #define chg_err(fmt, ...)                                                      \
-	printk(KERN_ERR "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
+	pr_debug(KERN_ERR "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
 
 #define chg_info(fmt, ...)                                                     \
-	printk(KERN_INFO "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
+	pr_debug(KERN_INFO "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
 
 static DEFINE_MUTEX(chargepump_i2c_access);
 
@@ -378,7 +378,7 @@ int chargepump_set_for_LDO(void)
 void chargepump_set_chargepump_en_val(struct chip_chargepump *chip, int value)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OP_CHG][%s]: chargepump_ic not ready!\n",
+		pr_debug(KERN_ERR "[OP_CHG][%s]: chargepump_ic not ready!\n",
 		       __func__);
 		return;
 	}
@@ -489,7 +489,7 @@ int chargepump_hardware_init(void)
 static int chargepump_en_gpio_init(struct chip_chargepump *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OP_CHG][%s]: chip_chargepump not ready!\n",
+		pr_debug(KERN_ERR "[OP_CHG][%s]: chip_chargepump not ready!\n",
 		       __func__);
 		return -EINVAL;
 	}

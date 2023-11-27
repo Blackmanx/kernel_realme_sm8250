@@ -1336,7 +1336,7 @@ void fg_custom_init_from_header(void)
             fg_cust_data.r_charger_1 = R_CHARGER_1;
         }
 	}
-    printk("fg_cust_data.r_charger_1 =%d\n",fg_cust_data.r_charger_1);
+    pr_debug("fg_cust_data.r_charger_1 =%d\n",fg_cust_data.r_charger_1);
 	#else /*OPLUS_FEATURE_CHG_BASIC*/
 		fg_cust_data.r_charger_1 = R_CHARGER_1;
 	#endif /*OPLUS_FEATURE_CHG_BASIC*/
@@ -2468,7 +2468,7 @@ int force_get_tbat(bool update)
 	if (bat_temperature_val <= BATTERY_TMP_TO_DISABLE_NAFG) {
 		ntc_disable_nafg = true;
 		bm_err("[force_get_tbat] ntc_disable_nafg %d %d\n", bat_temperature_val,
-			DEFAULT_BATTERY_TMP_WHEN_DISABLE_NAFG);	
+			DEFAULT_BATTERY_TMP_WHEN_DISABLE_NAFG);
 		#ifndef OPLUS_FEATURE_CHG_BASIC
 		return DEFAULT_BATTERY_TMP_WHEN_DISABLE_NAFG;
 		#else
@@ -2573,7 +2573,7 @@ int lk_vbatt;
 static int oplus_get_lk_vbatt(char *oplus_vbatt_char)
 {
 	sscanf(oplus_vbatt_char, "%d", &lk_vbatt);
-	printk(KERN_ERR "lk_vbatt=%d\n", lk_vbatt);
+	pr_debug(KERN_ERR "lk_vbatt=%d\n", lk_vbatt);
 
 	return 1;
 }
@@ -5535,12 +5535,12 @@ static long compat_adc_cali_ioctl(struct file *filp, unsigned int cmd, unsigned 
 	case Get_META_BAT_CAR_TUNE_VALUE:
 	case Set_META_BAT_CAR_TUNE_VALUE:
 	case Set_BAT_DISABLE_NAFG:
-		 
+
 #ifdef OPLUS_FEATURE_CHG_BASIC
 	case Get_FakeOff_Param:
 	case Turn_Off_Charging:
 #endif /*OPLUS_FEATURE_CHG_BASIC*/
-	
+
 	case Set_CARTUNE_TO_KERNEL: {
 		bm_notice("compat_adc_cali_ioctl send to unlocked_ioctl cmd=0x%08x\n", cmd);
 		return filp->f_op->unlocked_ioctl(filp, cmd, (unsigned long)compat_ptr(arg));
@@ -5802,7 +5802,7 @@ static long adc_cali_ioctl(struct file *file, unsigned int cmd, unsigned long ar
 			fakeoff_out_data[2] = 0;
 		}
 		fakeoff_out_data[3] = oplus_chg_show_vooc_logo_ornot();
-		
+
 		if(is_vooc_project()){
 			fakeoff_out_data[4] = oplus_get_charger_chip_st();
 		}else{
@@ -5811,7 +5811,7 @@ static long adc_cali_ioctl(struct file *file, unsigned int cmd, unsigned long ar
 			else
 				fakeoff_out_data[4] = 0;
 		}
-		
+
 		ret = copy_to_user(user_data_addr, fakeoff_out_data, 20);
 		bm_err("ioctl : Get_FakeOff_Param:ui_soc:%d, g_NotifyFlag:%d,chr_det:%d,fast_chg = %d\n",fakeoff_out_data[0],fakeoff_out_data[1],fakeoff_out_data[2],fakeoff_out_data[3]);
 		break;
@@ -5870,9 +5870,9 @@ int oplus_fuelgauged_init_flag = 0;
 void dis_GM3_SRC_SEL(void)
 {
          unsigned int reset_sel;
- 
+
          reset_sel = pmic_get_register_value(PMIC_RG_FGADC_RST_SRC_SEL);
- 
+
          if (reset_sel == 1) {
                    pmic_set_register_value(PMIC_RG_FGADC_RST_SRC_SEL, 0);
                    bm_err("DISABLE GM3! set PMIC_RG_FGADC_RST_SRC_SEL to 0\n");
@@ -5895,7 +5895,7 @@ static int mtk_usb_get_property(struct power_supply *psy,
         int ret = 0;
 
 	    ret = oplus_usb_get_property(psy, psp, val);
-		
+
         return ret;
 }
 
@@ -5905,7 +5905,7 @@ static int mtk_usb_property_is_writeable(struct power_supply *psy,
         int ret = 0;
 
 	    ret = oplus_usb_property_is_writeable(psy, psp, val);
-		
+
         return ret;
 }
 
@@ -5914,9 +5914,9 @@ static int mtk_usb_set_property(struct power_supply *psy,
         const union power_supply_propval *val)
 {
         int ret = 0;
-		
+
 	    ret = oplus_usb_set_property(psy, psp, val);
-		
+
         return ret;
 }
 
@@ -5948,9 +5948,9 @@ static int mtk_ac_get_property(struct power_supply *psy,
         union power_supply_propval *val)
 {
         int ret = 0;
-        
+
 		rc = oplus_ac_get_property(psy, psp, val);
-        
+
         return ret;
 }
 
@@ -5963,14 +5963,14 @@ static void oplus_chg_ac_psy_init(struct oplus_chg_chip *chip)
 		chip->ac_psd.num_properties = ARRAY_SIZE(mtk_ac_props);
 		chip->ac_psd.get_property = mtk_ac_get_property;
 		chip->ac_cfg.drv_data = chip->dev;
-        
+
 		chip->ac_psy = power_supply_register(chip->dev, &chip->ac_psd, NULL);
 	    if (IS_ERR(chip->ac_psy)) {
 	           dev_err(chip->dev, "power supply register dc_psy failed.\n");
 	          return -1;
 	    }
 
-        
+
 }
 
 static enum power_supply_property mtk_battery_props[] = {
@@ -6031,7 +6031,7 @@ static int mtk_battery_property_is_writeable(struct power_supply *psy,
         int rc = 0;
 
         rc = oplus_battery_property_is_writeable(psy, psp);
-         
+
         return rc;
 }
 
@@ -6040,9 +6040,9 @@ static int mtk_battery_set_property(struct power_supply *psy,
         const union power_supply_propval *val)
 {
         int ret = 0;
-        
+
         ret = oplus_battery_set_property(psy, prop, val);
-        
+
         return ret;
 }
 
@@ -6059,7 +6059,7 @@ static int mtk_battery_get_property(struct power_supply *psy,
                 break;
             default:
                 ret = oplus_battery_get_property(psy, psp, val);
-                break;        
+                break;
         }
 
         return ret;
@@ -6093,8 +6093,8 @@ static int oplus_power_supply_init(struct oplus_chg_chip *chip)
     if (rc < 0) {
         pr_err("Couldn't initialize usb psy rc=%d\n", rc);
        return rc;
-    } 
-    
+    }
+
     rc = oplus_chg_ac_psy_init(chip);
     if (rc < 0) {
         pr_err("Couldn't initialize ac psy rc=%d\n", rc);
@@ -6169,7 +6169,7 @@ static int __init battery_probe(struct platform_device *dev)
             gDisableGM30 = 1;
             fg_custom_init_from_header();
         }
-		
+
 		//return 0;
 	}
 #endif /*OPLUS_FEATURE_CHG_BASIC*/
@@ -6240,8 +6240,8 @@ static int __init battery_probe(struct platform_device *dev)
     if (ret < 0) {
            pr_err("Couldn't initialize power supply psy rc=%d\n", rc);
            goto psy_reg_failed;
-    } 
-    
+    }
+
     chip->chg_ops = &(oplus_get_chg_ops());
     g_charger_chip = chip;
 	oplus_chg_parse_dt(chip);
@@ -6399,7 +6399,7 @@ static int __init battery_probe(struct platform_device *dev)
 	sw_iavg_init();
 
 	return 0;
-#ifdef OPLUS_FEATURE_CHG_BASIC	
+#ifdef OPLUS_FEATURE_CHG_BASIC
 psy_reg_failed:
     if (chip->ac_psy)
 		power_supply_unregister(chip->ac_psy);
@@ -6407,10 +6407,10 @@ psy_reg_failed:
 		power_supply_unregister(chip->usb_psy);
     if (chip->batt_psy)
         power_supply_unregister(chip->batt_psy);
-    
+
     charger_xlog_printk(CHG_LOG_CRTI, " Failed\n");
-    return rc;    
-#endif	
+    return rc;
+#endif
 }
 
 struct platform_device battery_device = {
@@ -6514,13 +6514,13 @@ int oplus_get_rtc_ui_soc(void)
 {
 	int rtc_ui_soc;
 	gauge_dev_get_rtc_ui_soc(gauge_dev, &rtc_ui_soc);
-  	printk("oplus_get_rtc_ui_soc =%d\n",rtc_ui_soc);
+  	pr_debug("oplus_get_rtc_ui_soc =%d\n",rtc_ui_soc);
 	return rtc_ui_soc;
 }
 int oplus_set_rtc_ui_soc(int value)
 {
 	gauge_dev_set_rtc_ui_soc(gauge_dev, value);
-  	printk("oplus_set_rtc_ui_soc =%d\n",value);
+  	pr_debug("oplus_set_rtc_ui_soc =%d\n",value);
 	return value;
 }
 #endif
@@ -6588,7 +6588,7 @@ static int battery_dts_probe(struct platform_device *dev)
 	check_isevb_dtsi(dev);
 	fg_custom_init_from_dts(dev);
 
-	
+
 #ifdef OPLUS_FEATURE_CHG_BASIC
 	if (is_recovery_mode() && !is_project(OPLUS_17197) && ( !is_project(OPLUS_18311) ||  (get_Operator_Version() == OPERATOR_18328_ASIA_SIMPLE_NORMALCHG)) ) {
 		battery_recovery_init();
@@ -6683,30 +6683,30 @@ static int battery_type_check(void)
 	int channel = BAT_ID;
 	int battery_type = BAT_TYPE__UNKNOWN;
 	if (IMM_IsAdcInitReady() == 0) {
-		printk(KERN_ERR "[battery_type_check]: AUXADC is not ready\n");
+		pr_debug(KERN_ERR "[battery_type_check]: AUXADC is not ready\n");
 		return 0;
 	}
 	 i = times;
 	 while (i--) {
-	 	printk("IMM_GetOneChannelValue start\n");
+	 	pr_debug("IMM_GetOneChannelValue start\n");
 		ret = IMM_GetOneChannelValue(channel, data, &ret_value);
- 		printk(KERN_ERR "[battery_type_check]: ret = %d,ret_value[%d]\n", ret,ret_value);
+ 		pr_debug(KERN_ERR "[battery_type_check]: ret = %d,ret_value[%d]\n", ret,ret_value);
 		if (ret == 0) {
 			value += ret_value;
 		} else {
 			 times = times > 1 ? times - 1 : 1;
-			 printk(KERN_ERR "[battery_type_check]: ret[%d], times[%d]\n", ret, times);
+			 pr_debug(KERN_ERR "[battery_type_check]: ret[%d], times[%d]\n", ret, times);
 		 }
 	 }
 	value = value * 1500 / 4096;
 	value = value / times;
-	printk(KERN_ERR "[battery_value= %d\n", value);
+	pr_debug(KERN_ERR "[battery_value= %d\n", value);
 	if(is_project(OPLUS_17331) || is_project(OPLUS_17061) || is_project(OPLUS_17175)  || (get_Operator_Version() == OPERATOR_18328_ASIA_SIMPLE_NORMALCHG)){
 		g_fg_battery_id = 1;
 		if(is_project(OPLUS_17061)){
 			g_fg_battery_id = 3;
 		}
-		
+
 		if (value >= 790 && value <= 1100) {
 			battery_type = BAT_TYPE__ATL_4400mV;
 			g_fg_battery_id = 0;
@@ -6730,7 +6730,7 @@ static int battery_type_check(void)
 		}
 	}
 
-	printk(KERN_ERR "[battery_type_check]: adc_value[%d], battery_type[%d],g_fg_battery_id[%d]\n", value, battery_type, g_fg_battery_id);
+	pr_debug(KERN_ERR "[battery_type_check]: adc_value[%d], battery_type[%d],g_fg_battery_id[%d]\n", value, battery_type, g_fg_battery_id);
 	return battery_type;
 }
 

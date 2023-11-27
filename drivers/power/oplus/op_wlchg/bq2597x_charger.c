@@ -47,13 +47,13 @@
 #define BQ25970_ROLE_MASTER 2
 
 #define chg_debug(fmt, ...)                                                    \
-	printk(KERN_NOTICE "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
+	pr_debug(KERN_NOTICE "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
 
 #define chg_err(fmt, ...)                                                      \
-	printk(KERN_ERR "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
+	pr_debug(KERN_ERR "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
 
 #define chg_info(fmt, ...)                                                     \
-	printk(KERN_INFO "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
+	pr_debug(KERN_INFO "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
 
 enum {
 	BQ25970_STDALONE,
@@ -131,39 +131,39 @@ static int bq2597x_wl_mode_data[] = {
 #define bq_err(fmt, ...)                                                       \
 	do {                                                                   \
 		if (bq->mode == BQ25970_ROLE_MASTER)                           \
-			printk(KERN_ERR "[bq2597x-wl-MASTER]:%s:" fmt, __func__,  \
+			pr_debug(KERN_ERR "[bq2597x-wl-MASTER]:%s:" fmt, __func__,  \
 			       ##__VA_ARGS__);                                 \
 		else if (bq->mode == BQ25970_ROLE_SLAVE)                       \
-			printk(KERN_ERR "[bq2597x-wl-SLAVE]:%s:" fmt, __func__,   \
+			pr_debug(KERN_ERR "[bq2597x-wl-SLAVE]:%s:" fmt, __func__,   \
 			       ##__VA_ARGS__);                                 \
 		else                                                           \
-			printk(KERN_ERR "[bq2597x-wl-STANDALONE]:%s:" fmt,        \
+			pr_debug(KERN_ERR "[bq2597x-wl-STANDALONE]:%s:" fmt,        \
 			       __func__, ##__VA_ARGS__);                       \
 	} while (0)
 
 #define bq_info(fmt, ...)                                                      \
 	do {                                                                   \
 		if (bq->mode == BQ25970_ROLE_MASTER)                           \
-			printk(KERN_INFO "[bq2597x-wl-MASTER]:%s:" fmt, __func__, \
+			pr_debug(KERN_INFO "[bq2597x-wl-MASTER]:%s:" fmt, __func__, \
 			       ##__VA_ARGS__);                                 \
 		else if (bq->mode == BQ25970_ROLE_SLAVE)                       \
-			printk(KERN_INFO "[bq2597x-wl-SLAVE]:%s:" fmt, __func__,  \
+			pr_debug(KERN_INFO "[bq2597x-wl-SLAVE]:%s:" fmt, __func__,  \
 			       ##__VA_ARGS__);                                 \
 		else                                                           \
-			printk(KERN_INFO "[bq2597x-wl-STANDALONE]:%s:" fmt,       \
+			pr_debug(KERN_INFO "[bq2597x-wl-STANDALONE]:%s:" fmt,       \
 			       __func__, ##__VA_ARGS__);                       \
 	} while (0)
 
 #define bq_dbg(fmt, ...)                                                       \
 	do {                                                                   \
 		if (bq->mode == BQ25970_ROLE_MASTER)                           \
-			printk(KERN_DEBUG "[bq2597x-wl-MASTER]:%s:" fmt,          \
+			pr_debug(KERN_DEBUG "[bq2597x-wl-MASTER]:%s:" fmt,          \
 			       __func__, ##__VA_ARGS__);                       \
 		else if (bq->mode == BQ25970_ROLE_SLAVE)                       \
-			printk(KERN_DEBUG "[bq2597x-wl-SLAVE]:%s:" fmt, __func__, \
+			pr_debug(KERN_DEBUG "[bq2597x-wl-SLAVE]:%s:" fmt, __func__, \
 			       ##__VA_ARGS__);                                 \
 		else                                                           \
-			printk(KERN_DEBUG "[bq2597x-wl-STANDALONE]:%s:" fmt,      \
+			pr_debug(KERN_DEBUG "[bq2597x-wl-STANDALONE]:%s:" fmt,      \
 			       __func__, ##__VA_ARGS__);                       \
 	} while (0)
 

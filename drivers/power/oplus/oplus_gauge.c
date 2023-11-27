@@ -81,7 +81,7 @@ int oplus_gauge_get_batt_mvolts(void)
 		return 3800;
 	} else {
 	 	if (gauge_dbg_vbat != 0) {
-        	printk(KERN_ERR "[OPLUS_CHG]%s:debug enabled,voltage gauge_dbg_vbat[%d] \n",  __func__, gauge_dbg_vbat);
+        	pr_debug(KERN_ERR "[OPLUS_CHG]%s:debug enabled,voltage gauge_dbg_vbat[%d] \n",  __func__, gauge_dbg_vbat);
 			return gauge_dbg_vbat;
 			}
 		return g_gauge_chip->gauge_ops->get_battery_mvolts();
@@ -241,7 +241,7 @@ int oplus_gauge_get_batt_temperature(void)
 		return 250;
 	} else {
 		if (gauge_dbg_tbat != 0 || sub_gauge_dbg_tbat != 0) {
-			printk(KERN_ERR "[OPLUS_CHG]debug enabled, gauge_dbg_tbat[%d],  sub_gauge_dbg_ibat[%d]\n",
+			pr_debug(KERN_ERR "[OPLUS_CHG]debug enabled, gauge_dbg_tbat[%d],  sub_gauge_dbg_ibat[%d]\n",
 					gauge_dbg_tbat, sub_gauge_dbg_tbat);
 			return gauge_dbg_tbat != 0 ? gauge_dbg_tbat : sub_gauge_dbg_tbat;
 			}
@@ -250,7 +250,7 @@ int oplus_gauge_get_batt_temperature(void)
 #ifndef CONFIG_DISABLE_OPLUS_FUNCTION
 		if (get_eng_version() == HIGH_TEMP_AGING ||
 		    oplus_is_ptcrb_version()) {
-			printk(KERN_ERR "[OPLUS_CHG]CONFIG_HIGH_TEMP_VERSION enable here, \
+			pr_debug(KERN_ERR "[OPLUS_CHG]CONFIG_HIGH_TEMP_VERSION enable here, \
 					disable high tbat shutdown \n");
 			if (batt_temp > 690)
 				batt_temp = 690;
@@ -290,7 +290,7 @@ int oplus_gauge_get_batt_soc(void)
 			if (soc_remainder != 0) {
 				soc = soc + 1;
 			}
-			printk(KERN_ERR "batt_soc:%d,  sub_batt_soc:%d, soc_remainder:%d, soc:%d,\n",
+			pr_debug(KERN_ERR "batt_soc:%d,  sub_batt_soc:%d, soc_remainder:%d, soc:%d,\n",
 					batt_soc, sub_batt_soc, soc_remainder, soc);
 			return soc;
 		}
@@ -303,7 +303,7 @@ int oplus_gauge_get_batt_current(void)
 		return 100;
 	} else {
 		if (gauge_dbg_ibat != 0) {
-        	printk(KERN_ERR "[OPLUS_CHG]debug enabled,current gauge_dbg_ibat[%d] \n", gauge_dbg_ibat);
+        	pr_debug(KERN_ERR "[OPLUS_CHG]debug enabled,current gauge_dbg_ibat[%d] \n", gauge_dbg_ibat);
 			return gauge_dbg_ibat;
 			}
 		return g_gauge_chip->gauge_ops->get_average_current();
@@ -413,7 +413,7 @@ bool oplus_gauge_get_batt_hmac(void)
 
 bool oplus_gauge_get_batt_external_hmac(void)
 {
-	printk(KERN_ERR "[OPLUS_CHG]%s:oplus_gauge_get_batt_external_hmac \n",  __func__);
+	pr_debug(KERN_ERR "[OPLUS_CHG]%s:oplus_gauge_get_batt_external_hmac \n",  __func__);
 	if (!g_external_auth_chip) {
 		return false;
 	}
@@ -426,7 +426,7 @@ bool oplus_gauge_get_batt_external_hmac(void)
 
 int oplus_gauge_start_test_external_hmac(int count)
 {
-	printk(KERN_ERR "[OPLUS_CHG]%s:oplus_gauge_start_test_external_hmac \n",  __func__);
+	pr_debug(KERN_ERR "[OPLUS_CHG]%s:oplus_gauge_start_test_external_hmac \n",  __func__);
 	if (!g_external_auth_chip) {
 		return false;
 	} else  {
@@ -436,7 +436,7 @@ int oplus_gauge_start_test_external_hmac(int count)
 
 int oplus_gauge_get_external_hmac_test_result(int *count_total, int *count_now, int *fail_count)
 {
-	printk(KERN_ERR "[OPLUS_CHG]%s:oplus_gauge_get_hmac_test_result \n",  __func__);
+	pr_debug(KERN_ERR "[OPLUS_CHG]%s:oplus_gauge_get_hmac_test_result \n",  __func__);
 	if (!g_external_auth_chip) {
 		return false;
 	} else  {
@@ -447,7 +447,7 @@ int oplus_gauge_get_external_hmac_test_result(int *count_total, int *count_now, 
 int oplus_gauge_get_external_hmac_status(int *status, int *fail_count, int *total_count,
 		int *real_fail_count, int *real_total_count)
 {
-	printk(KERN_ERR "[OPLUS_CHG]%s:oplus_gauge_get_hmac_status \n",  __func__);
+	pr_debug(KERN_ERR "[OPLUS_CHG]%s:oplus_gauge_get_hmac_status \n",  __func__);
 	if (!g_external_auth_chip) {
 		return false;
 	} else  {
@@ -527,7 +527,7 @@ int oplus_gauge_get_prev_batt_mvolts(void)
 		return 3800;
 	else {
 		if (gauge_dbg_vbat != 0) {
-			printk(KERN_ERR "[OPLUS_CHG]%s:debug enabled,voltage gauge_dbg_vbat[%d] \n",  __func__, gauge_dbg_vbat);
+			pr_debug(KERN_ERR "[OPLUS_CHG]%s:debug enabled,voltage gauge_dbg_vbat[%d] \n",  __func__, gauge_dbg_vbat);
 			return gauge_dbg_vbat;
 		}
 		return g_gauge_chip->gauge_ops->get_prev_battery_mvolts();
@@ -540,7 +540,7 @@ int oplus_gauge_get_prev_batt_mvolts_2cell_max(void)
 		return 3800;
 	else {
 		if (gauge_dbg_vbat != 0) {
-		    printk(KERN_ERR "[OPLUS_CHG]%s: debug enabled,voltage gauge_dbg_vbat[%d] \n", __func__, gauge_dbg_vbat);
+		    pr_debug(KERN_ERR "[OPLUS_CHG]%s: debug enabled,voltage gauge_dbg_vbat[%d] \n", __func__, gauge_dbg_vbat);
 		    return gauge_dbg_vbat;
 		}
 		return g_gauge_chip->gauge_ops->get_prev_battery_mvolts_2cell_max();
@@ -553,7 +553,7 @@ int oplus_gauge_get_prev_batt_mvolts_2cell_min(void)
 		return 3800;
 	else {
 		if (gauge_dbg_vbat != 0) {
-			printk(KERN_ERR "[OPLUS_CHG]%s:debug enabled,voltage gauge_dbg_vbat[%d] \n",  __func__, gauge_dbg_vbat);
+			pr_debug(KERN_ERR "[OPLUS_CHG]%s:debug enabled,voltage gauge_dbg_vbat[%d] \n",  __func__, gauge_dbg_vbat);
 			return gauge_dbg_vbat;
 		}
 		return g_gauge_chip->gauge_ops->get_prev_battery_mvolts_2cell_min();
@@ -567,7 +567,7 @@ int oplus_gauge_get_prev_batt_temperature(void)
 		return 250;
 	else {
 		if (gauge_dbg_tbat != 0) {
-			printk(KERN_ERR "[OPLUS_CHG]%s: debug enabled, gauge_dbg_tbat[%d] \n", __func__, gauge_dbg_tbat);
+			pr_debug(KERN_ERR "[OPLUS_CHG]%s: debug enabled, gauge_dbg_tbat[%d] \n", __func__, gauge_dbg_tbat);
 			return gauge_dbg_tbat;
 		}
 		batt_temp = g_gauge_chip->gauge_ops->get_prev_battery_temperature();
@@ -575,7 +575,7 @@ int oplus_gauge_get_prev_batt_temperature(void)
 #ifndef CONFIG_DISABLE_OPLUS_FUNCTION
 		if (get_eng_version() == HIGH_TEMP_AGING ||
 		    oplus_is_ptcrb_version()) {
-			printk(KERN_ERR "[OPLUS_CHG]CONFIG_HIGH_TEMP_VERSION enable here, \
+			pr_debug(KERN_ERR "[OPLUS_CHG]CONFIG_HIGH_TEMP_VERSION enable here, \
 			disable high tbat shutdown \n");
 			if (batt_temp > 690)
 				batt_temp = 690;
@@ -599,7 +599,7 @@ int oplus_gauge_get_prev_batt_current(void)
 		return 100;
 	else {
 		if (gauge_dbg_ibat != 0) {
-			printk(KERN_ERR "[OPLUS_CHG]%s:debug enabled,current gauge_dbg_ibat[%d] \n", __func__, gauge_dbg_ibat);
+			pr_debug(KERN_ERR "[OPLUS_CHG]%s:debug enabled,current gauge_dbg_ibat[%d] \n", __func__, gauge_dbg_ibat);
 			return gauge_dbg_ibat;
 		}
 		return g_gauge_chip->gauge_ops->get_prev_average_current();
@@ -746,7 +746,7 @@ int oplus_gauge_get_sub_batt_mvolts(void)
 		return 3800;
 	} else {
 	 	if (sub_gauge_dbg_vbat != 0) {
-			printk(KERN_ERR "[OPLUS_CHG]%s:debug enabled,voltage sub_gauge_dbg_vbat[%d] \n",  __func__, sub_gauge_dbg_vbat);
+			pr_debug(KERN_ERR "[OPLUS_CHG]%s:debug enabled,voltage sub_gauge_dbg_vbat[%d] \n",  __func__, sub_gauge_dbg_vbat);
 			return sub_gauge_dbg_vbat;
 			}
 		return g_sub_gauge_chip->gauge_ops->get_battery_mvolts();
@@ -760,7 +760,7 @@ int oplus_gauge_get_sub_batt_current(void)
 		return 100;
 	} else {
 		if (sub_gauge_dbg_ibat != 0) {
-			printk(KERN_ERR "[OPLUS_CHG]debug enabled,current sub_gauge_dbg_ibat[%d] \n", sub_gauge_dbg_ibat);
+			pr_debug(KERN_ERR "[OPLUS_CHG]debug enabled,current sub_gauge_dbg_ibat[%d] \n", sub_gauge_dbg_ibat);
 			return sub_gauge_dbg_ibat;
 			}
 		return g_sub_gauge_chip->gauge_ops->get_average_current();
@@ -799,7 +799,7 @@ int oplus_gauge_get_sub_batt_temperature(void)
 		return 250;
 	} else {
 		if (sub_gauge_dbg_tbat != 0 || gauge_dbg_tbat != 0) {
-			printk(KERN_ERR "[OPLUS_CHG]debug enabled, gauge_dbg_tbat[%d],  sub_gauge_dbg_ibat[%d]\n",
+			pr_debug(KERN_ERR "[OPLUS_CHG]debug enabled, gauge_dbg_tbat[%d],  sub_gauge_dbg_ibat[%d]\n",
 					gauge_dbg_tbat, sub_gauge_dbg_tbat);
 			return sub_gauge_dbg_tbat != 0 ? sub_gauge_dbg_tbat : gauge_dbg_tbat;
 			}
@@ -808,7 +808,7 @@ int oplus_gauge_get_sub_batt_temperature(void)
 #ifndef CONFIG_DISABLE_OPLUS_FUNCTION
 		if (get_eng_version() == HIGH_TEMP_AGING ||
 		    oplus_is_ptcrb_version()) {
-			printk(KERN_ERR "[OPLUS_CHG]CONFIG_HIGH_TEMP_VERSION enable here, \
+			pr_debug(KERN_ERR "[OPLUS_CHG]CONFIG_HIGH_TEMP_VERSION enable here, \
 					disable high tbat shutdown \n");
 			if (batt_temp > 690)
 				batt_temp = 690;

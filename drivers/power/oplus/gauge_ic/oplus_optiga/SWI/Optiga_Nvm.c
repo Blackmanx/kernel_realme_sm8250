@@ -169,7 +169,7 @@ BOOL Nvm_ProgramData( BOOL b_WaitForFinish, BOOL b_VerifyData, uint16_t uw_Addre
                 start address to read data from NVM.
               IN: ub_BytesToRead
                 number of bytes to read from NVM.
-              OUT: * ubp_Data 
+              OUT: * ubp_Data
                 pointer to buffer to store read data into.
    output:    bool
 
@@ -211,7 +211,7 @@ BOOL Nvm_ReadData( uint16_t uw_Address, uint8_t ub_BytesToRead, uint8_t * ubp_Da
 			/* check for timeout */
 			if( ulNvmTimeOut == 0u )
 			{
-			    printk(" Nvm_ReadData ulNvmTimeOut 01\n");
+			    pr_debug(" Nvm_ReadData ulNvmTimeOut 01\n");
 				return FALSE;
 			}
 			ulNvmTimeOut--;
@@ -234,7 +234,7 @@ BOOL Nvm_ReadData( uint16_t uw_Address, uint8_t ub_BytesToRead, uint8_t * ubp_Da
 			/* check for timeout */
 			if( ulNvmTimeOut == 0u )
 			{
-				printk(" Nvm_ReadData ulNvmTimeOut 02\n");
+				pr_debug(" Nvm_ReadData ulNvmTimeOut 02\n");
 				return FALSE;
 			}
 			ulNvmTimeOut--;
@@ -309,7 +309,7 @@ BOOL Nvm_DecreaseLifeSpanCounter( void )
    function:  check that the LifeSpanCounter is within a valid nuber range
 
    input:     OUT: * bp_IsValid
-                pointer to bool to store verification state of the 
+                pointer to bool to store verification state of the
                 LifeSpanCounter into.
    output:    bool
 
@@ -428,7 +428,7 @@ BOOL Nvm_ReadLockNVM( uint8_t * ubp_PageNumber )
 
 //burst read
 
-static uint16_t Nvm_IsReady(void) 
+static uint16_t Nvm_IsReady(void)
 {
 	uint16_t ret = APP_NVM_INIT;
 	uint8_t ubData = 0;
@@ -475,16 +475,16 @@ uint16_t Nvm_ReadODC(uint8_t *ubODC, uint8_t *ubPUBKEY, NVM_OPS ReadMode)
 
 	uint16_t ret = INF_SWI_INIT;
 	uint8_t j;
-	unsigned long flags; 
+	unsigned long flags;
 	struct oplus_optiga_chip * optiga_chip_info = oplus_get_optiga_info();
 
 	if (ReadMode != NVM_BURST_BYTE_READ) {
 		ret = INF_SWI_E_READ_TYPE;
 		return ret;
 	}
- 
+
 	for (j = 0; j < (NVM_ODC_PAGE_COUNT + NVM_PUK_PAGE_COUNT); j++) { /*!< Read 9 pages from NVM, starting from page 23 */
-		printk(" Nvm_ReadODC start  j =%d\n", j);
+		pr_debug(" Nvm_ReadODC start  j =%d\n", j);
 		spin_lock_irqsave(&optiga_chip_info->slock, flags);
 
 		if (ret != INF_SWI_SUCCESS) {
@@ -509,7 +509,7 @@ uint16_t Nvm_ReadODC(uint8_t *ubODC, uint8_t *ubPUBKEY, NVM_OPS ReadMode)
 		}
 
 		spin_unlock_irqrestore(&optiga_chip_info->slock, flags);
-		printk(" Nvm_ReadODC end  j =%d\n", j);
+		pr_debug(" Nvm_ReadODC end  j =%d\n", j);
 #ifdef BURST_READ_INTERVAL
 		usleep_range(5000, 5000);
 #endif

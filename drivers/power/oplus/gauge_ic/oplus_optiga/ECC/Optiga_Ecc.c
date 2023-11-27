@@ -162,10 +162,10 @@ BOOL Ecc_DoAuthenticationEnhanced(uint8_t *gf2nUid )
 		if( Ecc_ReadODC (gf2nODC_first, gf2nPublicKey_first) == FALSE)
 #endif
 		{
-			printk(" Ecc_DoAuthenticationEnhanced  Ecc_ReadODC\n");
+			pr_debug(" Ecc_DoAuthenticationEnhanced  Ecc_ReadODC\n");
 			return FALSE;
 		}
-	} 
+	}
 
 	for(j=0; j<12; j++)
 	{
@@ -180,7 +180,7 @@ BOOL Ecc_DoAuthenticationEnhanced(uint8_t *gf2nUid )
 
 	if( Ecc_VerifyODC (gf2nODC, gf2nPublicKey, uid) == FALSE)
 	{
-		printk(" Ecc_DoAuthenticationEnhanced  Ecc_VerifyODC fail\n");
+		pr_debug(" Ecc_DoAuthenticationEnhanced  Ecc_VerifyODC fail\n");
 		return FALSE;
 	}
 
@@ -208,7 +208,7 @@ BOOL Ecc_DoAuthenticationEnhanced(uint8_t *gf2nUid )
 
 	if( Ecc_StartECC( gf2nChallenge, gf2nReturnX, gf2nReturnZ, TRUE, MODE_ECCE ) == FALSE )
 	{
-		printk(" Ecc_DoAuthenticationEnhanced  Ecc_StartECC\n");
+		pr_debug(" Ecc_DoAuthenticationEnhanced  Ecc_StartECC\n");
 		return FALSE;
 	}
 
@@ -218,7 +218,7 @@ BOOL Ecc_DoAuthenticationEnhanced(uint8_t *gf2nUid )
 	}
 
 	readdoc_done = TRUE;
-	printk(" Ecc_DoAuthenticationEnhanced  02 readdoc_done =%s\n", readdoc_done == TRUE?"true":"false");
+	pr_debug(" Ecc_DoAuthenticationEnhanced  02 readdoc_done =%s\n", readdoc_done == TRUE?"true":"false");
 	return TRUE;
 }
 #endif
@@ -228,7 +228,7 @@ BOOL Ecc_DoAuthenticationEnhanced(uint8_t *gf2nUid )
    function:  create a new challenge to be sent to OPTIGA.
 
    input:     OUT: gf2n_Challenge
-                gf2n_t array for challenge to be stored into.  
+                gf2n_t array for challenge to be stored into.
               OUT: gf2n_RandomValue
                 gf2n_t array for random values to be stored into.
    output:    bool
@@ -258,7 +258,7 @@ BOOL Ecc_GenerateChallenge( dwordvec_t gf2n_Challenge, dwordvec_t gf2n_RandomVal
               the checkvalue is linked to the random value and public key
 
    input:     OUT: gf2n_CheckValue
-                gf2n_t array for checkvalue to be stored into.  
+                gf2n_t array for checkvalue to be stored into.
               IN: gf2n_RandomValue
                 random values that are used for the current challenge.
               IN: gf2n_PublicKey
@@ -288,7 +288,7 @@ BOOL Ecc_GenerateCheckValue( dwordvec_t gf2n_CheckValue, dwordvec_t gf2n_RandomV
 
    input:     IN: gf2n_XResponse
                 gf2n_t array holding the x part of the OPTIGA response.
-              IN: gf2n_ZResponse  
+              IN: gf2n_ZResponse
                 gf2n_t array holding the z part of the OPTIGA response.
               IN: gf2n_CheckValue
                 gf2n_t array holding checkvalue.

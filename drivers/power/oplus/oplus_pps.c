@@ -144,7 +144,7 @@ int oplus_pps_print_dbg_info(struct oplus_pps_chip *chip)
 		if ((sc8571_int_flag[i].mask & chip->int_column[0]) && sc8571_int_flag[i].mark_except) {
 			fg_send_info = true;
 			memcpy(chip->reg_dump, chip->int_column, sizeof(chip->int_column));
-			printk("cp int happened %s\n", sc8571_int_flag[i].except_info);
+			pr_debug("cp int happened %s\n", sc8571_int_flag[i].except_info);
 			goto chg_exception;
 		}
 	}
@@ -152,7 +152,7 @@ int oplus_pps_print_dbg_info(struct oplus_pps_chip *chip)
 		if ((sc8571_int_flag[i].mask & chip->int_column[1]) && sc8571_int_flag[i].mark_except) {
 			fg_send_info = true;
 			memcpy(chip->reg_dump, chip->int_column, sizeof(chip->int_column));
-			printk("cp int happened %s\n", sc8571_int_flag[i].except_info);
+			pr_debug("cp int happened %s\n", sc8571_int_flag[i].except_info);
 			goto chg_exception;
 		}
 	}
@@ -161,7 +161,7 @@ int oplus_pps_print_dbg_info(struct oplus_pps_chip *chip)
 		if ((sc8571_int_flag[i].mask & chip->int_column[2]) && sc8571_int_flag[i].mark_except) {
 			fg_send_info = true;
 			memcpy(chip->reg_dump, chip->int_column, sizeof(chip->int_column));
-			printk("cp int happened %s\n", sc8571_int_flag[i].except_info);
+			pr_debug("cp int happened %s\n", sc8571_int_flag[i].except_info);
 			goto chg_exception;
 		}
 	}
@@ -170,7 +170,7 @@ int oplus_pps_print_dbg_info(struct oplus_pps_chip *chip)
 		if ((sc8571_int_flag[i].mask & chip->int_column[3]) && sc8571_int_flag[i].mark_except) {
 			fg_send_info = true;
 			memcpy(chip->reg_dump, chip->int_column, sizeof(chip->int_column));
-			printk("cp int happened %s\n", sc8571_int_flag[i].except_info);
+			pr_debug("cp int happened %s\n", sc8571_int_flag[i].except_info);
 			goto chg_exception;
 		}
 	}
@@ -179,7 +179,7 @@ int oplus_pps_print_dbg_info(struct oplus_pps_chip *chip)
 		if ((sc8571_int_flag[i].mask & chip->int_column[4]) && sc8571_int_flag[i].mark_except) {
 			fg_send_info = true;
 			memcpy(chip->reg_dump, chip->int_column, sizeof(chip->int_column));
-			printk("cp int happened %s\n", sc8571_int_flag[i].except_info);
+			pr_debug("cp int happened %s\n", sc8571_int_flag[i].except_info);
 			goto chg_exception;
 		}
 	}

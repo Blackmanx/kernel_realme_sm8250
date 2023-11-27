@@ -1405,7 +1405,7 @@ void bq25601d_dump_registers(void)
 	if (dump_count == DUMP_REG_LOG_CNT_30S) {
 		dump_count = 0;
 		chg_debug("bq25601d_reg: [0x%02x,0x%02x,0x%02x,0x%02x], [0x%02x,0x%02x,0x%02x,0x%02x], [0x%02x,0x%02x,0x%02x,0x%02x]\n",
-			val_buf[0], val_buf[1], val_buf[2], val_buf[3], val_buf[4], val_buf[5], 
+			val_buf[0], val_buf[1], val_buf[2], val_buf[3], val_buf[4], val_buf[5],
 			val_buf[6], val_buf[7], val_buf[8], val_buf[9], val_buf[10], val_buf[11]);
 	}
 	dump_count++;
@@ -1793,7 +1793,7 @@ enum charger_type mt_charger_type_detection_bq25601d(void)
 
 	chgr_type_addr = REG08_BQ25601D_ADDRESS;
 
-	printk("mt_charger_type_detection0\n");
+	pr_debug("mt_charger_type_detection0\n");
 	for (i = 0; i < 15; i++) {
 		usleep_range(20000, 20200);
 		if (!upmu_get_rgs_chrdet()) {
@@ -1805,7 +1805,7 @@ enum charger_type mt_charger_type_detection_bq25601d(void)
 	hw_bc12_init();
 	usleep_range(10000, 10200);
 
-	printk("mt_charger_type_detection1\n");
+	pr_debug("mt_charger_type_detection1\n");
 	bq25601d_config_interface(charger_ic, REG07_BQ25601D_ADDRESS,
 			REG07_BQ25601D_IINDET_EN_FORCE_DET, REG07_BQ25601D_IINDET_EN_MASE);
 	bq25601d_dump_registers();
@@ -1823,7 +1823,7 @@ enum charger_type mt_charger_type_detection_bq25601d(void)
 		}
 	}
 
-	printk("mt_charger_type_detection2, count=%d\n", count);
+	pr_debug("mt_charger_type_detection2, count=%d\n", count);
 	if (count == 20) {
 		MTK_CHR_Type_num = CHARGER_UNKNOWN;
 		return MTK_CHR_Type_num;
@@ -1832,7 +1832,7 @@ enum charger_type mt_charger_type_detection_bq25601d(void)
 	rc = bq25601d_read_reg(charger_ic, chgr_type_addr, &val_buf);
 	bq25601d_dump_registers();
 	val_buf = val_buf & REG08_BQ25601D_VBUS_STAT_MASK;
-	printk("mt_charger_type_detection3, val_buf=[0x%x]\n", val_buf);
+	pr_debug("mt_charger_type_detection3, val_buf=[0x%x]\n", val_buf);
 
 	if (val_buf == REG08_BQ25601D_VBUS_STAT_UNKNOWN) {
 		MTK_CHR_Type_num = CHARGER_UNKNOWN;
@@ -1850,7 +1850,7 @@ enum charger_type mt_charger_type_detection_bq25601d(void)
 
 	/* the 2nd detection */
 	if (MTK_CHR_Type_num == CHARGER_UNKNOWN && upmu_get_rgs_chrdet()) {
-		printk("mt_charger_type_detection: 2nd...\n");
+		pr_debug("mt_charger_type_detection: 2nd...\n");
 		bq25601d_config_interface(charger_ic, REG07_BQ25601D_ADDRESS,
 				REG07_BQ25601D_IINDET_EN_FORCE_DET, REG07_BQ25601D_IINDET_EN_MASE);
 		bq25601d_dump_registers();
@@ -1869,7 +1869,7 @@ enum charger_type mt_charger_type_detection_bq25601d(void)
 			}
 		}
 
-		printk("mt_charger_type_detection: 2nd, count=%d\n", count);
+		pr_debug("mt_charger_type_detection: 2nd, count=%d\n", count);
 		if (count == 20) {
 			MTK_CHR_Type_num = APPLE_2_1A_CHARGER;
 			return MTK_CHR_Type_num;
@@ -1878,7 +1878,7 @@ enum charger_type mt_charger_type_detection_bq25601d(void)
 		rc = bq25601d_read_reg(charger_ic, chgr_type_addr, &val_buf);
 		bq25601d_dump_registers();
 		val_buf = val_buf & REG08_BQ25601D_VBUS_STAT_MASK;
-		printk("mt_charger_type_detection: 2nd, val_buf=[0x%x]\n", val_buf);
+		pr_debug("mt_charger_type_detection: 2nd, val_buf=[0x%x]\n", val_buf);
 		if (val_buf == REG08_BQ25601D_VBUS_STAT_UNKNOWN) {
 			MTK_CHR_Type_num = APPLE_2_1A_CHARGER;
 		} else if (val_buf == REG08_BQ25601D_VBUS_STAT_SDP) {
@@ -1916,10 +1916,10 @@ enum charger_type mt_charger_type_detection_bq25601d(void)
 		return STANDARD_HOST;
 	}
 	addr = BQ25601D_FIRST_REG + 8;
-	printk("mt_charger_type_detection0\n");
+	pr_debug("mt_charger_type_detection0\n");
 	hw_bc12_init();
 	usleep_range(40000, 40200);
-	printk("mt_charger_type_detection1\n");
+	pr_debug("mt_charger_type_detection1\n");
 	bq25601d_config_interface(charger_ic, REG00_BQ25601D_ADDRESS, 0, 0x80);
 	usleep_range(5000, 5200);
 	bq25601d_config_interface(charger_ic, REG07_BQ25601D_ADDRESS, 0x80, 0);
@@ -1939,12 +1939,12 @@ enum charger_type mt_charger_type_detection_bq25601d(void)
 		chg_debug("count time out,return apple adapter\n");
 		return MTK_CHR_Type_num;
 	}
-	printk("mt_charger_type_detection2\n");
+	pr_debug("mt_charger_type_detection2\n");
 	rc = bq25601d_read_reg(charger_ic, addr, &val_buf);
-	printk("mt_charger_type_detection\n");
+	pr_debug("mt_charger_type_detection\n");
 	bq25601d_dump_registers();
 	val_buf = val_buf & 0xc0;
-	printk("val_buf = 0x%x\n",val_buf);
+	pr_debug("val_buf = 0x%x\n",val_buf);
 	if (val_buf == 0) {
 		MTK_CHR_Type_num = CHARGER_UNKNOWN;
 	}
@@ -1985,7 +1985,7 @@ enum charger_type mt_charger_type_detection_bq25601d(void)
 		rc = bq25601d_read_reg(charger_ic, addr, &val_buf);
 		bq25601d_dump_registers();
 		val_buf = val_buf & 0xc0;
-		printk("val_buf =0x%x\n",val_buf);
+		pr_debug("val_buf =0x%x\n",val_buf);
 		if (val_buf == 0) {
 			MTK_CHR_Type_num = APPLE_2_1A_CHARGER;
 		}
@@ -2018,7 +2018,7 @@ static void do_charger_modefy_work(struct work_struct *data)
 	}
 	*/
 }
-	
+
 static struct delayed_work bq25601d_irq_delay_work;
 #ifdef CONFIG_OPLUS_CHARGER_MTK6781
 static struct delayed_work bq25601d_input_current_delay_work;
@@ -2032,7 +2032,7 @@ static void do_bq25601d_irq_delay_work(struct work_struct *data)
 	int i = 0;
 	int otg_overcurrent_flag = 0;
 	struct chip_bq25601d *chip = charger_ic;
-	
+
 	if (!chip) {
 		pr_err("%s chip null,return\n", __func__);
 		return;
@@ -2044,15 +2044,15 @@ static void do_bq25601d_irq_delay_work(struct work_struct *data)
 		if (val_buf == 0x40) {
 			otg_overcurrent_flag++;
 		}
-		
+
 		usleep_range(10000, 10200);
 	}
-	printk("[OPLUS_CHG] do_bq25601d_irq_delay_work disable vbus out flag=%d, val_reg[0x%x]\n", otg_overcurrent_flag, val_reg);
+	pr_debug("[OPLUS_CHG] do_bq25601d_irq_delay_work disable vbus out flag=%d, val_reg[0x%x]\n", otg_overcurrent_flag, val_reg);
 	if (otg_overcurrent_flag >= 8) {
 		bq25601d_otg_disable();
 	}
 	fg_bq25601d_irq_delay_work_running = false;
-	return; 
+	return;
 }
 
 #ifdef CONFIG_OPLUS_CHARGER_MTK6781
@@ -2234,7 +2234,7 @@ static int bq25601d_irq_registration(void)
 			IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
 			"BQ25601D-eint", chip);
 	if (ret < 0) {
-		printk("BQ25601D request_irq IRQ LINE NOT AVAILABLE!");
+		pr_debug("BQ25601D request_irq IRQ LINE NOT AVAILABLE!");
 		return -EFAULT;
 	}
 	return 0;

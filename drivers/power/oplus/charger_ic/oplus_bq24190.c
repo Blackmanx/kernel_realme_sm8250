@@ -399,13 +399,13 @@ static int bq24190_input_current_limit_write(int value)
 
 aicl_pre_step:
 	if((j >= 2) && (j <= ARRAY_SIZE(bq24190_usbin_input_current_limit) - 1))
-		aicl_result = bq24190_usbin_input_current_limit[j];		
+		aicl_result = bq24190_usbin_input_current_limit[j];
 	chg_debug( "usb input max current limit aicl chg_vol=%d j[%d]=%d sw_aicl_point:%d aicl_pre_step\n", chg_vol, j, bq24190_usbin_input_current_limit[j], aicl_point_temp);
 	rc = bq24190_config_interface(charger_ic, REG00_BQ24190_ADDRESS, j << REG00_BQ24190_INPUT_CURRENT_LIMIT_SHIFT, REG00_BQ24190_INPUT_CURRENT_LIMIT_MASK);
 	return rc;
 aicl_end:
 if((j >= 2) && (j <= ARRAY_SIZE(bq24190_usbin_input_current_limit) - 1))
-		aicl_result = bq24190_usbin_input_current_limit[j];		
+		aicl_result = bq24190_usbin_input_current_limit[j];
 	chg_debug( "usb input max current limit aicl chg_vol=%d j[%d]=%d sw_aicl_point:%d aicl_end\n", chg_vol, j, bq24190_usbin_input_current_limit[j], aicl_point_temp);
 	rc = bq24190_config_interface(charger_ic, REG00_BQ24190_ADDRESS, j << REG00_BQ24190_INPUT_CURRENT_LIMIT_SHIFT, REG00_BQ24190_INPUT_CURRENT_LIMIT_MASK);
 	return rc;
@@ -445,7 +445,7 @@ static int bq24190_input_current_limit_write(int value)
                 j = j-1;
             }
 			if((j >= 2) && (j <= ARRAY_SIZE(bq24190_usbin_input_current_limit) - 1))
-				aicl_result = bq24190_usbin_input_current_limit[j];		
+				aicl_result = bq24190_usbin_input_current_limit[j];
             chg_debug( "usb input max current limit aicl chg_vol=%d j[%d]=%d sw_aicl_point:%d\n", chg_vol, j, bq24190_usbin_input_current_limit[j], charger_ic->sw_aicl_point);
             bq24190_config_interface(charger_ic, REG00_BQ24190_ADDRESS, j << REG00_BQ24190_INPUT_CURRENT_LIMIT_SHIFT, REG00_BQ24190_INPUT_CURRENT_LIMIT_MASK);
             return 0;
@@ -454,7 +454,7 @@ static int bq24190_input_current_limit_write(int value)
     j = i;
 
 	if((j >= 2) && (j <= ARRAY_SIZE(bq24190_usbin_input_current_limit) - 1))
-		aicl_result = bq24190_usbin_input_current_limit[j];		
+		aicl_result = bq24190_usbin_input_current_limit[j];
     chg_debug( "usb input max current limit aicl chg_vol=%d j[%d]=%d\n", chg_vol, j, bq24190_usbin_input_current_limit[j]);
     rc = bq24190_config_interface(charger_ic, REG00_BQ24190_ADDRESS, j << REG00_BQ24190_INPUT_CURRENT_LIMIT_SHIFT, REG00_BQ24190_INPUT_CURRENT_LIMIT_MASK);
     return rc;
@@ -511,7 +511,7 @@ static int bq24190_set_vindpm_vol(struct chip_bq24190 *chip, int vol)
 static int oplus_chg_get_dyna_aicl_result(void)
 {
 	return aicl_result;
-	
+
 }
 #endif /* CONFIG_OPLUS_SHORT_C_BATT_CHECK */
 static void bq24190_set_aicl_point(int vbatt)
@@ -620,7 +620,7 @@ int bq24190_set_rechg_voltage(int recharge_mv)
 {
 	int reg = 0;
 	int rc = 0;
-	
+
 	if (atomic_read(&charger_ic->charger_suspended) == 1) {
 		return 0;
 	}
@@ -761,7 +761,7 @@ int bq24190_disable_charging(void)
 	{
 		bq24190_charging_current_write_fast(512);
 	}
-	
+
 	bq24190_set_wdt_timer(charger_ic, REG05_BQ24190_I2C_WATCHDOG_TIME_DISABLE);
 	bq24190_set_vindpm_vol(charger_ic, 4600);
 	return rc;
@@ -873,7 +873,7 @@ int bq24190_otg_enable(void)
 	} else {
 		chg_debug( "bq24190_otg_enable rc=%d\n", rc);
 	}
-	
+
 	bq24190_set_wdt_timer(charger_ic, REG05_BQ24190_I2C_WATCHDOG_TIME_40S);
 	oplus_otg_online = 1;
 	oplus_chg_set_otg_online(true);
@@ -899,11 +899,11 @@ int bq24190_otg_disable(void)
 		chg_err("Couldn't disable OTG mode rc=%d\n", rc);
 	else
 		chg_debug( "bq24190_otg_disable rc=%d\n", rc);
-	
+
 	bq24190_set_wdt_timer(charger_ic, REG05_BQ24190_I2C_WATCHDOG_TIME_DISABLE);
 	oplus_otg_online = 0;
 	oplus_chg_set_otg_online(false);
-	
+
 	bq24190_read_reg(charger_ic, REG09_BQ24190_ADDRESS, &val_buf);
 	bq24190_read_reg(charger_ic, REG09_BQ24190_ADDRESS, &val_buf);
 	return rc;
@@ -1330,10 +1330,10 @@ enum charger_type mt_charger_type_detection(void)
 		return STANDARD_HOST;
 	}
 	addr = BQ24190_FIRST_REG + 8;
-	printk("mt_charger_type_detection0\n");
+	pr_debug("mt_charger_type_detection0\n");
 	hw_bc12_init();
 	usleep_range(40000, 40200);
-	printk("mt_charger_type_detection1\n");
+	pr_debug("mt_charger_type_detection1\n");
 	bq24190_config_interface(charger_ic, REG00_BQ24190_ADDRESS, 0, 0x80);
 	usleep_range(5000, 5200);
 	bq24190_config_interface(charger_ic, REG07_BQ24190_ADDRESS, 0x80, 0);
@@ -1353,12 +1353,12 @@ enum charger_type mt_charger_type_detection(void)
 		chg_debug("count time out,return apple adapter\n");
 		return MTK_CHR_Type_num;
 	}
-	printk("mt_charger_type_detection2\n");
+	pr_debug("mt_charger_type_detection2\n");
 	rc = bq24190_read_reg(charger_ic, addr, &val_buf);
-	printk("mt_charger_type_detection\n");
+	pr_debug("mt_charger_type_detection\n");
 	bq24190_dump_registers();
 	val_buf = val_buf & 0xc0;
-	printk("val_buf =0x%x\n",val_buf);
+	pr_debug("val_buf =0x%x\n",val_buf);
 	if (val_buf == 0) {
 		MTK_CHR_Type_num = CHARGER_UNKNOWN;
 	}
@@ -1399,7 +1399,7 @@ enum charger_type mt_charger_type_detection(void)
 		rc = bq24190_read_reg(charger_ic, addr, &val_buf);
 		bq24190_dump_registers();
 		val_buf = val_buf & 0xc0;
-		printk("val_buf =0x%x\n",val_buf);
+		pr_debug("val_buf =0x%x\n",val_buf);
 		if (val_buf == 0) {
 			MTK_CHR_Type_num = APPLE_2_1A_CHARGER;
 		}
@@ -1429,7 +1429,7 @@ static void do_charger_modefy_work(struct work_struct *data)
 	*/
 }
 
-	
+
 static struct delayed_work bq24190_irq_delay_work;
 bool fg_bq24190_irq_delay_work_running = false;
 static void do_bq24190_irq_delay_work(struct work_struct *data)
@@ -1437,7 +1437,7 @@ static void do_bq24190_irq_delay_work(struct work_struct *data)
 	int val_buf;
 	int i;
 	int otg_overcurrent_flag = 0;
-	
+
 	if (!charger_ic) {
 		pr_err("%s charger_ic null,return\n", __func__);
 		return;
@@ -1449,15 +1449,15 @@ static void do_bq24190_irq_delay_work(struct work_struct *data)
 		if (val_buf == 0x40) {
 			otg_overcurrent_flag++;
 		}
-		
+
 		usleep_range(10000, 10200);
 	}
-	printk("do_bq24190_irq_delay_work disable  vbus out flag =%d\n",otg_overcurrent_flag);
+	pr_debug("do_bq24190_irq_delay_work disable  vbus out flag =%d\n",otg_overcurrent_flag);
 	if (otg_overcurrent_flag >= 3) {
 		bq24190_otg_disable();
 	}
 	fg_bq24190_irq_delay_work_running = false;
-	return; 
+	return;
 }
 
 
@@ -1490,7 +1490,7 @@ static int bq24190_irq_registration(struct chip_bq24190 *chip)
 		IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
 		"BQ24190-eint", chip);
 	if (ret < 0) {
-		printk("BQ24190 request_irq IRQ LINE NOT AVAILABLE!.");
+		pr_debug("BQ24190 request_irq IRQ LINE NOT AVAILABLE!.");
 		return -EFAULT;
 	}
 	return 0;
@@ -1527,9 +1527,9 @@ static int bq24190_driver_probe(struct i2c_client *client, const struct i2c_devi
 		return -ENODEV;
 	}
     //chip->chg_ops = &bq24190_chg_ops;
-	charger_ic_flag = 0;	
+	charger_ic_flag = 0;
 	//oplus_chg_shortc_hw_parse_dt(chip);
-	
+
 	INIT_DELAYED_WORK(&bq24190_irq_delay_work, do_bq24190_irq_delay_work);
 	bq24190_irq_registration(chip);
 	atomic_set(&chip->charger_suspended, 0);

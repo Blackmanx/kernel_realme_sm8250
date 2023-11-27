@@ -1176,7 +1176,7 @@ static void nu1619_set_rx_charge_current(struct oplus_nu1619_ic *chip, int chg_c
 	int current_ma = 0;
 
 	if (!g_oplus_chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 	chg_err("<~WPC~> set charge current: %d\n", chg_current);
@@ -1190,7 +1190,7 @@ static void nu1619_set_rx_charge_current(struct oplus_nu1619_ic *chip, int chg_c
 static void nu1619_set_rx_terminate_voltage(struct oplus_nu1619_ic *chip, int vol_value)
 {
 	if (!g_oplus_chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 	chg_err("<~WPC~> set terminate voltage: %d\n", vol_value);
@@ -1403,7 +1403,7 @@ static void nu1619_charger_init(struct oplus_nu1619_ic *chip)
 {
 
 	if (!g_oplus_chip || !g_oplus_chip->chg_ops) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -1617,7 +1617,7 @@ void nu1619_set_rtx_function_prepare(void)
 static void nu1619_disable_tx_power(void)
 {
 	if (!g_oplus_chip || !g_oplus_chip->chg_ops) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 	chg_err("<~WPC~> nu1619_disable_tx_power\n");
@@ -1890,7 +1890,7 @@ void nu1619_set_rtx_function(bool is_on)
 			chip->nu1619_chg_status.trx_usb_present_once);
 		if (chip->nu1619_chg_status.tx_online &&
 		    chip->nu1619_chg_status.trx_transfer_start_time &&
-		   (chip->nu1619_chg_status.trx_transfer_end_time - 
+		   (chip->nu1619_chg_status.trx_transfer_end_time -
 		    chip->nu1619_chg_status.trx_transfer_start_time >
 		     WPC_TRX_INFO_UPLOAD_THD_2MINS)) {
 			oplus_wpc_update_track_info(chip, trx_crux_info);
@@ -2495,7 +2495,7 @@ bool nu1619_onekey_download_firmware(struct oplus_nu1619_ic * chip)
 	bool status = false;
 
 	if (!g_oplus_chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -2553,7 +2553,7 @@ static int nu1619_check_idt_fw_update(struct oplus_nu1619_ic *chip)
 	int rc = -1;
 
 	if (!g_oplus_chip || !g_oplus_chip->chg_ops) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -2912,7 +2912,7 @@ static bool nu1619_get_self_reset(void)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
 		return false;
 	}
 
@@ -4730,7 +4730,7 @@ static void nu1619_charge_set_target_ichg(struct oplus_nu1619_ic *chip)
 	int now_tbatt = 0;
 
 	if (!g_oplus_chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -5288,7 +5288,7 @@ static int oplus_wpc_set_input_current(struct oplus_nu1619_ic *chip)
 	//int now_tbatt = oplus_chg_get_tbatt_status();
 
 	if (!g_oplus_chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -5440,7 +5440,7 @@ static int nu1619_charge_status_process(struct oplus_nu1619_ic *chip)
 	int power_test_vout_threshold = 0;
 
 	if (!g_oplus_chip || !g_oplus_chip->chg_ops) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -6386,7 +6386,7 @@ static void nu1619_idt_dischg_work(struct work_struct *work)
 	struct oplus_nu1619_ic *chip = container_of(dwork, struct oplus_nu1619_ic, idt_dischg_work);
 
 	if (!g_oplus_chip || !g_oplus_chip->chg_ops) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 	chg_err("<~WPC~>rtx func wpc_dischg_status[%d]\n", chip->nu1619_chg_status.wpc_dischg_status);
@@ -6467,7 +6467,7 @@ static void nu1619_commu_data_process(struct oplus_nu1619_ic *chip)
 			chip->nu1619_chg_status.mldo_en = true;
 	}
 
-	if (!is_ext_chg_ops()) { 
+	if (!is_ext_chg_ops()) {
 		if (chip->wireless_mode == WIRELESS_MODE_TX) {
 			if (temp[0] == 0x20) {
 				chg_err("<~WPC~> Inc TX_Voltage!\n");
@@ -6954,7 +6954,7 @@ int nu1619_get_idt_con_val(void)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -6978,7 +6978,7 @@ int nu1619_get_idt_int_val(void)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -7041,7 +7041,7 @@ static void nu1619_idt_connect_int_func(struct work_struct *work)
 	struct power_supply *wls_psy;
 
 	if (!g_oplus_chip || !g_oplus_chip->chg_ops) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -7357,7 +7357,7 @@ static int nu1619_idt_con_gpio_init(struct oplus_nu1619_ic *chip)
 static int nu1619_idt_int_gpio_init(struct oplus_nu1619_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -7400,7 +7400,7 @@ static int nu1619_idt_int_gpio_init(struct oplus_nu1619_ic *chip)
 static int nu1619_ext1_wired_otg_gpio_init(struct oplus_nu1619_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -7443,7 +7443,7 @@ void nu1619_set_ext1_wired_otg_en_val(int value)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -7479,7 +7479,7 @@ int nu1619_get_ext1_wired_otg_en_val(void)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -7503,7 +7503,7 @@ int nu1619_get_ext1_wired_otg_en_val(void)
 static int nu1619_ext2_wireless_otg_gpio_init(struct oplus_nu1619_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -7546,7 +7546,7 @@ void nu1619_set_ext2_wireless_otg_en_val(int value)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -7582,7 +7582,7 @@ int nu1619_get_ext2_wireless_otg_en_val(void)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -7605,7 +7605,7 @@ int nu1619_get_ext2_wireless_otg_en_val(void)
 static int nu1619_ext3_wireless_otg_gpio_init(struct oplus_nu1619_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -7648,7 +7648,7 @@ void nu1619_set_ext3_wireless_otg_en_val(int value)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -7684,7 +7684,7 @@ int nu1619_get_ext3_wireless_otg_en_val(void)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -7707,7 +7707,7 @@ int nu1619_get_ext3_wireless_otg_en_val(void)
 static int nu1619_vt_sleep_gpio_init(struct oplus_nu1619_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -7756,7 +7756,7 @@ void nu1619_set_vt_sleep_val(int value)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -7794,7 +7794,7 @@ int nu1619_get_vt_sleep_val(void)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -7817,7 +7817,7 @@ int nu1619_get_vt_sleep_val(void)
 static int nu1619_vbat_en_gpio_init(struct oplus_nu1619_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -7860,7 +7860,7 @@ void nu1619_set_vbat_en_val(int value)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -7896,7 +7896,7 @@ int nu1619_get_vbat_en_val(void)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -7920,7 +7920,7 @@ int nu1619_get_vbat_en_val(void)
 static int nu1619_booster_en_gpio_init(struct oplus_nu1619_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -7965,7 +7965,7 @@ void nu1619_set_booster_en_val(int value)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -8001,7 +8001,7 @@ int nu1619_get_booster_en_val(void)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -8027,7 +8027,7 @@ void nu1619_set_cp_ldo_5v_val(int value)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -8063,7 +8063,7 @@ int nu1619_get_cp_ldo_5v_val(void)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -8088,7 +8088,7 @@ int nu1619_set_tx_cep_timeout_1500ms(void)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -8108,7 +8108,7 @@ static int nu1619_set_dock_led_pwm_pulse(int pwm_pulse)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -8135,7 +8135,7 @@ static int nu1619_set_dock_fan_pwm_pulse(int pwm_pulse)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -8162,7 +8162,7 @@ static int nu1619_set_silent_mode(bool is_silent)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: nu1619_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -8187,7 +8187,7 @@ static int nu1619_set_silent_mode(bool is_silent)
 static int nu1619_cp_ldo_5v_gpio_init(struct oplus_nu1619_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -8230,7 +8230,7 @@ static int nu1619_cp_ldo_5v_gpio_init(struct oplus_nu1619_ic *chip)
 static int oplus_wrx_en_gpio_init(struct oplus_nu1619_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -8260,7 +8260,7 @@ static int oplus_wrx_en_gpio_init(struct oplus_nu1619_ic *chip)
 		gpio_direction_output(chip->wrx_en_gpio, 0);
 	}
 	pinctrl_select_state(chip->pinctrl, chip->wrx_en_default);
-	printk(KERN_ERR "[OPLUS_CHG][%s]: gpio value[%d]!\n", __func__,
+	pr_debug(KERN_ERR "[OPLUS_CHG][%s]: gpio value[%d]!\n", __func__,
 		gpio_get_value(chip->wrx_en_gpio));
 
 	return 0;
@@ -8271,7 +8271,7 @@ void oplus_set_wrx_en_value(int value)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_nu1619_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -8320,7 +8320,7 @@ int oplus_get_wrx_en_val(void)
 static int oplus_wrx_otg_en_gpio_init(struct oplus_nu1619_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_wpc_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_wpc_chip not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -8350,7 +8350,7 @@ static int oplus_wrx_otg_en_gpio_init(struct oplus_nu1619_ic *chip)
 		gpio_direction_output(chip->wrx_otg_en_gpio, 0);
 	}
 	pinctrl_select_state(chip->pinctrl, chip->wrx_otg_en_default);
-	printk(KERN_ERR "[OPLUS_CHG][%s]: gpio value[%d]!\n", __func__,
+	pr_debug(KERN_ERR "[OPLUS_CHG][%s]: gpio value[%d]!\n", __func__,
 		gpio_get_value(chip->wrx_otg_en_gpio));
 	return 0;
 }
@@ -8360,7 +8360,7 @@ void oplus_set_wrx_otg_en_value(int value)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_wpc_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_wpc_chip not ready!\n", __func__);
 		return;
 	}
 	if (chip->wrx_otg_en_gpio <= 0) {
@@ -8419,7 +8419,7 @@ static bool oplus_wls_pg_is_support(struct oplus_nu1619_ic *chip)
 static int oplus_wls_pg_gpio_init(struct oplus_nu1619_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_wpc_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_wpc_chip not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -8449,7 +8449,7 @@ static int oplus_wls_pg_gpio_init(struct oplus_nu1619_ic *chip)
 		}
 	}
 	pinctrl_select_state(chip->pinctrl, chip->wls_pg_default);
-	printk(KERN_ERR "[OPLUS_CHG][%s]: gpio value[%d]!\n", __func__,
+	pr_debug(KERN_ERR "[OPLUS_CHG][%s]: gpio value[%d]!\n", __func__,
 		gpio_get_value(chip->wls_pg_gpio));
 	return 0;
 }
@@ -8459,7 +8459,7 @@ static void oplus_set_wls_pg_value(int value)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_wpc_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_wpc_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -8501,7 +8501,7 @@ static int oplus_get_wls_pg_value(void)
 	struct oplus_nu1619_ic *chip = nu1619_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_wpc_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_wpc_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -8638,7 +8638,7 @@ static int nu1619_idt_gpio_init(struct oplus_nu1619_ic *chip)
 		}
 		pr_err("chip->ext2_wireless_otg_en_gpio =%d\n", chip->ext2_wireless_otg_en_gpio);
 	}
-	
+
 	chip->ext3_wireless_otg_en_gpio = of_get_named_gpio(node, "qcom,ext3_wireless_otg_en-gpio", 0);
 	if (chip->ext3_wireless_otg_en_gpio < 0) {
 		pr_err("chip->ext3_wireless_otg_en_gpio not specified\n");
@@ -9043,7 +9043,7 @@ static void charger_suspend_work_process(struct work_struct *work)
 	struct oplus_nu1619_ic *chip = container_of(dwork, struct oplus_nu1619_ic, charger_suspend_work);
 
 	if (!g_oplus_chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -10148,7 +10148,7 @@ static ssize_t proc_wireless_upgrade_firmware_write(struct file *file,
 	}
 
 	if (!g_oplus_chip || !g_oplus_chip->chg_ops) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return -ENODEV;
 	}
 

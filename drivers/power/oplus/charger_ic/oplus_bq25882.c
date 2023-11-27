@@ -26,7 +26,7 @@
 #include <mt-plat/mtk_rtc.h>
 //#include <mt-plat/charger_type.h>
 #include <soc/oplus/device_info.h>
-extern void mt_power_off(void); 
+extern void mt_power_off(void);
 
 #else
 
@@ -130,7 +130,7 @@ static int __bq25882_write_reg(int reg, int val)
 
 /**********************************************************
   *
-  *   [Read / Write Function] 
+  *   [Read / Write Function]
   *
   *********************************************************/
 /*
@@ -395,12 +395,12 @@ int bq25882_input_current_limit_write(int current_ma)
 }
 
 int bq25882_charging_current_write_fast(int chg_cur)
-{	
+{
     int rc = 0;
     int tmp = 0;
     struct chip_bq25882 *chip = charger_ic;
 
-    chg_err( "chg_cur = %d\n", chg_cur);	
+    chg_err( "chg_cur = %d\n", chg_cur);
         if(atomic_read(&chip->charger_suspended) == 1) {
         return 0;
     }
@@ -544,7 +544,7 @@ int bq25882_set_rechg_voltage(int recharge_mv)
 
     rc = bq25882_config_interface(REG06_BQ25882_ADDRESS, tmp << REG06_BQ25882_VRECHG_SHIFT, REG06_BQ25882_VRECHG_MASK);
     if (rc) {
-        chg_err("Couldn't set recharging threshold rc = %d\n", rc);     
+        chg_err("Couldn't set recharging threshold rc = %d\n", rc);
     }
     return rc;
 }
@@ -576,10 +576,10 @@ int bq25882_set_chging_term_disable(void)
         return 0;
     }
 
-    rc = bq25882_config_interface(REG05_BQ25882_ADDRESS, 
+    rc = bq25882_config_interface(REG05_BQ25882_ADDRESS,
     REG05_BQ25882_EN_TERM_DISABLE, REG05_BQ25882_EN_TERM_MASK);
     if (rc) {
-        chg_err("Couldn't set chging term disable rc = %d\n", rc);     
+        chg_err("Couldn't set chging term disable rc = %d\n", rc);
     }
     return rc;
 }
@@ -595,7 +595,7 @@ int bq25882_kick_wdt(void)
 
     rc = bq25882_config_interface(REG07_BQ25882_ADDRESS, REG07_BQ25882_WD_RST_RESET, REG07_BQ25882_WD_RST_MASK);
     if (rc) {
-        chg_err("Couldn't bq25882 kick wdt rc = %d\n", rc);     
+        chg_err("Couldn't bq25882 kick wdt rc = %d\n", rc);
     }
     return rc;
 }
@@ -609,7 +609,7 @@ int bq25882_enable_charging(void)
         return 0;
     }
 
-    rc = bq25882_config_interface(REG06_BQ25882_ADDRESS, 
+    rc = bq25882_config_interface(REG06_BQ25882_ADDRESS,
     REG06_BQ25882_EN_CHG_ENABLE, REG06_BQ25882_EN_CHG_MASK);
     if (rc < 0) {
         chg_err("Couldn't bq25882_enable_charging rc = %d\n", rc);
@@ -626,7 +626,7 @@ int bq25882_disable_charging(void)
     if(atomic_read(&chip->charger_suspended) == 1) {
         return 0;
     }
-    rc = bq25882_config_interface(REG06_BQ25882_ADDRESS, 
+    rc = bq25882_config_interface(REG06_BQ25882_ADDRESS,
     REG06_BQ25882_EN_CHG_DISABLE, REG06_BQ25882_EN_CHG_MASK);
     if (rc < 0) {
         chg_err("Couldn't bq25882_disable_charging  rc = %d\n", rc);
@@ -652,7 +652,7 @@ int bq25882_check_charging_enable(void)
 
     charging_enable = ((reg_val & REG06_BQ25882_EN_CHG_MASK) == REG06_BQ25882_EN_CHG_ENABLE) ? 1 : 0;
 
-    return charging_enable;	
+    return charging_enable;
 }
 
 int bq25882_registers_read_full(void)
@@ -734,7 +734,7 @@ int bq25882_reset_charger(void)
     if(atomic_read(&chip->charger_suspended) == 1) {
         return 0;
     }
-    rc = bq25882_config_interface(REG25_BQ25882_ADDRESS, 
+    rc = bq25882_config_interface(REG25_BQ25882_ADDRESS,
     REG25_BQ25882_RESET_DEFAULT, REG25_BQ25882_RESET_MASK);
     if (rc < 0) {
         chg_err("Couldn't bq25882_reset_charger  rc = %d\n", rc);
@@ -834,7 +834,7 @@ int bq25882_ico_disable(void)
     if(atomic_read(&chip->charger_suspended) == 1) {
         return 0;
     }
-    rc = bq25882_config_interface(REG03_BQ25882_ADDRESS, 
+    rc = bq25882_config_interface(REG03_BQ25882_ADDRESS,
     REG03_BQ25882_EN_ICO_DISABLE, REG03_BQ25882_EN_ICO_MASK);
     if (rc < 0) {
         chg_err("Couldn't bq25882_ico_disable  rc = %d\n", rc);
@@ -921,11 +921,11 @@ void bq25882_dump_registers(void)
                 chg_err("Couldn't read 0x%02x rc = %d\n", addr, rc);
             }
         }
-        printk(KERN_ERR "bq25882[0-0C]: 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x,", 
+        pr_debug(KERN_ERR "bq25882[0-0C]: 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x,",
 			val_buf[0], val_buf[1], val_buf[2], val_buf[3], val_buf[4], val_buf[5], val_buf[6], val_buf[7], val_buf[8], val_buf[9], val_buf[10], val_buf[11], val_buf[12]);
-        printk(KERN_ERR "bq25882[0D-19]: 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x,", 
+        pr_debug(KERN_ERR "bq25882[0D-19]: 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x,",
 			val_buf[13], val_buf[14], val_buf[15], val_buf[16], val_buf[17], val_buf[18], val_buf[19], val_buf[20], val_buf[21], val_buf[22], val_buf[23], val_buf[24], val_buf[25]);
-        printk(KERN_ERR "bq25882[1A-25]: 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x \n", 
+        pr_debug(KERN_ERR "bq25882[1A-25]: 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x \n",
 			val_buf[26], val_buf[27], val_buf[28], val_buf[29], val_buf[30], val_buf[31], val_buf[32], val_buf[33], val_buf[34], val_buf[35], val_buf[36], val_buf[37]);
     }
     dump_count++;
@@ -1157,7 +1157,7 @@ bool oplus_charger_ic_chip_is_null(void)
     }
 }
 
-static int bq25882_driver_probe(struct i2c_client *client, const struct i2c_device_id *id) 
+static int bq25882_driver_probe(struct i2c_client *client, const struct i2c_device_id *id)
 {
     int reg = 0;
     struct chip_bq25882 *chg_ic;
@@ -1183,7 +1183,7 @@ static int bq25882_driver_probe(struct i2c_client *client, const struct i2c_devi
 
     chg_debug(" success\n");
 
-    return reg;                                                                                       
+    return reg;
 }
 
 
@@ -1284,7 +1284,7 @@ static const struct dev_pm_ops bq25882_pm_ops = {
 };
 #else
 static int bq25882_resume(struct i2c_client *client)
-{	
+{
     unsigned long resume_tm_sec = 0;
     unsigned long sleep_time = 0;
     int rc = 0;
@@ -1305,7 +1305,7 @@ static int bq25882_resume(struct i2c_client *client)
     if(sleep_time < 0) {
     sleep_time = 0;
     }
-    */	
+    */
     oplus_chg_soc_update_when_resume(sleep_time);
     return 0;
 }
@@ -1334,7 +1334,7 @@ static void bq25882_reset(struct i2c_client *client)
 
 /**********************************************************
   *
-  *   [platform_driver API] 
+  *   [platform_driver API]
   *
   *********************************************************/
 

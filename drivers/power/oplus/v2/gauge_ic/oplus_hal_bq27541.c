@@ -1152,7 +1152,7 @@ static int zy0603_update_afi_buf(struct chip_bq27541 *chip, u16 base_addr, u16 l
 	u8 read_buf[16 + 4] = {0};
 	u16 addr;
 
-	printk("update %s ...\n", msg);
+	pr_debug("update %s ...\n", msg);
 	for (i=0; i < len1; i++) {
 		checksum = 0xFF;
 		addr = base_addr + i*16;
@@ -1322,7 +1322,7 @@ error_occured:
 				chip->afi_update_done = false;
 				ret = zy0603_afi_param_update(chip);
 				if (ret < 0) {
-					printk(KERN_ERR "[%s] zy0603_afi_param_update fail\n", __func__);
+					pr_debug(KERN_ERR "[%s] zy0603_afi_param_update fail\n", __func__);
 				}
 
 				do {
@@ -1330,19 +1330,19 @@ error_occured:
 					if (!zy0603_seal()) {
 						chip->afi_update_done = true;
 						chip->error_occured = true;
-						printk(KERN_ERR "[%s] zy0603_seal ok\n", __func__);
+						pr_debug(KERN_ERR "[%s] zy0603_seal ok\n", __func__);
 					} else {
 						error_flag = 1;
 					}
 				} while (error_flag);
 			}
-			printk(KERN_ERR "[%s] zy0603_afi_param_update done\n", __func__);
+			pr_debug(KERN_ERR "[%s] zy0603_afi_param_update done\n", __func__);
 		}
 	}
 	chip->need_check = true;
 /*	if (chip->error_occured) {
 		schedule_delayed_work(&gauge_ic->afi_update, 0);
-		printk(KERN_ERR "[%s] error_occured retrigger afi update\n", __func__);
+		pr_debug(KERN_ERR "[%s] error_occured retrigger afi update\n", __func__);
 	}
 */
 }
@@ -1354,7 +1354,7 @@ static bool zy0603_afi_update_done(void)
 	}
 
 	if (gauge_ic->batt_zy0603 && gauge_ic->afi_count > 0 && !gauge_ic->afi_update_done) {
-		printk(KERN_ERR "[%s] return for afi_update_done not finished\n");
+		pr_debug(KERN_ERR "[%s] return for afi_update_done not finished\n");
 		return false;
 	} else {
 		return true;
@@ -1370,13 +1370,13 @@ static int zy0603_protect_check(struct oplus_chg_ic_dev *ic_dev)
 	/* static bool error_occured = false; */
 	int checksum_error_flag = 0, qmaxfg_error_flag = 0;
 
-	/*printk(KERN_ERR "[%s] v12 unseal start\n", __func__);*/
+	/*pr_debug(KERN_ERR "[%s] v12 unseal start\n", __func__);*/
 	if (!gauge_ic || (gauge_ic && !gauge_ic->batt_zy0603) || (gauge_ic && gauge_ic->afi_count == 0)) {
-		printk(KERN_ERR "[%s] return for %s\n", __func__, !gauge_ic ? "guage is null" : "is not zy0603 gauge");
+		pr_debug(KERN_ERR "[%s] return for %s\n", __func__, !gauge_ic ? "guage is null" : "is not zy0603 gauge");
 		return -1;
 	}
 
-	/*printk(KERN_ERR "[%s] ssdf and pf disable = %d\n", __func__, gauge_ic->disabled);*/
+	/*pr_debug(KERN_ERR "[%s] ssdf and pf disable = %d\n", __func__, gauge_ic->disabled);*/
 	/* if (oplus_vooc_get_allow_reading() && gauge_ic->disabled !error_occured) { */
 	gauge_locked = !!atomic_read(&gauge_ic->locked);
 	if ((!gauge_locked ||
@@ -1386,7 +1386,7 @@ static int zy0603_protect_check(struct oplus_chg_ic_dev *ic_dev)
 		if (zy0603_static_checksum_check(gauge_ic)) {
 			checksum_error_flag = 1;
 			checksum_error++;
-			printk(KERN_ERR "[%s] staticchecksum_error = %d\n", __func__, checksum_error);
+			pr_debug(KERN_ERR "[%s] staticchecksum_error = %d\n", __func__, checksum_error);
 			if (CHECKSUM_ERROR_CNT <= checksum_error) {
 				checksum_error = 0;
 				if (gauge_ic && gauge_ic->afi_update_done) {
@@ -1401,7 +1401,7 @@ static int zy0603_protect_check(struct oplus_chg_ic_dev *ic_dev)
 			qmaxfg_error_flag = 1;
 			qmax_fgstatus_error++;
 
-			printk(KERN_ERR "[%s] qmax_fgstatus_error = %d\n", __func__, qmax_fgstatus_error);
+			pr_debug(KERN_ERR "[%s] qmax_fgstatus_error = %d\n", __func__, qmax_fgstatus_error);
 			if (CHECKSUM_ERROR_CNT <= qmax_fgstatus_error) {
 				qmax_fgstatus_error = 0;
 				if (gauge_ic && gauge_ic->afi_update_done) {
@@ -1414,7 +1414,7 @@ static int zy0603_protect_check(struct oplus_chg_ic_dev *ic_dev)
 		}
 		/* error_occured = true; */
 	}
-	printk(KERN_ERR "[%s] checksum_error[%d %d] qmaxfg_error[%d, %d]\n",
+	pr_debug(KERN_ERR "[%s] checksum_error[%d %d] qmaxfg_error[%d, %d]\n",
 		__func__, checksum_error_flag, checksum_error, qmaxfg_error_flag, qmax_fgstatus_error);
 
 	return 0;
@@ -2285,7 +2285,7 @@ static int bq27541_get_battery_temperature(void)
 				temp_status = TEMP_HT_39C;
 				delta_temp = 0;
 			}
-			printk(KERN_ERR
+			pr_debug(KERN_ERR
 			       "SJC-TEST: temp_status[%d], delta_temp[%d]\n",
 			       temp_status, delta_temp);
 		}
@@ -2302,20 +2302,20 @@ static int bq27541_get_battery_temperature(void)
 				if (cb_count >= 4 &&
 				    temp_status == TEMP_LT_16C) {
 					temp = temp - 20;
-					printk(KERN_ERR
+					pr_debug(KERN_ERR
 					       "SJC-TEST C2A1: - 20\n");
 				} else if (cb_count >= 3 &&
 					   temp_status != TEMP_HT_39C) {
 					temp = temp - 15;
-					printk(KERN_ERR
+					pr_debug(KERN_ERR
 					       "SJC-TEST C2A1: - 15\n");
 				} else if (cb_count >= 2) {
 					temp = temp - 10;
-					printk(KERN_ERR
+					pr_debug(KERN_ERR
 					       "SJC-TEST C2A1: - 10\n");
 				} else if (cb_count >= 1) {
 					temp = temp - 5;
-					printk(KERN_ERR "SJC-TEST C2A1: - 5\n");
+					pr_debug(KERN_ERR "SJC-TEST C2A1: - 5\n");
 				}
 
 				if (temp_status == TEMP_LT_16C) {
@@ -2332,28 +2332,28 @@ static int bq27541_get_battery_temperature(void)
 				if (cb_count >= 6 &&
 				    temp_status == TEMP_LT_16C) {
 					temp = temp - (60 + delta_temp);
-					printk(KERN_ERR "SJC-TEST: - %d\n",
+					pr_debug(KERN_ERR "SJC-TEST: - %d\n",
 					       60 + delta_temp);
 				} else if (cb_count >= 5 &&
 					   temp_status != TEMP_HT_39C) {
 					temp = temp - (50 + delta_temp);
-					printk(KERN_ERR "SJC-TEST: - %d\n",
+					pr_debug(KERN_ERR "SJC-TEST: - %d\n",
 					       50 + delta_temp);
 				} else if (cb_count >= 4) {
 					temp = temp - (40 + delta_temp);
-					printk(KERN_ERR "SJC-TEST: - %d\n",
+					pr_debug(KERN_ERR "SJC-TEST: - %d\n",
 					       40 + delta_temp);
 				} else if (cb_count >= 3) {
 					temp = temp - (30 + delta_temp);
-					printk(KERN_ERR "SJC-TEST: - %d\n",
+					pr_debug(KERN_ERR "SJC-TEST: - %d\n",
 					       30 + delta_temp);
 				} else if (cb_count >= 2) {
 					temp = temp - (20 + delta_temp);
-					printk(KERN_ERR "SJC-TEST: - %d\n",
+					pr_debug(KERN_ERR "SJC-TEST: - %d\n",
 					       20 + delta_temp);
 				} else if (cb_count >= 1) {
 					temp = temp - (10 + delta_temp);
-					printk(KERN_ERR "SJC-TEST: - %d\n",
+					pr_debug(KERN_ERR "SJC-TEST: - %d\n",
 					       10 + delta_temp);
 				}
 
@@ -2376,48 +2376,48 @@ static int bq27541_get_battery_temperature(void)
 				if (cb_count >= 4 &&
 				    temp_status == TEMP_LT_16C) {
 					temp = temp - 20;
-					printk(KERN_ERR
+					pr_debug(KERN_ERR
 					       "SJC-TEST 4 C2A1: - 20\n");
 				} else if (cb_count >= 3 &&
 					   temp_status != TEMP_HT_39C) {
 					temp = temp - 15;
-					printk(KERN_ERR
+					pr_debug(KERN_ERR
 					       "SJC-TEST 3 C2A1: - 15\n");
 				} else if (cb_count >= 2) {
 					temp = temp - 10;
-					printk(KERN_ERR
+					pr_debug(KERN_ERR
 					       "SJC-TEST 2 C2A1: - 10\n");
 				} else if (cb_count >= 1) {
 					temp = temp - 5;
-					printk(KERN_ERR
+					pr_debug(KERN_ERR
 					       "SJC-TEST 1 C2A1: - 5\n");
 				}
 			} else {
 				if (cb_count >= 6 &&
 				    temp_status == TEMP_LT_16C) {
 					temp = temp - (60 + delta_temp);
-					printk(KERN_ERR "SJC-TEST 6: - %d\n",
+					pr_debug(KERN_ERR "SJC-TEST 6: - %d\n",
 					       60 + delta_temp);
 				} else if (cb_count >= 5 &&
 					   temp_status != TEMP_HT_39C) {
 					temp = temp - (50 + delta_temp);
-					printk(KERN_ERR "SJC-TEST 5: - %d\n",
+					pr_debug(KERN_ERR "SJC-TEST 5: - %d\n",
 					       50 + delta_temp);
 				} else if (cb_count >= 4) {
 					temp = temp - (40 + delta_temp);
-					printk(KERN_ERR "SJC-TEST 4: - %d\n",
+					pr_debug(KERN_ERR "SJC-TEST 4: - %d\n",
 					       40 + delta_temp);
 				} else if (cb_count >= 3) {
 					temp = temp - (30 + delta_temp);
-					printk(KERN_ERR "SJC-TEST 3: - %d\n",
+					pr_debug(KERN_ERR "SJC-TEST 3: - %d\n",
 					       30 + delta_temp);
 				} else if (cb_count >= 2) {
 					temp = temp - (20 + delta_temp);
-					printk(KERN_ERR "SJC-TEST 2: - %d\n",
+					pr_debug(KERN_ERR "SJC-TEST 2: - %d\n",
 					       20 + delta_temp);
 				} else if (cb_count >= 1) {
 					temp = temp - (10 + delta_temp);
-					printk(KERN_ERR "SJC-TEST 1: - %d\n",
+					pr_debug(KERN_ERR "SJC-TEST 1: - %d\n",
 					       10 + delta_temp);
 				}
 			}
@@ -4642,7 +4642,7 @@ static int bq28z610_get_battery_bcc_parameters(struct oplus_chg_ic_dev *ic_dev, 
 		buffer[15] = 0;
 	}
 
-	printk(KERN_ERR "%s : ----dod0_1[%d], dod0_2[%d], dod0_passed_q[%d], qmax_1[%d], qmax_2[%d], qmax_passed_q[%d] \
+	pr_debug(KERN_ERR "%s : ----dod0_1[%d], dod0_2[%d], dod0_passed_q[%d], qmax_1[%d], qmax_2[%d], qmax_passed_q[%d] \
 		voltage_cell1[%d], temperature[%d], batt_current[%d], max_current[%d], min_current[%d], voltage_cell2[%d], \
 		soc_ext_1[%d], soc_ext_2[%d], atl_last_geat_current[%d], charging_flag[%d], bcc_curr_done[%d], is_zy0603[%d]", __func__,
 		buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5], buffer[6], buffer[7],
@@ -4663,12 +4663,12 @@ static int bq28z610_get_battery_bcc_parameters(struct oplus_chg_ic_dev *ic_dev, 
 #ifdef BCC_SET_DEBUG_PARMS
 	if (bcc_debug_mode & BCC_Y_DEBUG) {
 		memcpy(&buf[0], bcc_debug_buf, BCC_PAGE_SIZE);
-		printk(KERN_ERR "%s bcc_debug_buf:%s\n", __func__, bcc_debug_buf);
+		pr_debug(KERN_ERR "%s bcc_debug_buf:%s\n", __func__, bcc_debug_buf);
 		return 0;
 	}
 #endif
 
-	printk(KERN_ERR "%s buf:%s\n", __func__, buf);
+	pr_debug(KERN_ERR "%s buf:%s\n", __func__, buf);
 
 	return 0;
 }
@@ -4693,7 +4693,7 @@ static int bq28z610_get_fastchg_battery_bcc_parameters(struct oplus_chg_ic_dev *
 	wired_topic = oplus_mms_get_by_name("wired");
 	buffer[16] = oplus_wired_get_bcc_curr_done_status(wired_topic);
 
-	printk(KERN_ERR "%s : ----dod0_1[%d], dod0_2[%d], dod0_passed_q[%d], qmax_1[%d], qmax_2[%d], qmax_passed_q[%d] \
+	pr_debug(KERN_ERR "%s : ----dod0_1[%d], dod0_2[%d], dod0_passed_q[%d], qmax_1[%d], qmax_2[%d], qmax_passed_q[%d] \
 		voltage_cell1[%d], temperature[%d], batt_current[%d], max_current[%d], min_current[%d], voltage_cell2[%d], \
 		soc_ext_1[%d], soc_ext_2[%d], atl_last_geat_current[%d], charging_flag[%d], bcc_curr_done[%d], is_zy0603[%d]", __func__,
 		buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5], buffer[6], buffer[7],
@@ -4701,7 +4701,7 @@ static int bq28z610_get_fastchg_battery_bcc_parameters(struct oplus_chg_ic_dev *
 
 	bq28z610_bcc_pre_calibration(buffer);
 
-	printk(KERN_ERR "%s buf:%s\n", __func__, buf);
+	pr_debug(KERN_ERR "%s buf:%s\n", __func__, buf);
 
 	return 0;
 }
@@ -4755,12 +4755,12 @@ static int bq28z610_get_prev_battery_bcc_parameters(struct oplus_chg_ic_dev *ic_
 #ifdef BCC_SET_DEBUG_PARMS
 	if (bcc_debug_mode & BCC_Y_DEBUG) {
 		memcpy(&buf[0], bcc_debug_buf, BCC_PAGE_SIZE);
-		printk(KERN_ERR "%s bcc_debug_buf:%s\n", __func__, bcc_debug_buf);
+		pr_debug(KERN_ERR "%s bcc_debug_buf:%s\n", __func__, bcc_debug_buf);
 		return 0;
 	}
 #endif
 
-	printk(KERN_ERR "%s bcc_buf:%s\n", __func__, buf);
+	pr_debug(KERN_ERR "%s bcc_buf:%s\n", __func__, buf);
 
 	return 0;
 }
@@ -4775,25 +4775,25 @@ static int bq28z610_set_bcc_debug_parameters(struct oplus_chg_ic_dev *ic_dev, co
 #ifdef BCC_SET_DEBUG_PARMS
 	if (strlen(buf) <= BCC_PAGE_SIZE) {
 		if (strncpy(temp_buf, buf, 7)) {
-			printk(KERN_ERR "%s temp_buf:%s\n", __func__, temp_buf);
+			pr_debug(KERN_ERR "%s temp_buf:%s\n", __func__, temp_buf);
 		}
 		if (!strncmp(temp_buf, "Y_DEBUG", 7)) {
 			bcc_debug_mode = BCC_Y_DEBUG;
-			printk(KERN_ERR "%s BCC_Y_DEBUG:%d\n",
+			pr_debug(KERN_ERR "%s BCC_Y_DEBUG:%d\n",
 				__func__, bcc_debug_mode);
 		} else {
 			bcc_debug_mode = BCC_N_DEBUG;
-			printk(KERN_ERR "%s BCC_N_DEBUG:%d\n",
+			pr_debug(KERN_ERR "%s BCC_N_DEBUG:%d\n",
 				__func__, bcc_debug_mode);
 		}
 		strncpy(bcc_debug_buf, buf + 8, strlen(buf) - 8);
-		printk(KERN_ERR "%s bcc_debug_buf:%s, temp_buf\n",
+		pr_debug(KERN_ERR "%s bcc_debug_buf:%s, temp_buf\n",
 			__func__, bcc_debug_buf, temp_buf);
 		return ret;
 	}
 #endif
 
-	printk(KERN_ERR "%s buf:%s\n", __func__, buf);
+	pr_debug(KERN_ERR "%s buf:%s\n", __func__, buf);
 	return ret;
 }
 

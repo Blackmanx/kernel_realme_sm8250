@@ -77,10 +77,10 @@ BOOL Ecc_SendChallengeAndGetResponse( uint16_t * gf2n_Challenge, uint16_t * gf2n
 {
 	BOOL ret;
 	BOOL bEccIrq;
-	unsigned long flags; 
+	unsigned long flags;
 	struct oplus_optiga_chip * optiga_chip_info = oplus_get_optiga_info();
 
-	printk(" Ecc_SendChallengeAndGetResponse enter \n");
+	pr_debug(" Ecc_SendChallengeAndGetResponse enter \n");
 
 	spin_lock_irqsave(&optiga_chip_info->slock, flags);
 
@@ -92,10 +92,10 @@ BOOL Ecc_SendChallengeAndGetResponse( uint16_t * gf2n_Challenge, uint16_t * gf2n
 	{
 		// fixed time wait of at least 50ms
 		spin_unlock_irqrestore(&optiga_chip_info->slock, flags);
-		printk(" Ecc_SendChallengeAndGetResponse  spin_unlock_irqrestore\n");
+		pr_debug(" Ecc_SendChallengeAndGetResponse  spin_unlock_irqrestore\n");
 #ifdef BURST_READ_INTERVAL
 		usleep_range(34000, 34000);
-		printk(" Ecc_SendChallengeAndGetResponse after wait 34ms \n");
+		pr_debug(" Ecc_SendChallengeAndGetResponse after wait 34ms \n");
 #endif
 		spin_lock_irqsave(&optiga_chip_info->slock, flags);
 	}
@@ -115,7 +115,7 @@ BOOL Ecc_SendChallengeAndGetResponse( uint16_t * gf2n_Challenge, uint16_t * gf2n
 
 out:
 	spin_unlock_irqrestore(&optiga_chip_info->slock, flags);
-	printk(" Ecc_SendChallengeAndGetResponse out ret =%s\n", ret == TRUE ?"true":"false");
+	pr_debug(" Ecc_SendChallengeAndGetResponse out ret =%s\n", ret == TRUE ?"true":"false");
 	if (ret == FALSE) {
 		return FALSE;
 	} else {
@@ -268,16 +268,16 @@ static BOOL Optiga_ReadResponse(uint16_t * Z_resp, uint16_t * X_resp, uint8_t bE
 
 /**
 * @brief Read out ODC and ECC public key from the device.
-* @param gf2n_ODC Returns the ODC 
+* @param gf2n_ODC Returns the ODC
 * @param gf2n_PublicKey Returns the ECC Public Key
 */
-uint16_t Ecc_ReadODC_Burst(uint32_t *gf2n_ODC, uint32_t *gf2n_PublicKey) 
+uint16_t Ecc_ReadODC_Burst(uint32_t *gf2n_ODC, uint32_t *gf2n_PublicKey)
 {
 	uint8_t ubODC[ODC_BYTE_SIZE];
 	uint8_t ubPUBKEY[PUK_BYTE_SIZE];
 	uint16_t ret = APP_ECC_INIT;
 
-	printk(" Ecc_ReadODC_Burst  enter\n");
+	pr_debug(" Ecc_ReadODC_Burst  enter\n");
 
 	memset(ubODC, 0, sizeof(ubODC));
 	memset(ubPUBKEY, 0, sizeof(ubPUBKEY));
@@ -290,7 +290,7 @@ uint16_t Ecc_ReadODC_Burst(uint32_t *gf2n_ODC, uint32_t *gf2n_PublicKey)
 	convert8_to_32(gf2n_ODC, ubODC, ODC_BYTE_SIZE);
 	convert8_to_32(gf2n_PublicKey, ubPUBKEY, PUK_BYTE_SIZE);
 
-	printk(" Ecc_ReadODC_Burst  out\n");
+	pr_debug(" Ecc_ReadODC_Burst  out\n");
 
 	return ret;
 }

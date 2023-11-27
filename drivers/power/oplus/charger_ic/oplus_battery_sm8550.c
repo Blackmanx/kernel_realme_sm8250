@@ -5171,7 +5171,7 @@ static int oplus_usbtemp_dischg_action(struct oplus_chg_chip *chip)
 		if (oplus_chg_get_voocphy_support() == ADSP_VOOCPHY) {
 			rc = write_property_id(bcdev, pst, USB_VOOCPHY_ENABLE, false);
 			if (rc < 0) {
-				printk(KERN_ERR "!!![OPLUS_USBTEMP] write utemp high action fail\n");
+				pr_debug(KERN_ERR "!!![OPLUS_USBTEMP] write utemp high action fail\n");
 				return rc;
 			}
 		} else {
@@ -7241,14 +7241,14 @@ static void oplus_plugin_irq_work(struct work_struct *work)
 				    oplus_vooc_get_fastchg_dummy_started() == false &&
 				    oplus_vooc_get_fastchg_to_normal() == false &&
 				    oplus_vooc_get_fastchg_to_warm() == false) {      /*plug out by normal*/
-					printk(KERN_ERR "[%s]: plug out normal\n", __func__);
+					pr_debug(KERN_ERR "[%s]: plug out normal\n", __func__);
 					smbchg_set_chargerid_switch_val(0);
 					chip->chargerid_volt = 0;
 					chip->chargerid_volt_got = false;
 					chip->charger_type = POWER_SUPPLY_TYPE_UNKNOWN;
 					oplus_chg_wake_update_work();
 				} else if (oplus_vooc_get_fastchg_started() == false) {
-					printk(KERN_ERR "[%s]: plug out fastchg_to_normal/warm/dummy or not vooc\n", __func__);
+					pr_debug(KERN_ERR "[%s]: plug out fastchg_to_normal/warm/dummy or not vooc\n", __func__);
 					oplus_vooc_reset_fastchg_after_usbout();
 					smbchg_set_chargerid_switch_val(0);
 					chip->chargerid_volt = 0;

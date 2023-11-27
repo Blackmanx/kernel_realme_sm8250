@@ -196,14 +196,14 @@ static void oplus_monitor_charge_info_update_work(struct work_struct *work)
 	if (!rc)
 		chip->shell_temp = data.intval;
 
-	/* 
+	/*
 	 * wait for all dependent topics to be prepared to ensure that the
 	 * collected data is normal
 	 */
 	if (oplus_monitor_all_topic_is_ready(chip))
 		oplus_chg_track_comm_monitor(chip);
 
-	printk(KERN_INFO "OPLUS_CHG[oplus_charge_info]: "
+	pr_debug(KERN_INFO "OPLUS_CHG[oplus_charge_info]: "
 		"BATTERY[%d %d %d %d %d %d %d %d %d %d 0x%x], "
 		"CHARGE[%d %d %d %d], "
 		"WIRED[%d %d %d %d %d 0x%x %d %d %d %d %d], "

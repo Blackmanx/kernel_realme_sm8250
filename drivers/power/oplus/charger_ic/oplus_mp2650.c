@@ -254,7 +254,7 @@ static ssize_t mp2650_regs_show(struct device *dev, struct device_attribute *att
     ssize_t len = 0;
     int i = 0;
     int reg_val = 0;
-	
+
 	for (i = MP2650_FIRST_REG; i <= 0x15; i++) {
 
 		mp2650_read_reg(i, &reg_val);
@@ -388,7 +388,7 @@ static int __mp2650_write_reg(int reg, int val)
 
 /**********************************************************
   *
-  *   [Read / Write Function] 
+  *   [Read / Write Function]
   *
   *********************************************************/
 /*
@@ -947,7 +947,7 @@ int mp2650_charging_current_write_fast(int chg_cur)
 
 	tmp = chg_cur - REG02_MP2650_CHARGE_CURRENT_SETTING_OFFSET;
 	tmp = tmp / REG02_MP2650_CHARGE_CURRENT_SETTING_STEP;
-	
+
 	rc = mp2650_config_interface(REG02_MP2650_ADDRESS, tmp << REG02_MP2650_CHARGE_CURRENT_SETTING_SHIFT, REG02_MP2650_CHARGE_CURRENT_SETTING_MASK);
 
 	return rc;
@@ -1026,7 +1026,7 @@ int mp2650_set_enable_volatile_writes(void)
 		return 0;
 	}
 	//need do nothing
-	
+
     return rc;
 }
 
@@ -1072,7 +1072,7 @@ int mp2650_float_voltage_write(int vfloat_mv)
 		return 0;
 	}
 
-    chg_err("vfloat_mv = %d\n", vfloat_mv); 
+    chg_err("vfloat_mv = %d\n", vfloat_mv);
 
     if (vfloat_mv > 5000) {
         if (vfloat_mv > 9000) {
@@ -1084,12 +1084,12 @@ int mp2650_float_voltage_write(int vfloat_mv)
     if (vfloat_mv > 4500) {
 		vfloat_mv = 4500;
     }
-    
+
 	tmp = vfloat_mv * 10 - REG04_MP2650_CHARGE_FULL_VOL_OFFSET;
 	tmp = tmp / REG04_MP2650_CHARGE_FULL_VOL_STEP;
-	
+
 	rc = mp2650_config_interface(REG04_MP2650_ADDRESS, tmp << REG04_MP2650_CHARGE_FULL_VOL_SHIFT, REG04_MP2650_CHARGE_FULL_VOL_MASK);
-	
+
 	return rc;
 }
 
@@ -1124,11 +1124,11 @@ int mp2650_set_prechg_current( int ipre_mA)
 	if(atomic_read(&chip->charger_suspended) == 1) {
 		return 0;
 	}
-	
+
     tmp = ipre_mA - REG03_MP2650_PRECHARGE_CURRENT_LIMIT_OFFSET;
     tmp = tmp / REG03_MP2650_PRECHARGE_CURRENT_LIMIT_STEP;
     rc = mp2650_config_interface(REG03_MP2650_ADDRESS, (tmp + 1) << REG03_MP2650_PRECHARGE_CURRENT_LIMIT_SHIFT, REG03_MP2650_PRECHARGE_CURRENT_LIMIT_MASK);
-	
+
 	return 0;
 }
 
@@ -1136,16 +1136,16 @@ int mp2650_set_termchg_current(int term_curr)
 {
 	int rc = 0;
 	int tmp = 0;
-	struct chip_mp2650 *chip = charger_ic;	
+	struct chip_mp2650 *chip = charger_ic;
 
 	if(atomic_read(&chip->charger_suspended) == 1) {
 		return 0;
 	}
 
-    chg_err("term_current = %d\n", term_curr); 
+    chg_err("term_current = %d\n", term_curr);
     tmp = term_curr - REG03_MP2650_TERMINATION_CURRENT_LIMIT_OFFSET;
     tmp = tmp / REG03_MP2650_TERMINATION_CURRENT_LIMIT_STEP;
-	
+
 	rc = mp2650_config_interface(REG03_MP2650_ADDRESS, tmp << REG03_MP2650_TERMINATION_CURRENT_LIMIT_SHIFT, REG03_MP2650_TERMINATION_CURRENT_LIMIT_MASK);
 	return 0;
 }
@@ -1163,16 +1163,16 @@ int mp2650_set_rechg_voltage(int recharge_mv)
 	if(atomic_read(&chip->charger_suspended) == 1) {
 		return 0;
 	}
-    
+
 	tmp = recharge_mv - REG04_MP2650_BAT_RECHARGE_THRESHOLD_OFFSET;
 	tmp = tmp / REG04_MP2650_BAT_RECHARGE_THRESHOLD_STEP;
-	
+
 
     /*The rechg voltage is: Charge Full Voltage - 100mV  or - 200mV, default is - 100mV*/
 	rc = mp2650_config_interface(REG04_MP2650_ADDRESS, tmp << REG04_MP2650_BAT_RECHARGE_THRESHOLD_SHIFT, REG04_MP2650_BAT_RECHARGE_THRESHOLD_MASK);
 
     if (rc) {
-        chg_err("Couldn't set recharging threshold rc = %d\n", rc);     
+        chg_err("Couldn't set recharging threshold rc = %d\n", rc);
     }
 	 return rc;
 }
@@ -1192,9 +1192,9 @@ int mp2650_set_wdt_timer(int reg)
 
 	rc = mp2650_config_interface(REG09_MP2650_ADDRESS, reg, REG09_MP2650_WTD_TIMER_MASK);
     if (rc) {
-        chg_err("Couldn't set recharging threshold rc = %d\n", rc);     
+        chg_err("Couldn't set recharging threshold rc = %d\n", rc);
     }
-    
+
     return 0;
 }
 
@@ -1212,7 +1212,7 @@ int mp2650_set_chging_term_disable(void)
 	}
 	rc = mp2650_config_interface(REG09_MP2650_ADDRESS, REG09_MP2650_CHARGE_TERMINATION_EN_DISABLE, REG09_MP2650_CHARGE_TERMINATION_EN_MASK);
     if (rc) {
-        chg_err("Couldn't set chging term disable rc = %d\n", rc);     
+        chg_err("Couldn't set chging term disable rc = %d\n", rc);
     }
     return rc;
 }
@@ -1226,7 +1226,7 @@ int mp2650_set_chging_term_enable(void)
 	}
 	rc = mp2650_config_interface(REG09_MP2650_ADDRESS, REG09_MP2650_CCHARGE_TERMINATION_EN_ENABLE, REG09_MP2650_CHARGE_TERMINATION_EN_MASK);
     if (rc) {
-        chg_err("Couldn't set chging term enable rc = %d\n", rc);     
+        chg_err("Couldn't set chging term enable rc = %d\n", rc);
     }
     return rc;
 }
@@ -1245,8 +1245,8 @@ int mp2650_kick_wdt(void)
 	}
     rc = mp2650_config_interface(REG08_MP2650_ADDRESS, REG08_MP2650_WTD_RST_RESET, REG08_MP2650_WTD_RST_MASK);
     if (rc) {
-        chg_err("Couldn't mp2650 kick wdt rc = %d\n", rc);     
-    }  
+        chg_err("Couldn't mp2650 kick wdt rc = %d\n", rc);
+    }
     return rc;
 }
 
@@ -1304,11 +1304,11 @@ int mp2650_disable_charging(void)
 
     chg_err(" mp2650_disable_charging \n");
 
-	if(atomic_read(&chip->charger_suspended) == 1) {	
+	if(atomic_read(&chip->charger_suspended) == 1) {
 		chg_err(" charger_suspended \n");
 		return 0;
 	}
-    rc = mp2650_config_interface(REG08_MP2650_ADDRESS, 
+    rc = mp2650_config_interface(REG08_MP2650_ADDRESS,
 		REG08_MP2650_CHG_EN_DISABLE, REG08_MP2650_CHG_EN_MASK);
     if (rc < 0) {
 		chg_err("Couldn't mp2650_disable_charging  rc = %d\n", rc);
@@ -1322,7 +1322,7 @@ int mp2650_check_charging_enable(void)
 	int rc = 0;
 	int reg_val = 0;
     struct chip_mp2650 *chip = charger_ic;
-	
+
 	bool charging_enable = false;
 
 	if(atomic_read(&chip->charger_suspended) == 1) {
@@ -1333,10 +1333,10 @@ int mp2650_check_charging_enable(void)
         chg_err("Couldn't read REG08_MP2650_ADDRESS rc = %d\n", rc);
         return 0;
     }
-	
+
     charging_enable = ((reg_val & REG08_MP2650_CHG_EN_MASK) == REG08_MP2650_CHG_EN_ENABLE) ? 1 : 0;
-	
-	return charging_enable;	
+
+	return charging_enable;
 }
 
 int mp2650_enable_adc_detect(bool enable)
@@ -1464,7 +1464,7 @@ int mp2650_registers_read_full(void)
 		chg_err("Couldn't read STAT_C rc = %d\n", rc);
 		return 0;
 	}
-	
+
 	reg_full = ((reg_full & REG13_MP2650_CHARGING_STATUS_MASK) == REG13_MP2650_CHARGING_STATUS_CHARGE_TERMINATION) ? 1 : 0;
 	if (reg_full) {
 		chg_err("the mp2650 is full");
@@ -1510,7 +1510,7 @@ int mp2650_suspend_charger(void)
 	if (atomic_read(&chip->charger_suspended) == 1) {
 		return 0;
 	}
-	
+
 	mp2650_config_interface(REG08_MP2650_ADDRESS, REG08_MP2650_LEARN_EN_ENABLE, REG08_MP2650_LEARN_EN_MASK);
 
 	chg_err( " rc = %d\n", rc);
@@ -1578,8 +1578,8 @@ int mp2650_reset_charger_for_wired_charge(void)
 
 
     chg_err("reset mp2650 for wired charge! \n");
-    
-    rc = mp2650_config_interface(REG08_MP2650_ADDRESS, 
+
+    rc = mp2650_config_interface(REG08_MP2650_ADDRESS,
 		REG08_MP2650_REG_RST_RESET, REG08_MP2650_REG_RST_MASK);
     if (rc < 0) {
 		chg_err("Couldn't mp2650_reset_charger  rc = %d\n", rc);
@@ -1698,7 +1698,7 @@ int mp2650_otg_wait_vbus_decline(void)
         msleep(200);
         vbus_volt = mp2650_get_vbus_voltage();
     }while(vbus_volt >= 3200);
-    
+
 	return rc;
 #endif
 }
@@ -1707,7 +1707,7 @@ int mp2650_reset_charger(void)
 {
 	int rc;
 	struct chip_mp2650 *chip = charger_ic;
-	
+
 	if (!chip) {
 		chg_err("chip is NULL\n");
 		return 0;
@@ -1795,11 +1795,11 @@ int mp2650_set_switching_frequency(void)
 	//int value;
 	int rc = 0;
     struct chip_mp2650 *chip = charger_ic;
-	
+
 	if(atomic_read(&chip->charger_suspended) == 1) {
 		return 0;
 	}
-	
+
 	rc = mp2650_config_interface(REG0B_MP2650_ADDRESS, REG0B_MP2650_SW_FREQ_800K, REG0B_MP2650_SW_FREQ_MASK);
 	return 0;
 }
@@ -1826,11 +1826,11 @@ int mp2650_set_mps_otg_current(void)
 {
 	int rc = 0;
     struct chip_mp2650 *chip = charger_ic;
-		
+
 	if(atomic_read(&chip->charger_suspended) == 1) {
 		return 0;
 	}
-	
+
 	rc = mp2650_config_interface(REG07_MP2650_ADDRESS, REG07_MP2650_OTG_CURRENT_LIMIT_1500MA, REG07_MP2650_OTG_CURRENT_LIMIT_MASK);
 	return 0;
 }
@@ -1882,7 +1882,7 @@ int mp2650_set_mps_otg_enable(void)
 	if(atomic_read(&chip->charger_suspended) == 1) {
 		return 0;
 	}
-	
+
 		chg_err("mp2650_set_mps_otg_enable start \n");
 	rc = mp2650_config_interface(REG08_MP2650_ADDRESS, REG08_MP2650_OTG_EN_ENABLE, REG08_MP2650_OTG_EN_MASK);
 	return 0;
@@ -1893,11 +1893,11 @@ int mp2650_set_mps_otg_disable(void)
 	//int value;
 	int rc = 0;
     struct chip_mp2650 *chip = charger_ic;
-		
+
 	if(atomic_read(&chip->charger_suspended) == 1) {
 		return 0;
 	}
-	
+
 		chg_err("mp2650_set_mps_otg_disable start \n");
 	rc = mp2650_config_interface(REG08_MP2650_ADDRESS, REG08_MP2650_OTG_EN_DISABLE, REG08_MP2650_OTG_EN_MASK);
 	return 0;
@@ -1912,15 +1912,15 @@ int mp2650_enable_hiz(void)
 	if(atomic_read(&chip->charger_suspended) == 1) {
 		return 0;
 	}
-	
-    rc = mp2650_config_interface(REG08_MP2650_ADDRESS, 
-		 REG08_MP2650_LEARN_EN_ENABLE, REG08_MP2650_LEARN_EN_MASK);		
+
+    rc = mp2650_config_interface(REG08_MP2650_ADDRESS,
+		 REG08_MP2650_LEARN_EN_ENABLE, REG08_MP2650_LEARN_EN_MASK);
     if (rc < 0) {
 		chg_err("Couldn'mp2650_enable_hiz rc = %d\n", rc);
 	}
-	
+
 	chg_err("mp2650_enable_hiz \n");
-	
+
 	return rc;
 }
 
@@ -1936,15 +1936,15 @@ int mp2650_disable_hiz(void)
 	if(atomic_read(&chip->charger_suspended) == 1) {
 		return 0;
 	}
-	
-    rc = mp2650_config_interface(REG08_MP2650_ADDRESS, 
+
+    rc = mp2650_config_interface(REG08_MP2650_ADDRESS,
 		REG08_MP2650_LEARN_EN_DISABLE, REG08_MP2650_LEARN_EN_MASK);
     if (rc < 0) {
 		chg_err("Couldn't mp2650_disable_hiz  rc = %d\n", rc);
 	}
 
 	chg_err("mp2650_disable_hiz \n");
-	
+
 	return rc;
 }
 
@@ -1960,15 +1960,15 @@ int mp2650_enable_buck_switch(void)
 	if(atomic_read(&chip->charger_suspended) == 1) {
 		return 0;
 	}
-	
-    rc = mp2650_config_interface(REG12_MP2650_ADDRESS, 
-		 REG12_MP2650_BUCK_SWITCH_ENABLE, REG12_MP2650_BUCK_SWITCH_MASK);		
+
+    rc = mp2650_config_interface(REG12_MP2650_ADDRESS,
+		 REG12_MP2650_BUCK_SWITCH_ENABLE, REG12_MP2650_BUCK_SWITCH_MASK);
     if (rc < 0) {
 		chg_err("Couldn'mp2650_enable_dig_skip rc = %d\n", rc);
 	}
-	
+
 	chg_err("mp2650_enable_dig_skip \n");
-	
+
 	return rc;
 }
 
@@ -1984,15 +1984,15 @@ int mp2650_disable_buck_switch(void)
 	if(atomic_read(&chip->charger_suspended) == 1) {
 		return 0;
 	}
-	
-    rc = mp2650_config_interface(REG12_MP2650_ADDRESS, 
-		 REG12_MP2650_BUCK_SWITCH_DISABLE, REG12_MP2650_BUCK_SWITCH_MASK);	
+
+    rc = mp2650_config_interface(REG12_MP2650_ADDRESS,
+		 REG12_MP2650_BUCK_SWITCH_DISABLE, REG12_MP2650_BUCK_SWITCH_MASK);
     if (rc < 0) {
 		chg_err("Couldn't mp2650_disable_dig_skip  rc = %d\n", rc);
 	}
 
 	chg_err("mp2650_disable_dig_skip \n");
-	
+
 	return rc;
 }
 
@@ -2069,7 +2069,7 @@ int mp2650_check_learn_mode(void)
 	int reg_val = 0;
 	bool learn_mode = false;
     struct chip_mp2650 *chip = charger_ic;
-	
+
 	if (!chip) {
 		chg_err("chip is NULL\n");
 		return 0;
@@ -2084,10 +2084,10 @@ int mp2650_check_learn_mode(void)
     }
 
 	chg_err(" LEARN MODE = %02x\n", reg_val);
-	
+
     learn_mode = ((reg_val & REG08_MP2650_LEARN_EN_MASK) == REG08_MP2650_LEARN_EN_MASK) ? 1 : 0;
-	
-	return learn_mode;	
+
+	return learn_mode;
 }
 
 int mp2650_set_charger_vsys_threshold(int val)
@@ -2184,22 +2184,22 @@ int mp2650_other_registers_init(void)
     if (rc < 0) {
 		chg_err("Couldn't write 0x01  rc = %d\n", rc);
 	}
-	
+
     //rc = mp2650_config_interface(0x3E, 0x01, 0xFF);
     //if (rc < 0) {
 	//	chg_err("Couldn't write 0x3E  rc = %d\n", rc);
 	//}
-	
+
     //rc = mp2650_config_interface(0x2E, 0x30, 0xFF);
     //if (rc < 0) {
 	//	chg_err("Couldn't write 0x2E  rc = %d\n", rc);
 	//}
-	
+
     //rc = mp2650_config_interface(0x53, 0x95, 0xFF);
     //if (rc < 0) {
 	//	chg_err("Couldn't write 0x53  rc = %d\n", rc);
 	//}
-	
+
     //rc = mp2650_config_interface(0x4A, 0x0A, 0xFF);
     //if (rc < 0) {
 	//	chg_err("Couldn't write 0x4A  rc = %d\n", rc);
@@ -2230,7 +2230,7 @@ int mp2650_other_registers_init(void)
     //if (rc < 0) {
 	//	chg_err("Couldn't write 0x37  rc = %d\n", rc);
 	//}
-	
+
 	return rc;
 */
 }
@@ -2273,7 +2273,7 @@ void mp2650_dump_registers(void)
 			chg_err("Couldn't  read 0x30 rc = %d\n", rc);
 		}
 
-        printk(KERN_ERR "mp2650_dump_reg: [0x%02x, 0x%02x, 0x%02x, 0x%02x], [0x%02x, 0x%02x, 0x%02x, 0x%02x], "
+        pr_debug(KERN_ERR "mp2650_dump_reg: [0x%02x, 0x%02x, 0x%02x, 0x%02x], [0x%02x, 0x%02x, 0x%02x, 0x%02x], "
 		"[0x%02x, 0x%02x, 0x%02x, 0x%02x], [0x%02x, 0x%02x, 0x%02x, 0x%02x], "
 		"[0x%02x, 0x%02x, 0x%02x, 0x%02x], [0x%02x, 0x%02x, 0x%02x, 0x%02x], "
 		"[0x%02x, 0x%02x, 0x%02x, 0x%02x], [0x%02x, 0x%02x, 0x%02x, 0x%02x], "
@@ -2315,7 +2315,7 @@ int mp2650_input_current_limit_init(void)
     }
     rc = mp2650_config_interface(REG00_MP2650_ADDRESS, 0x03, REG00_MP2650_1ST_CURRENT_LIMIT_MASK);
     rc = mp2650_config_interface(REG0F_MP2650_ADDRESS, 0x03, REG0F_MP2650_2ND_CURRENT_LIMIT_MASK);
-	
+
     if (rc < 0) {
         chg_err("Couldn't mp2650_input_current_limit_init rc = %d\n", rc);
     }
@@ -2339,7 +2339,7 @@ int mp2650_input_current_limit_without_aicl(int current_ma)
     chg_err(" reg_val current [%d]ma\n", current_ma);
     rc = mp2650_config_interface(REG00_MP2650_ADDRESS, reg_val, REG00_MP2650_1ST_CURRENT_LIMIT_MASK);
     rc = mp2650_config_interface(REG0F_MP2650_ADDRESS, reg_val, REG0F_MP2650_2ND_CURRENT_LIMIT_MASK);
-	
+
     if (rc < 0) {
         chg_err("Couldn't mp2650_input_current_limit_init rc = %d\n", rc);
     }
@@ -2688,7 +2688,7 @@ static int mp2650_mps_otg_en_gpio_init(struct chip_mp2650 *chip)
 {
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: chip_mp2650 not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: chip_mp2650 not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -2755,7 +2755,7 @@ void mp2650_wireless_set_mps_otg_en_val(int value)
 {
     struct chip_mp2650 *chip = charger_ic;
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: chip_mp2650 not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: chip_mp2650 not ready!\n", __func__);
 		return;
 	}
 
@@ -2791,7 +2791,7 @@ int mp2650_wireless_get_mps_otg_en_val(void)
 	struct chip_mp2650 *chip = charger_ic;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: chip_mp2650 not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: chip_mp2650 not ready!\n", __func__);
 		return -1;
 	}
 
@@ -2962,7 +2962,7 @@ static void init_mp2650_read_log(void)
 }
 #endif /*DEBUG_BY_FILE_OPS*/
 
-static int mp2650_driver_probe(struct i2c_client *client, const struct i2c_device_id *id) 
+static int mp2650_driver_probe(struct i2c_client *client, const struct i2c_device_id *id)
 {
 	int ret = 0;
 	struct chip_mp2650 *chg_ic;
@@ -3122,7 +3122,7 @@ static int mp2650_resume(struct i2c_client *client)
     if(sleep_time < 0) {
     sleep_time = 0;
     }
-    */	
+    */
     oplus_chg_soc_update_when_resume(sleep_time);
     return 0;
 }
@@ -3152,7 +3152,7 @@ static void mp2650_reset(struct i2c_client *client)
 
 /**********************************************************
   *
-  *   [platform_driver API] 
+  *   [platform_driver API]
   *
   *********************************************************/
 

@@ -232,7 +232,7 @@ static void check_int_enable(struct oplus_ra9530_ic *chip)
 	chg_err("ra9530 check_int_enable----------\n");
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: RA9530_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: RA9530_chip not ready!\n", __func__);
 		return;
 	}
 	rc = ra9530_read_reg(chip, RA9530_REG_INT_EN, reg_int, 3);
@@ -282,7 +282,7 @@ static void ra9530_set_tx_mode(int value)
 	unsigned char wbuff[2] = {0xA0, 0x0F};
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: ra9530_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: ra9530_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -366,7 +366,7 @@ static void ra9530_set_ble_addr(struct oplus_ra9530_ic *chip)
 static void ra9530_set_protect_parameter(struct oplus_ra9530_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: ra9530_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: ra9530_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -1409,7 +1409,7 @@ int ra9530_get_idt_int_val(void)
 	struct oplus_ra9530_ic *chip = ra9530_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: ra9530_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: ra9530_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -1479,7 +1479,7 @@ static void ra9530_idt_int_eint_register(struct oplus_ra9530_ic *chip)
 static int ra9530_idt_int_gpio_init(struct oplus_ra9530_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_ra9530_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_ra9530_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -1523,7 +1523,7 @@ static int ra9530_idt_int_gpio_init(struct oplus_ra9530_ic *chip)
 static int ra9530_vbat_en_gpio_init(struct oplus_ra9530_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_ra9530_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_ra9530_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -1565,7 +1565,7 @@ static int ra9530_vbat_en_gpio_init(struct oplus_ra9530_ic *chip)
 void ra9530_set_vbat_en_val(struct oplus_ra9530_ic *chip, int value)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_ra9530_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_ra9530_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -1601,7 +1601,7 @@ int ra9530_get_vbat_en_val(void)
 	struct oplus_ra9530_ic *chip = ra9530_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: ra9530_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: ra9530_chip not ready!\n", __func__);
 		return -1;
 	}
 
@@ -1624,7 +1624,7 @@ int ra9530_get_vbat_en_val(void)
 static int ra9530_booster_en_gpio_init(struct oplus_ra9530_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_ra9530_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_ra9530_ic not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -1668,7 +1668,7 @@ static int ra9530_booster_en_gpio_init(struct oplus_ra9530_ic *chip)
 void ra9530_set_booster_en_val(struct oplus_ra9530_ic *chip, int value)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_ra9530_ic not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_ra9530_ic not ready!\n", __func__);
 		return;
 	}
 
@@ -1704,7 +1704,7 @@ int ra9530_get_booster_en_val(void)
 	struct oplus_ra9530_ic *chip = ra9530_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: ra9530_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: ra9530_chip not ready!\n", __func__);
 		return -1;
 	}
 

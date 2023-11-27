@@ -746,7 +746,7 @@ int sy6529_init_vooc(struct oplus_voocphy_manager *chip)
 static int sy6529_gpio_init(struct oplus_voocphy_manager *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -775,7 +775,7 @@ static int sy6529_gpio_init(struct oplus_voocphy_manager *chip)
 	pinctrl_select_state(chip->pinctrl,
 						 chip->charger_gpio_sw_ctrl2_low);
 
-	printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip is ready!\n", __func__);
+	pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip is ready!\n", __func__);
 	return 0;
 }
 

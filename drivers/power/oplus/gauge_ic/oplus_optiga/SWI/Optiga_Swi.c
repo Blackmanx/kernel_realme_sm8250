@@ -32,10 +32,10 @@ BOOL Swi_ReadRegisterSpace( uint16_t uw_Address, uint8_t * ubp_Data )
 
 	/* send address to read from */
 	Swi_SendRawWordNoIrq(SWI_ERA, ((uw_Address >> 8u) & 0xFFu) );
-	
+
 	/* set burst length to one byte */
 	Swi_SendRawWordNoIrq(SWI_BC, SWI_RBL0 );
-	
+
 	Swi_SendRawWordNoIrq(SWI_RRA, ( uw_Address        & 0xFFu) );
 
 	/* read out data */
@@ -95,10 +95,10 @@ BOOL Swi_WriteRegisterSpaceNoIrq( uint16_t uw_Address, uint8_t ub_Data, uint8_t 
 BOOL Swi_ReadConfigSpace( uint16_t uw_Address, uint8_t * ubp_Data )
 {
 	//Prioritize the configuration space selection for isolation code improvement
-	
+
 	/* select device config set */
 	Swi_SendRawWordNoIrq(SWI_BC, SWI_ECFG );
-	
+
 	/* burst lenght is 1 byte */
 	Swi_SendRawWordNoIrq(SWI_BC, SWI_RBL0 );
 
@@ -191,7 +191,7 @@ BOOL Swi_ReadUID(uint8_t* UID)
 	{
 		if(Swi_ReadConfigSpace(SWI_UID0+11-i, ((uint8_t *)&value)) == FALSE)
 		{
-			printk("Swi_ReadUID i=:%d  value =%d\n", i, value);
+			pr_debug("Swi_ReadUID i=:%d  value =%d\n", i, value);
 			return FALSE;
 		}
 
@@ -228,7 +228,7 @@ void Swi_AbortIrq( void )
 	set_pin(0);
 	// delay for 1 tau
 	ic_udelay(g_ulBaudLow);
-	set_pin(1);	
+	set_pin(1);
 
 	set_pin_dir(0);
 }
@@ -260,7 +260,7 @@ void Swi_WaitForIrq( BOOL* bp_IrqDetected, BOOL b_Immediate)
 
 	if(ulTimeOut ==0)
 	{
-		printk("Swi_WaitForIrq ecc wait timeout\n");
+		pr_debug("Swi_WaitForIrq ecc wait timeout\n");
 	}
 
 
@@ -287,7 +287,7 @@ void Swi_SendRawWord( uint8_t ub_Code, uint8_t ub_Data, BOOL b_WaitForInterrupt,
 	}
 
 	/* Send a STOP singal first to have time to receive either IRQ or data! */
-	// set bif gpio as output 
+	// set bif gpio as output
 	set_pin_dir(1);
 	// send a stop command first.
 	set_pin(1);
@@ -384,7 +384,7 @@ BOOL Swi_ReceiveRawWord( uint8_t * up_Byte )
 	/* exit with fail, if timeout criteria triggered */
 	if( ulTimeOut == 0u )
 	{
-		printk("Swi_ReceiveRawWord 01");
+		pr_debug("Swi_ReceiveRawWord 01");
 		return FALSE;
 	}
 	/* get port state */
@@ -446,7 +446,7 @@ BOOL Swi_ReceiveRawWord( uint8_t * up_Byte )
 	if(((ulTimes[12] > ulThreshold) ? 1u : 0u) == ((ulTimes[11] > ulThreshold) ? 1u : 0u)) {
 		for(ubIndex=0;ubIndex<13;ubIndex++)
 		{
-		   printk("Swi_ReceiveRawWord uTimes_temp[%02x] = %02x\n",ubIndex,uTimes_temp[ubIndex]);
+		   pr_debug("Swi_ReceiveRawWord uTimes_temp[%02x] = %02x\n",ubIndex,uTimes_temp[ubIndex]);
 		}
 		return FALSE;
 	}

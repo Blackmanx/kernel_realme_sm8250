@@ -603,7 +603,7 @@ static int sc8517_hardware_init(struct oplus_voocphy_manager *chip)
 	chg_err("----\n");
 	sc8517_reg_reset(chip, true);
 	msleep(10);
-	sc8517_write_byte(chip->client, SC8517_REG_01, 0x5e);//disable v1x_scp 
+	sc8517_write_byte(chip->client, SC8517_REG_01, 0x5e);//disable v1x_scp
 	sc8517_write_byte(chip->client, SC8517_REG_06, 0x85);//enable  audio mode
 	sc8517_write_byte(chip->client, SC8517_REG_08, 0xA6);//REF_SKIP_R 40mv
 	sc8517_write_byte(chip->client, SC8517_REG_29, 0x05);//Masked Pulse_filtered, RX_Start,Tx_Done,soft intflag
@@ -866,7 +866,7 @@ static struct of_device_id sc8517_charger_match_table[] = {
 static int sc8517_gpio_init(struct oplus_voocphy_manager *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -1078,7 +1078,7 @@ static void sc8517_charger_shutdown(struct i2c_client *client)
 {
 	sc8517_update_bits(client, SC8517_REG_06,SC8517_REG_RESET_MASK, SC8517_RESET_REG << SC8517_REG_RESET_SHIFT);
 	msleep(10);
-	sc8517_write_byte(client, SC8517_REG_01, 0x5e);//disable v1x_scp 
+	sc8517_write_byte(client, SC8517_REG_01, 0x5e);//disable v1x_scp
 	sc8517_write_byte(client, SC8517_REG_08, 0xA6);//REF_SKIP_R 40mv
 	sc8517_write_byte(client, SC8517_REG_29, 0x05);//Masked Pulse_filtered, RX_Start,Tx_Done,bit soft intflag
 

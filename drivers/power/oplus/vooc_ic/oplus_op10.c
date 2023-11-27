@@ -387,20 +387,20 @@ int op10_read_input_voltage(void)
 	u8 read_buf[4] = {0};
 
 	if (!the_chip) {
-		printk("op10_read_input_voltage fail\n");
+		pr_debug("op10_read_input_voltage fail\n");
 		return -1;
 	}
 
 	//ret = oplus_i2c_dma_read(the_chip->client, REG_SYS0, 4, read_buf);
 	ret = oplus_vooc_i2c_read(the_chip->client, REG_SYS0, 4, read_buf);
 	if (ret < 0) {
-		printk("op10 read REG_SYS0 fail\n");
+		pr_debug("op10 read REG_SYS0 fail\n");
 		return -1;
 	}
-	printk("op10_read_input_voltage the data: %x, %x, %x, %x\n", read_buf[0], read_buf[1], read_buf[2], read_buf[3]);
+	pr_debug("op10_read_input_voltage the data: %x, %x, %x, %x\n", read_buf[0], read_buf[1], read_buf[2], read_buf[3]);
 
 	ret = ((read_buf[3] << 8) | read_buf[2]);
-	printk("op10_read_input_voltage ret = %d\n", ret);
+	pr_debug("op10_read_input_voltage ret = %d\n", ret);
 
 	return ret;
 }
@@ -411,20 +411,20 @@ int op10_read_vbat0_voltage(void)
 	u8 read_buf[4] = {0};
 
 	if (!the_chip) {
-		printk("op10_read_vbat0_voltage fail\n");
+		pr_debug("op10_read_vbat0_voltage fail\n");
 		return -1;
 	}
 
 	//ret = oplus_i2c_dma_read(the_chip->client, REG_SYS0, 4, read_buf);
 	ret = oplus_vooc_i2c_read(the_chip->client, REG_SYS0, 4, read_buf);
 	if (ret < 0) {
-		printk("op10 read REG_SYS0 fail\n");
+		pr_debug("op10 read REG_SYS0 fail\n");
 		return -1;
 	}
-	printk("op10_read_vbat0_voltage the data: %x, %x, %x, %x\n", read_buf[0], read_buf[1], read_buf[2], read_buf[3]);
+	pr_debug("op10_read_vbat0_voltage the data: %x, %x, %x, %x\n", read_buf[0], read_buf[1], read_buf[2], read_buf[3]);
 
 	ret = ((read_buf[1] << 8) | read_buf[0]);
-	printk("op10_read_vbat0_voltage ret = %d\n", ret);
+	pr_debug("op10_read_vbat0_voltage ret = %d\n", ret);
 
 	return ret;
 }
@@ -437,24 +437,24 @@ int op10_check_btb_temp(void)
 	u8 read_buf[4] = {0};
 
 	if (!the_chip) {
-		printk("op10_check_btb_temp fail\n");
+		pr_debug("op10_check_btb_temp fail\n");
 		return 1;
 	}
 
 	//ret = oplus_i2c_dma_read(the_chip->client, REG_STATE, 4, read_buf);
 	ret = oplus_vooc_i2c_read(the_chip->client, REG_STATE, 4, read_buf);
 	if (ret < 0) {
-		printk("op10_check_btb_temp read REG_STATE fail\n");
+		pr_debug("op10_check_btb_temp read REG_STATE fail\n");
 		return 1;
 	}
-	printk("op10_check_btb_temp the data: %x, %x, %x, %x\n", read_buf[0], read_buf[1], read_buf[2], read_buf[3]);
+	pr_debug("op10_check_btb_temp the data: %x, %x, %x, %x\n", read_buf[0], read_buf[1], read_buf[2], read_buf[3]);
 
 	usb_btb = ((read_buf[3] << 8) | read_buf[2]);
 	bat_btb = ((read_buf[1] << 8) | read_buf[0]);
-	printk("op10_check_btb_temp usb_btb, bat_btb = %d, %d\n", usb_btb, bat_btb);
+	pr_debug("op10_check_btb_temp usb_btb, bat_btb = %d, %d\n", usb_btb, bat_btb);
 
 	if (usb_btb < protect_temp_80 || bat_btb < protect_temp_80) {
-		printk("usb_btb or bat_btb over 80\n");
+		pr_debug("usb_btb or bat_btb over 80\n");
 		return 0;
 	}
 
@@ -469,7 +469,7 @@ int op10_pps_mos_ctrl(int on)
 	u32 ovp_flag = 0;
 
 	if (!the_chip) {
-		printk("op10_pps_mos_ctrl fail\n");
+		pr_debug("op10_pps_mos_ctrl fail\n");
 		return -1;
 	}
 
@@ -478,15 +478,15 @@ int op10_pps_mos_ctrl(int on)
 		//ret = oplus_i2c_dma_write(the_chip->client, REG_HOST, 4, (u8 *)(&ovp_flag));
 		ret = oplus_vooc_i2c_write(the_chip->client, REG_HOST, 4, (u8 *)(&ovp_flag));
 		if (ret < 0) {
-			printk("op10_pps_mos_ctrl write REG_HOST fail\n");
+			pr_debug("op10_pps_mos_ctrl write REG_HOST fail\n");
 			return -1;
 		}
-		printk("op10_pps_mos_ctrl enable flags:0x%x, ret:%d\n", ovp_flag, ret);
+		pr_debug("op10_pps_mos_ctrl enable flags:0x%x, ret:%d\n", ovp_flag, ret);
 	} else {
 		ovp_flag =  DISABLE_OVP_AND_WDT_FLAG;
 		//ret = oplus_i2c_dma_write(the_chip->client, REG_HOST, 4, (u8 *)(&ovp_flag));
 		ret = oplus_vooc_i2c_write(the_chip->client, REG_HOST, 4, (u8 *)(&ovp_flag));
-		printk("op10_pps_mos_ctrl disable flags:0x%x, ret:%d\n", ovp_flag, ret);
+		pr_debug("op10_pps_mos_ctrl disable flags:0x%x, ret:%d\n", ovp_flag, ret);
 		if (ret < 0) {
 			for (i=0; i<3; i++) {
 				msleep(50);
@@ -497,9 +497,9 @@ int op10_pps_mos_ctrl(int on)
 			}
 		}
 		if(ret >= 0){
-			printk("op10_pps_mos_ctrl disable success\n");
+			pr_debug("op10_pps_mos_ctrl disable success\n");
 		} else {
-			printk("op10_pps_mos_ctrl write REG_HOST fail\n");
+			pr_debug("op10_pps_mos_ctrl write REG_HOST fail\n");
 		}
 	}
 
@@ -903,7 +903,7 @@ int oplus_op10_slave_get_vout(void)
 void oplus_op10_set_mcu_pps_mode(bool pps)
 {
 	if (!the_chip) {
-		printk("op10_read_vbat0_voltage fail\n");
+		pr_debug("op10_read_vbat0_voltage fail\n");
 		return;
 	}
 	oplus_vooc_set_mcu_pps_mode(the_chip, pps);
@@ -914,7 +914,7 @@ int oplus_op10_get_mcu_pps_mode(void)
 	int ret = 0;
 
 	if (!the_chip) {
-		printk("oplus_op10_get_mcu_pps_mode fail\n");
+		pr_debug("oplus_op10_get_mcu_pps_mode fail\n");
 		return -1;
 	}
 	ret = oplus_vooc_get_mcu_pps_mode(the_chip);

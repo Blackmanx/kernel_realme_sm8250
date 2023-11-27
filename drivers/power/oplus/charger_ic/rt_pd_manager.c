@@ -271,7 +271,7 @@ void oplus_start_usb_peripheral(void)
 		return;
 	}
 
-	printk(KERN_ERR "%s \n", __func__);
+	pr_debug(KERN_ERR "%s \n", __func__);
 	start_usb_peripheral(g_rpmd);
 	return;
 }

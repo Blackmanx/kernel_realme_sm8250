@@ -1126,13 +1126,13 @@ const char *chg_get_cmd(void)
 int set_chr_enable_otg(unsigned int enable)
 {
 	if (!g_oplus_chip) {
-		printk(KERN_ERR "[oplus_CHG][%s]: otg [%s] failed.\n", __func__, enable?"Enable":"Disable");
+		pr_debug(KERN_ERR "[oplus_CHG][%s]: otg [%s] failed.\n", __func__, enable?"Enable":"Disable");
 		return -1;
 	}
 	chr_err("%s set_chr_enable_otg\n", __func__);
 
 	if (!g_oplus_chip->chg_ops) {
-		printk(KERN_ERR "[oplus_CHG][%s]: g_oplus_chip->chg_ops otg failed.\n", __func__);
+		pr_debug(KERN_ERR "[oplus_CHG][%s]: g_oplus_chip->chg_ops otg failed.\n", __func__);
 		return -1;
 	}
 
@@ -4197,7 +4197,7 @@ static void mtk_charger_external_power_changed(struct power_supply *psy)
 #ifdef OPLUS_FEATURE_CHG_BASIC
 	if (oplus_vooc_get_fastchg_started() == true
 			&& oplus_vooc_get_adapter_update_status() != 1) {
-		printk(KERN_ERR "[OPLUS_CHG] %s oplus_vooc_get_fastchg_started = true!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG] %s oplus_vooc_get_fastchg_started = true!\n", __func__);
 		if (prop.intval) {
 		/*vooc adapters MCU vbus reset time is about 800ms(default standard),
 		 * but some adapters reset time is about 350ms, so when vbus plugin irq
@@ -4663,7 +4663,7 @@ static void set_usbswitch_to_rxtx(struct oplus_chg_chip *chip)
 	int ret = 0;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -4681,7 +4681,7 @@ static void set_usbswitch_to_dpdm(struct oplus_chg_chip *chip)
 	int ret = 0;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -4737,7 +4737,7 @@ void mt_set_chargerid_switch_val(int value)
 	struct oplus_chg_chip *chip = g_oplus_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -4774,7 +4774,7 @@ int mt_get_chargerid_switch_val(void)
 	struct oplus_chg_chip *chip = g_oplus_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return 0;
 	}
 	if (is_support_chargerid_check() == false)
@@ -4793,7 +4793,7 @@ static int oplus_usb_switch_gpio_gpio_init(void)
 	struct oplus_chg_chip *chip = g_oplus_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -4871,7 +4871,7 @@ static int oplus_chg_chargerid_parse_dt(struct oplus_chg_chip *chip)
 static bool oplus_shortc_check_is_gpio(struct oplus_chg_chip *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return false;
 	}
 
@@ -4885,7 +4885,7 @@ static bool oplus_shortc_check_is_gpio(struct oplus_chg_chip *chip)
 static int oplus_shortc_gpio_init(struct oplus_chg_chip *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -4941,7 +4941,7 @@ static int oplus_chg_shortc_hw_parse_dt(struct oplus_chg_chip *chip)
 static bool oplus_ship_check_is_gpio(struct oplus_chg_chip *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return false;
 	}
 
@@ -4954,21 +4954,21 @@ static bool oplus_ship_check_is_gpio(struct oplus_chg_chip *chip)
 static int oplus_ship_gpio_init(struct oplus_chg_chip *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return -EINVAL;
 	}
 
 	chip->normalchg_gpio.pinctrl = devm_pinctrl_get(chip->dev);
-	chip->normalchg_gpio.ship_active = 
-		pinctrl_lookup_state(chip->normalchg_gpio.pinctrl, 
+	chip->normalchg_gpio.ship_active =
+		pinctrl_lookup_state(chip->normalchg_gpio.pinctrl,
 			"ship_active");
 
 	if (IS_ERR_OR_NULL(chip->normalchg_gpio.ship_active)) {
 		chg_err("get ship_active fail\n");
 		return -EINVAL;
 	}
-	chip->normalchg_gpio.ship_sleep = 
-			pinctrl_lookup_state(chip->normalchg_gpio.pinctrl, 
+	chip->normalchg_gpio.ship_sleep =
+			pinctrl_lookup_state(chip->normalchg_gpio.pinctrl,
 				"ship_sleep");
 	if (IS_ERR_OR_NULL(chip->normalchg_gpio.ship_sleep)) {
 		chg_err("get ship_sleep fail\n");
@@ -4990,7 +4990,7 @@ static void smbchg_enter_shipmode(struct oplus_chg_chip *chip)
 	int i = 0;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -5154,7 +5154,7 @@ int oplus_mt6375_get_tchg(int *tchg_min,	int *tchg_max)
 bool oplus_tchg_01c_precision(void)
 {
 	if (!pinfo) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: charger_data not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: charger_data not ready!\n", __func__);
 		return false;
 	}
 	return pinfo->support_ntc_01c_precision;
@@ -5169,14 +5169,14 @@ static int oplus_get_temp_volt(struct ntc_temp *ntc_param)
 	static int sub_temp_volt_pre = SUBBOARD_DEFAULT_VOLT_VALUE_MV;
 
 	if (!ntc_param || !pinfo) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: ntc_param || pinfo not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: ntc_param || pinfo not ready!\n", __func__);
 		return -1;
 	}
 
 	switch (ntc_param->e_ntc_type) {
 	case NTC_SUB_BOARD:
 		if (!pinfo->subboard_temp_chan || g_oplus_chip->unwakelock_chg == 1) {
-			printk(KERN_ERR "[OPLUS_CHG][%s]: pinfo->subboard_temp_chan  is  NULL !\n", __func__);
+			pr_debug(KERN_ERR "[OPLUS_CHG][%s]: pinfo->subboard_temp_chan  is  NULL !\n", __func__);
 			sub_temp_volt = sub_temp_volt_pre;
 			goto subboardtemp_next;
 		}
@@ -5311,13 +5311,13 @@ static void enter_ship_mode_function(struct oplus_chg_chip *chip)
 {
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 
 	if (chip->enable_shipmode) {
 		smbchg_enter_shipmode(chip);
-		printk(KERN_ERR "[OPLUS_CHG][%s]: enter_ship_mode_function\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: enter_ship_mode_function\n", __func__);
 	}
 }
 
@@ -5359,7 +5359,7 @@ static int oplus_chg_shipmode_parse_dt(struct oplus_chg_chip *chip)
 static bool oplus_usbtemp_check_is_gpio(struct oplus_chg_chip *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return false;
 	}
 
@@ -5374,7 +5374,7 @@ static bool oplus_ccdetect_check_is_wd0(struct oplus_chg_chip *chip)
 	struct device_node *node = chip->dev->of_node;
 
 	if (!node) {
-		printk(KERN_ERR "device tree info missing\n", __func__);
+		pr_debug(KERN_ERR "device tree info missing\n", __func__);
 		return false;
 	}
 
@@ -5397,7 +5397,7 @@ bool oplus_chg_get_wd0_status(void)
 static bool oplus_ccdetect_check_is_gpio(struct oplus_chg_chip *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return false;
 	}
 
@@ -5414,7 +5414,7 @@ static bool oplus_ccdetect_support_check(void)
 	struct oplus_chg_chip *chip = g_oplus_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return false;
 	}
 
@@ -5516,11 +5516,11 @@ static void oplus_usbtemp_recover_work(struct work_struct *work)
 static void oplus_ccdetect_irq_init(struct oplus_chg_chip *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 	chip->chgic_mtk.oplus_info->ccdetect_irq = gpio_to_irq(chip->chgic_mtk.oplus_info->ccdetect_gpio);
-	printk(KERN_ERR "[OPLUS_CHG][%s]: chip->chgic_mtk.oplus_info->ccdetect_gpio[%d]!\n", __func__, chip->chgic_mtk.oplus_info->ccdetect_gpio);
+	pr_debug(KERN_ERR "[OPLUS_CHG][%s]: chip->chgic_mtk.oplus_info->ccdetect_gpio[%d]!\n", __func__, chip->chgic_mtk.oplus_info->ccdetect_gpio);
 
 }
 
@@ -5530,7 +5530,7 @@ irqreturn_t oplus_ccdetect_change_handler(int irq, void *data)
 
 	cancel_delayed_work_sync(&ccdetect_work);
 	//smblib_dbg(chg, PR_INTERRUPT, "Scheduling ccdetect work\n");
-    printk(KERN_ERR "[OPLUS_CHG][%s]: Scheduling ccdetect work!\n", __func__);
+    pr_debug(KERN_ERR "[OPLUS_CHG][%s]: Scheduling ccdetect work!\n", __func__);
 	schedule_delayed_work(&ccdetect_work,
 			msecs_to_jiffies(CCDETECT_DELAY_MS));
 	return IRQ_HANDLED;
@@ -5570,14 +5570,14 @@ int oplus_get_otg_online_status(void)
 	struct oplus_chg_chip *chip = g_oplus_chip;
 
 	if (!chip || !pinfo || !pinfo->tcpc) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: g_oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: g_oplus_chip not ready!\n", __func__);
 		return false;
 	}
 
 	if (oplus_ccdetect_check_is_gpio(chip) == true) {
 		level = gpio_get_value(chip->chgic_mtk.oplus_info->ccdetect_gpio);
 		if (level != gpio_get_value(chip->chgic_mtk.oplus_info->ccdetect_gpio)) {
-			printk(KERN_ERR "[OPLUS_CHG][%s]: ccdetect_gpio is unstable, try again...\n", __func__);
+			pr_debug(KERN_ERR "[OPLUS_CHG][%s]: ccdetect_gpio is unstable, try again...\n", __func__);
 			usleep_range(5000, 5100);
 			level = gpio_get_value(chip->chgic_mtk.oplus_info->ccdetect_gpio);
 		}
@@ -5598,7 +5598,7 @@ int oplus_get_otg_online_status(void)
 	if ((pre_level ^ level) || (pre_typec_otg ^ typec_otg)) {
 		pre_level = level;
 		pre_typec_otg = typec_otg;
-		printk(KERN_ERR "[OPLUS_CHG][%s]: gpio[%s], c-otg[%d], otg_online[%d]\n",
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: gpio[%s], c-otg[%d], otg_online[%d]\n",
 				__func__, level ? "H" : "L", typec_otg, online);
 	}
 
@@ -5612,7 +5612,7 @@ bool oplus_get_otg_switch_status(void)
 	struct oplus_chg_chip *chip = g_oplus_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return false;
 	}
 
@@ -5624,19 +5624,19 @@ void oplus_set_otg_switch_status(bool value)
 	if (pinfo != NULL && pinfo->tcpc != NULL) {
 		if(oplus_ccdetect_check_is_gpio(g_oplus_chip) == true) {
 			if(gpio_get_value(g_oplus_chip->chgic_mtk.oplus_info->ccdetect_gpio) == 0) {
-				printk(KERN_ERR "[OPLUS_CHG][oplus_set_otg_switch_status]: gpio[L], should set, return\n");
+				pr_debug(KERN_ERR "[OPLUS_CHG][oplus_set_otg_switch_status]: gpio[L], should set, return\n");
 				return;
 			}
 		}
 
 		if(oplus_ccdetect_check_is_wd0(g_oplus_chip) == true) {
 			if(pinfo->wd0_detect) {
-				printk(KERN_ERR "[OPLUS_CHG][oplus_set_otg_switch_status]: wd0 is 1, should set, return\n");
+				pr_debug(KERN_ERR "[OPLUS_CHG][oplus_set_otg_switch_status]: wd0 is 1, should set, return\n");
 				return;
 			}
 		}
 
-		printk(KERN_ERR "[OPLUS_CHG][%s]: otg switch[%d]\n", __func__, value);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: otg switch[%d]\n", __func__, value);
 		tcpm_typec_change_role(pinfo->tcpc, value ? TYPEC_ROLE_DRP : TYPEC_ROLE_SNK);
 	}
 }
@@ -5653,7 +5653,7 @@ int oplus_get_typec_cc_orientation(void)
 			val = 0;
 		}
 		if (val != 0)
-			printk(KERN_ERR "[OPLUS_CHG][%s]: cc[%d]\n", __func__, val);
+			pr_debug(KERN_ERR "[OPLUS_CHG][%s]: cc[%d]\n", __func__, val);
 	} else {
 		val = 0;
 	}
@@ -5666,7 +5666,7 @@ static void oplus_ccdetect_irq_register(struct oplus_chg_chip *chip)
 	int ret = 0;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -5676,7 +5676,7 @@ static void oplus_ccdetect_irq_register(struct oplus_chg_chip *chip)
 	if (ret < 0) {
 		chg_err("Unable to request ccdetect-change irq: %d\n", ret);
 	}
-	printk(KERN_ERR "%s: !!!!! irq register\n", __FUNCTION__);
+	pr_debug(KERN_ERR "%s: !!!!! irq register\n", __FUNCTION__);
 
 	ret = enable_irq_wake(chip->chgic_mtk.oplus_info->ccdetect_irq);
 	if (ret != 0) {
@@ -5689,7 +5689,7 @@ static void oplus_ccdetect_enable(void)
 	struct oplus_chg_chip *chip = g_oplus_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -5710,7 +5710,7 @@ static void oplus_ccdetect_disable(void)
 	struct oplus_chg_chip *chip = g_oplus_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -5768,7 +5768,7 @@ static bool oplus_usbtemp_check_is_platpmic(struct oplus_chg_chip *chip)
 	struct device_node *node = chip->dev->of_node;
 
 	if (!node) {
-		printk(KERN_ERR "device tree info missing\n", __func__);
+		pr_debug(KERN_ERR "device tree info missing\n", __func__);
 		return false;
 	}
 
@@ -5783,7 +5783,7 @@ static bool oplus_usbtemp_check_is_support(void)
 	struct oplus_chg_chip *chip = g_oplus_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return false;
 	}
 
@@ -5837,11 +5837,11 @@ void oplus_get_usbtemp_volt(struct oplus_chg_chip *chip)
 	static int usbtemp_volt_r_pre = USBTEMP_DEFAULT_VOLT_VALUE_MV;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: smb5_chg not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: smb5_chg not ready!\n", __func__);
 		return ;
 	}
 	if (IS_ERR_OR_NULL(pinfo->usb_temp_v_l_chan) || g_oplus_chip->unwakelock_chg == 1) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: pinfo->usb_temp_v_l_chan  is  NULL !\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: pinfo->usb_temp_v_l_chan  is  NULL !\n", __func__);
 		chip->usbtemp_volt_l = usbtemp_volt_l_pre;
 		goto usbtemp_next;
 	}
@@ -5858,7 +5858,7 @@ void oplus_get_usbtemp_volt(struct oplus_chg_chip *chip)
 usbtemp_next:
 	usbtemp_volt = 0;
 	if (IS_ERR_OR_NULL(pinfo->usb_temp_v_r_chan) || g_oplus_chip->unwakelock_chg == 1) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: pinfo->usb_temp_v_r_chan  is  NULL !\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: pinfo->usb_temp_v_r_chan  is  NULL !\n", __func__);
 		chip->usbtemp_volt_r = usbtemp_volt_r_pre;
 		return;
 	}
@@ -5881,7 +5881,7 @@ usbtemp_next:
 static bool oplus_chg_get_vbus_status(struct oplus_chg_chip *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return false;
 	}
 
@@ -6039,7 +6039,7 @@ static int oplus_wrx_otg_en_gpio_init(struct oplus_chg_chip *chip)
 	struct mtk_charger *info = NULL;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus chip not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -6109,7 +6109,7 @@ static int oplus_boost_en_gpio_init(struct oplus_chg_chip *chip)
 	struct mtk_charger *info = NULL;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus chip not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -6176,7 +6176,7 @@ int oplus_ext1_otg_en_gpio_init(struct oplus_chg_chip *chip)
 	struct mtk_charger *info = NULL;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus chip not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -6243,7 +6243,7 @@ int oplus_ext2_otg_en_gpio_init(struct oplus_chg_chip *chip)
 	struct mtk_charger *info = NULL;
 
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus chip not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -6420,9 +6420,9 @@ static int oplus_chg_parse_custom_dt(struct oplus_chg_chip *chip)
 	int rc = 0;
 	struct device_node *node = NULL;
         struct mtk_charger *info = NULL;
-	
+
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -6430,42 +6430,42 @@ static int oplus_chg_parse_custom_dt(struct oplus_chg_chip *chip)
 
 	rc = oplus_chg_chargerid_parse_dt(chip);
 	if (rc) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chg_chargerid_parse_dt fail!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chg_chargerid_parse_dt fail!\n", __func__);
 		return -EINVAL;
 	}
 
 	rc = oplus_chg_shipmode_parse_dt(chip);
 	if (rc) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chg_shipmode_parse_dt fail!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chg_shipmode_parse_dt fail!\n", __func__);
 		return -EINVAL;
 	}
 
 	rc = oplus_chg_shortc_hw_parse_dt(chip);
 	if (rc) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chg_shortc_hw_parse_dt fail!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chg_shortc_hw_parse_dt fail!\n", __func__);
 		return -EINVAL;
 	}
 
 	rc = oplus_chg_usbtemp_parse_dt(chip);
 	if (rc) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chg_usbtemp_parse_dt fail!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chg_usbtemp_parse_dt fail!\n", __func__);
 		return -EINVAL;
 	}
 
 	rc = oplus_chg_ccdetect_parse_dt(chip);
 	if (rc) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chg_ccdetect_parse_dt fail!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chg_ccdetect_parse_dt fail!\n", __func__);
 	}
-	
+
 	rc = oplus_mtk_hv_flashled_dt(chip);
 	if (rc) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_mtk_hv_flashled_dt fail!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_mtk_hv_flashled_dt fail!\n", __func__);
 		return -EINVAL;
 	}
 
 	rc = oplus_mtk_parse_wls_dt(chip);
 	if (rc) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_mtk_parse_wls_dt fail!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_mtk_parse_wls_dt fail!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -6505,7 +6505,7 @@ static int battery_get_property(struct power_supply *psy,
 	enum power_supply_property psp, union power_supply_propval *val)
 {
 	int rc = 0;
-    
+
 	if (!is_vooc_project()) {
 		switch (psp) {
 		case POWER_SUPPLY_PROP_CAPACITY_LEVEL:
@@ -6570,7 +6570,7 @@ static int oplus_power_supply_init(struct oplus_chg_chip *chip)
 	struct oplus_chg_chip *mt_chg = NULL;
 
 	if (chip == NULL) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return -EINVAL;
 	}
 	mt_chg = chip;
@@ -6588,7 +6588,7 @@ static int oplus_power_supply_init(struct oplus_chg_chip *chip)
 	mt_chg->usb_psd.num_properties = ARRAY_SIZE(mt_usb_properties);
 	mt_chg->usb_psd.get_property = mt_usb_get_property;
 	mt_chg->usb_cfg.drv_data = mt_chg;
-    
+
 	mt_chg->battery_psd.name = "battery";
 	mt_chg->battery_psd.type = POWER_SUPPLY_TYPE_BATTERY;
 	mt_chg->battery_psd.properties = battery_properties;
@@ -6723,11 +6723,11 @@ int oplus_chg_set_qc_config_forsvooc(void)
 		return -1;
 	}
 
-	printk(KERN_ERR "%s: qc9v svooc [%d %d %d]", __func__, chip->limits.vbatt_pdqc_to_9v_thr, chip->limits.vbatt_pdqc_to_5v_thr, chip->batt_volt);
+	pr_debug(KERN_ERR "%s: qc9v svooc [%d %d %d]", __func__, chip->limits.vbatt_pdqc_to_9v_thr, chip->limits.vbatt_pdqc_to_5v_thr, chip->batt_volt);
 	if (!chip->calling_on && chip->charger_volt < 6500 && chip->soc < 90
 		&& chip->temperature <= 530 && chip->cool_down_force_5v == false
 		&& (chip->batt_volt < chip->limits.vbatt_pdqc_to_9v_thr)) {	//
-		printk(KERN_ERR "%s: set qc to 9V", __func__);
+		pr_debug(KERN_ERR "%s: set qc to 9V", __func__);
 		msleep(300);
 		oplus_chg_suspend_charger();
 		oplus_chg_config_charger_vsys_threshold(0x02);//set Vsys Skip threshold 104%
@@ -6739,16 +6739,16 @@ int oplus_chg_set_qc_config_forsvooc(void)
 		if (chip->charger_volt > 7500 &&
 			(chip->calling_on || chip->soc >= 90
 			|| chip->batt_volt >= chip->limits.vbatt_pdqc_to_5v_thr || chip->temperature > 530 || chip->cool_down_force_5v == true)) {
-			printk(KERN_ERR "%s: set qc to 5V", __func__);
+			pr_debug(KERN_ERR "%s: set qc to 5V", __func__);
 			chip->chg_ops->input_current_write(500);
 			oplus_chg_suspend_charger();
 			oplus_chg_config_charger_vsys_threshold(0x03);//set Vsys Skip threshold 101%
 			msleep(400);
-			printk(KERN_ERR "%s: charger voltage=%d", __func__, chip->charger_volt);
+			pr_debug(KERN_ERR "%s: charger voltage=%d", __func__, chip->charger_volt);
 			oplus_chg_unsuspend_charger();
 			ret = 0;
 		}
-		printk(KERN_ERR "%s: qc9v svooc  default[%d]", __func__, chip->batt_volt);
+		pr_debug(KERN_ERR "%s: qc9v svooc  default[%d]", __func__, chip->batt_volt);
 	}
 
 	return ret;
@@ -6818,37 +6818,37 @@ int oplus_chg_set_pps_config(int vbus_mv, int ibus_ma)
 	int ibus_ma_t = 0;
 	struct tcpc_device *tcpc = NULL;
 
-	printk(KERN_ERR "%s: request vbus_mv[%d], ibus_ma[%d]\n", __func__, vbus_mv, ibus_ma);
+	pr_debug(KERN_ERR "%s: request vbus_mv[%d], ibus_ma[%d]\n", __func__, vbus_mv, ibus_ma);
 
 	tcpc = tcpc_dev_get_by_name("type_c_port0");
 	if (tcpc == NULL) {
-		printk(KERN_ERR "%s:get type_c_port0 fail\n", __func__);
+		pr_debug(KERN_ERR "%s:get type_c_port0 fail\n", __func__);
 		return -EINVAL;
 	}
 
 	ret = tcpm_set_apdo_charging_policy(tcpc, DPM_CHARGING_POLICY_PPS, vbus_mv, ibus_ma, NULL);
 	if (ret == TCP_DPM_RET_REJECT) {
-		printk(KERN_ERR "%s: set_apdo_charging_policy reject\n", __func__);
+		pr_debug(KERN_ERR "%s: set_apdo_charging_policy reject\n", __func__);
 		//return MTK_ADAPTER_REJECT;
 		return 0;
 	} else if (ret != 0) {
-		printk(KERN_ERR "%s: set_apdo_charging_policy error\n", __func__);
+		pr_debug(KERN_ERR "%s: set_apdo_charging_policy error\n", __func__);
 		return MTK_ADAPTER_ERROR;
 	}
 
 	ret = tcpm_dpm_pd_request(tcpc, vbus_mv, ibus_ma, NULL);
 	if (ret != TCPM_SUCCESS) {
-		printk(KERN_ERR "%s: tcpm_dpm_pd_request fail\n", __func__);
+		pr_debug(KERN_ERR "%s: tcpm_dpm_pd_request fail\n", __func__);
 		return -EINVAL;
 	}
 
 	ret = tcpm_inquire_pd_contract(tcpc, &vbus_mv_t, &ibus_ma_t);
 	if (ret != TCPM_SUCCESS) {
-		printk(KERN_ERR "%s: inquire current vbus_mv and ibus_ma fail\n", __func__);
+		pr_debug(KERN_ERR "%s: inquire current vbus_mv and ibus_ma fail\n", __func__);
 		return -EINVAL;
 	}
 
-	printk(KERN_ERR "%s: request vbus_mv[%d], ibus_ma[%d]\n", __func__, vbus_mv_t, ibus_ma_t);
+	pr_debug(KERN_ERR "%s: request vbus_mv[%d], ibus_ma[%d]\n", __func__, vbus_mv_t, ibus_ma_t);
 
 	return 0;
 }
@@ -6861,7 +6861,7 @@ u32 oplus_chg_get_pps_status(void)
 
 	tcpc = tcpc_dev_get_by_name("type_c_port0");
 	if (tcpc == NULL) {
-		printk(KERN_ERR "%s:get type_c_port0 fail\n", __func__);
+		pr_debug(KERN_ERR "%s:get type_c_port0 fail\n", __func__);
 		return -EINVAL;
 	}
 
@@ -7123,7 +7123,7 @@ static int mtk_charger_probe(struct platform_device *pdev)
 			chg_err("[oplus_chg_init] gauge null, will do after bettery init.\n");
 			return -EPROBE_DEFER;
 		}
-		//oplus_chip->chg_ops = &mtk6360_chg_ops;	
+		//oplus_chip->chg_ops = &mtk6360_chg_ops;
 		oplus_chip->chg_ops = &oplus_chg_bq2589x_ops;
 	} else {
 		chg_err("[oplus_chg_init] gauge[%d]vooc[%d]adapter[%d]\n",
@@ -7324,7 +7324,7 @@ static int mtk_charger_probe(struct platform_device *pdev)
 		level = gpio_get_value(oplus_chip->chgic_mtk.oplus_info->ccdetect_gpio);
 		usleep_range(2000, 2100);
 		if (level != gpio_get_value(oplus_chip->chgic_mtk.oplus_info->ccdetect_gpio)) {
-			printk(KERN_ERR "[OPLUS_CHG][%s]: ccdetect_gpio is unstable, try again...\n", __func__);
+			pr_debug(KERN_ERR "[OPLUS_CHG][%s]: ccdetect_gpio is unstable, try again...\n", __func__);
 			usleep_range(10000, 11000);
 			level = gpio_get_value(oplus_chip->chgic_mtk.oplus_info->ccdetect_gpio);
 		}
@@ -7333,7 +7333,7 @@ static int mtk_charger_probe(struct platform_device *pdev)
 			schedule_delayed_work(&ccdetect_work, msecs_to_jiffies(6000));
 		}
 
-		printk(KERN_ERR "[OPLUS_CHG][%s]: ccdetect_gpio ..level[%d]  \n", __func__, level);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: ccdetect_gpio ..level[%d]  \n", __func__, level);
 	}
 
 	if (oplus_ccdetect_check_is_wd0(oplus_chip) == true) {
@@ -7409,7 +7409,7 @@ static void mtk_charger_shutdown(struct platform_device *dev)
 	if (g_oplus_chip) {
 		enter_ship_mode_function(g_oplus_chip);
 	}
-#endif	
+#endif
 }
 
 static const struct of_device_id mtk_charger_of_match[] = {

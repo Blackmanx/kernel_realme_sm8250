@@ -3241,7 +3241,7 @@ int smblib_get_prop_usb_online(struct smb_charger *chg,
 		val->intval = false;
 #ifdef OPLUS_FEATURE_CHG_BASIC
 /* Yichun.Chen  PSW.BSP.CHG  2019-04-08  for charge */
-		printk(KERN_ERR "smblib_get_prop_usb_online false\n");
+		pr_debug(KERN_ERR "smblib_get_prop_usb_online false\n");
 #endif
 		return rc;
 	}
@@ -5005,16 +5005,16 @@ void smblib_usb_plugin_hard_reset_locked(struct smb_charger *chg)
 		cancel_delayed_work_sync(&chg->opluschg_monitor_work);
 	}
 #endif
-	
+
 #ifdef OPLUS_FEATURE_CHG_BASIC
 /* Yichun.Chen  PSW.BSP.CHG  2019-04-08  for charge */
 	if (chg->fake_typec_insertion == true && !vbus_rising) {
-		printk(KERN_ERR "!!! %s: fake typec unplug\n", __func__);
+		pr_debug(KERN_ERR "!!! %s: fake typec unplug\n", __func__);
 		chg->fake_typec_insertion = false;
 		chg->typec_mode = POWER_SUPPLY_TYPEC_NONE;
 	}
 #endif
-	
+
 #ifdef OPLUS_FEATURE_CHG_BASIC
 	if (vbus_rising) {
 		switch_usb_state(1);
@@ -5170,7 +5170,7 @@ void smblib_usb_plugin_locked(struct smb_charger *chg)
 
 #ifdef OPLUS_FEATURE_CHG_BASIC
 /* Yichun.Chen  PSW.BSP.CHG  2019-08-23  for chaunyv typec connector */
-		smblib_notify_device_mode(chg, false); 
+		smblib_notify_device_mode(chg, false);
 #endif
 
 		smblib_update_usb_type(chg);
@@ -5192,16 +5192,16 @@ void smblib_usb_plugin_locked(struct smb_charger *chg)
 		cancel_delayed_work_sync(&chg->opluschg_monitor_work);
 	}
 #endif
-	
+
 #ifdef OPLUS_FEATURE_CHG_BASIC
 /* Yichun.Chen  PSW.BSP.CHG  2019-04-08  for charge */
 	if (chg->fake_typec_insertion == true && !vbus_rising) {
-		printk(KERN_ERR "!!! %s: fake typec unplug\n", __func__);
+		pr_debug(KERN_ERR "!!! %s: fake typec unplug\n", __func__);
 		chg->fake_typec_insertion = false;
 		chg->typec_mode = POWER_SUPPLY_TYPEC_NONE;
 	}
 #endif
-	
+
 #ifdef OPLUS_FEATURE_CHG_BASIC
 	if (vbus_rising) {
 		switch_usb_state(1);
@@ -5415,7 +5415,7 @@ static void smblib_handle_apsd_done(struct smb_charger *chg, bool rising)
 
 #ifdef OPLUS_FEATURE_CHG_BASIC
 /* Yichun.Chen  PSW.BSP.CHG  2019-04-08  for charge */
-	printk(KERN_ERR "!!!IRQ: apsd-done rising; %s detected\n", apsd_result->name);
+	pr_debug(KERN_ERR "!!!IRQ: apsd-done rising; %s detected\n", apsd_result->name);
 #endif
 
 	smblib_dbg(chg, PR_INTERRUPT, "IRQ: apsd-done rising; %s detected\n",
@@ -5436,7 +5436,7 @@ irqreturn_t usb_source_change_irq_handler(int irq, void *data)
 #ifdef OPLUS_FEATURE_CHG_BASIC
 /* Yichun.Chen	PSW.BSP.CHG  2019-04-08  for charge */
 		struct oplus_chg_chip *chip = g_oplus_chip;
-	
+
 		if (chg->typec_mode == POWER_SUPPLY_TYPEC_SINK
 			&& chip->vbatt_num == 2 ) {
 			pr_info("%s:chg->typec_mode = sink return!\n", __func__);
@@ -5955,14 +5955,14 @@ irqreturn_t typec_state_change_irq_handler(int irq, void *data)
 		//vote(chg->apsd_disable_votable, SVOOC_OTG_VOTER, true, 0);
 	}
 #endif
-	
+
 #ifdef OPLUS_FEATURE_CHG_BASIC
 /* Yichun.Chen  PSW.BSP.CHG  2019-04-08  for charge */
 	current_status = (chg->typec_mode >= POWER_SUPPLY_TYPEC_SINK
 			&& chg->typec_mode <= POWER_SUPPLY_TYPEC_POWERED_CABLE_ONLY);
 	if (dfp_status ^ current_status) {
 		dfp_status = current_status;
-		printk(KERN_ERR "!!!!! smblib_handle_typec_cc_state_change: [%d], mode[%d]\n", dfp_status, chg->typec_mode);
+		pr_debug(KERN_ERR "!!!!! smblib_handle_typec_cc_state_change: [%d], mode[%d]\n", dfp_status, chg->typec_mode);
 	}
 #endif
 
@@ -10987,7 +10987,7 @@ static void typec_disable_cmd_work(struct work_struct *work)
 	struct smb_charger *chg = container_of(work, struct smb_charger, typec_disable_cmd_work.work);
 
 	if (smblib_get_prop_typec_mode(chg) != POWER_SUPPLY_TYPEC_NONE) {
-		printk(KERN_ERR "!!! %s: active t-c module\n", __func__);
+		pr_debug(KERN_ERR "!!! %s: active t-c module\n", __func__);
 		return;
 	}
 
@@ -11001,11 +11001,11 @@ static void typec_disable_cmd_work(struct work_struct *work)
 	if (rc < 0)
 		smblib_err(chg, "Couldn't write TYPE_C_INTRPT_ENB_SOFTWARE_CTRL_REG rc=%d\n", rc);
 
-	printk(KERN_ERR "!!! %s: re-active t-c module\n", __func__);
+	pr_debug(KERN_ERR "!!! %s: re-active t-c module\n", __func__);
 
 	msleep(200);
 	if (smblib_get_prop_typec_mode(chg) == POWER_SUPPLY_TYPEC_NONE) {
-		printk(KERN_ERR "!!! %s: fake typec plug\n", __func__);
+		pr_debug(KERN_ERR "!!! %s: fake typec plug\n", __func__);
 		rc = smblib_masked_write(chg, TYPE_C_CFG_REG, APSD_START_ON_CC_BIT, 0);
 		if (rc < 0)
 			smblib_err(chg, "Couldn't enable APSD_START_ON_CC rc=%d\n", rc);
@@ -11024,7 +11024,7 @@ static int opluschg_get_fv_monitor(struct oplus_chg_chip *chip)
 
     if (!chip)
         return 0;
-    
+
     default_fv = chip->limits.temp_cold_vfloat_mv;
 
     switch(chip->tbatt_status) {
@@ -11166,12 +11166,12 @@ static void opluschg_monitor_func(struct work_struct *work)
 	if (counts >= (chip->batt_full ? 8 : 3)) {//because rechg counts=6
 		rc = smblib_read(chg, BATTERY_CHARGER_STATUS_8_REG, &stat);
 		if (rc < 0) {
-			printk(KERN_ERR "opluschg_monitor_func: Couldn't get BATTERY_CHARGER_STATUS_8_REG status rc=%d\n", rc);
+			pr_debug(KERN_ERR "opluschg_monitor_func: Couldn't get BATTERY_CHARGER_STATUS_8_REG status rc=%d\n", rc);
 			goto rerun_work;
 		}
 		if (get_client_vote(chg->usb_icl_votable, BOOST_BACK_VOTER) == 0
 				&& get_effective_result(chg->usb_icl_votable) <= USBIN_25MA) {
-			printk(KERN_ERR "opluschg_monitor_func: boost back\n");
+			pr_debug(KERN_ERR "opluschg_monitor_func: boost back\n");
 			if (chg->wa_flags & BOOST_BACK_WA)
 				vote(chg->usb_icl_votable, BOOST_BACK_VOTER, false, 0);
 		}
@@ -11181,25 +11181,25 @@ static void opluschg_monitor_func(struct work_struct *work)
 		}
 		if (stat & PRE_TERM_BIT) {
 			usb_online_status = true;
-			printk(KERN_ERR "opluschg_monitor_func: PRE_TERM_BIT is set[0x%x], clear it\n", stat);
+			pr_debug(KERN_ERR "opluschg_monitor_func: PRE_TERM_BIT is set[0x%x], clear it\n", stat);
 			rc = smblib_masked_write(chg, USBIN_CMD_IL_REG, USBIN_SUSPEND_BIT, 1);
 			if (rc < 0) {
-				printk(KERN_ERR "opluschg_monitor_func: Couldn't set USBIN_SUSPEND_BIT rc=%d\n", rc);
+				pr_debug(KERN_ERR "opluschg_monitor_func: Couldn't set USBIN_SUSPEND_BIT rc=%d\n", rc);
 				goto rerun_work;
 			}
 			msleep(50);
 			rc = smblib_masked_write(chg, USBIN_CMD_IL_REG, USBIN_SUSPEND_BIT, 0);
 			if (rc < 0) {
-				printk(KERN_ERR "opluschg_monitor_func: Couldn't clear USBIN_SUSPEND_BIT rc=%d\n", rc);
+				pr_debug(KERN_ERR "opluschg_monitor_func: Couldn't clear USBIN_SUSPEND_BIT rc=%d\n", rc);
 				goto rerun_work;
 			}
 			msleep(10);
 			rc = smblib_masked_write(chg, AICL_CMD_REG, RESTART_AICL_BIT, RESTART_AICL_BIT);
 			if (rc < 0) {
-				printk(KERN_ERR "opluschg_monitor_func: Couldn't set RESTART_AICL_BIT rc=%d\n", rc);
+				pr_debug(KERN_ERR "opluschg_monitor_func: Couldn't set RESTART_AICL_BIT rc=%d\n", rc);
 				goto rerun_work;
 			}
-			printk(KERN_ERR "opluschg_monitor_func: ichg[%d], fv[%d]\n", chip->icharging, opluschg_get_fv_monitor(chip));
+			pr_debug(KERN_ERR "opluschg_monitor_func: ichg[%d], fv[%d]\n", chip->icharging, opluschg_get_fv_monitor(chip));
 		}
 		counts = 0;
 	}
@@ -11892,10 +11892,10 @@ static int opluschg_set_icl(int current_ma)
 		goto aicl_boost_back;
 	}
 	if (chg_vol < aicl_point) {
-		i = i - 2; 
+		i = i - 2;
 		goto aicl_pre_step;
-	} 
-	
+	}
+
 	i = 5; /* 1500 */
 	rc = vote(chip->pmic_spmi.smb5_chip->chg.usb_icl_votable, USB_PSY_VOTER, true, usb_icl[i] * 1000);
 	msleep(120);
@@ -12259,7 +12259,7 @@ static bool opluschg_is_usb_present(void)
 	u8 stat = 0;
 	bool vbus_rising = false;
 	struct oplus_chg_chip *chip = g_oplus_chip;
-	
+
 	if (!chip)
 		return false;
 
@@ -12512,13 +12512,13 @@ static int oplus_chg_set_pd_config(void)
 {
 	int ret = 0;
 	struct oplus_chg_chip *chip = g_oplus_chip;
-	
+
 	if (!chip) {
 		return -1;
 	}
 		ret = oplus_pdo_select(5000, 3000);
-		printk(KERN_ERR "%s: vbus[%d], ibus[%d], ret[%d]\n", __func__, 5000, 3000, ret);
-	
+		pr_debug(KERN_ERR "%s: vbus[%d], ibus[%d], ret[%d]\n", __func__, 5000, 3000, ret);
+
 	return ret;
 }
 #endif /* OPLUS_FEATURE_CHG_BASIC */

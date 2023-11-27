@@ -4905,11 +4905,11 @@ static void *oplus_chg_get_func(struct oplus_chg_ic_dev *ic_dev,
 						   mtk_chg_set_typec_mode);
 		break;
 	case OPLUS_IC_FUNC_SET_OTG_SWITCH_STATUS:
-		func = OPLUS_CHG_IC_FUNC_CHECK(OPLUS_IC_FUNC_SET_OTG_SWITCH_STATUS, 
+		func = OPLUS_CHG_IC_FUNC_CHECK(OPLUS_IC_FUNC_SET_OTG_SWITCH_STATUS,
 						   mtk_chg_set_otg_switch_status);
 		break;
 	case OPLUS_IC_FUNC_GET_OTG_SWITCH_STATUS:
-		func = OPLUS_CHG_IC_FUNC_CHECK(OPLUS_IC_FUNC_GET_OTG_SWITCH_STATUS, 
+		func = OPLUS_CHG_IC_FUNC_CHECK(OPLUS_IC_FUNC_GET_OTG_SWITCH_STATUS,
 						   mtk_chg_get_otg_switch_status);
 		break;
 	case OPLUS_IC_FUNC_GET_OTG_ENABLE:
@@ -5082,7 +5082,7 @@ int oplus_mt6375_get_tchg(int *tchg_min,	int *tchg_max)
 bool oplus_tchg_01c_precision(void)
 {
 	if (!pinfo) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: charger_data not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: charger_data not ready!\n", __func__);
 		return false;
 	}
 	return pinfo->support_ntc_01c_precision;

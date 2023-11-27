@@ -35,13 +35,13 @@
 #include "../charger_ic/oplus_battery_msm8250.h"
 
 #define chg_debug(fmt, ...)                                                    \
-	printk(KERN_NOTICE "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
+	pr_debug(KERN_NOTICE "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
 
 #define chg_err(fmt, ...)                                                      \
-	printk(KERN_ERR "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
+	pr_debug(KERN_ERR "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
 
 #define chg_info(fmt, ...)                                                     \
-	printk(KERN_INFO "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
+	pr_debug(KERN_INFO "[WLCHG][%s]" fmt, __func__, ##__VA_ARGS__)
 
 extern struct smb_charger *normal_charger;
 
@@ -256,7 +256,7 @@ static int p9415_get_vbat_en_val(struct op_p9415_ic *chip)
 static int p9415_booster_en_gpio_init(struct op_p9415_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OP_CHG][%s]: op_p9415_ic not ready!\n",
+		pr_debug(KERN_ERR "[OP_CHG][%s]: op_p9415_ic not ready!\n",
 		       __func__);
 		return -EINVAL;
 	}
@@ -302,7 +302,7 @@ void p9415_set_booster_en_val(int value)
 	struct op_p9415_ic *chip = g_p9415_chip;
 
 	if (!chip) {
-		printk(KERN_ERR "[OP_CHG][%s]: op_p9415_ic not ready!\n",
+		pr_debug(KERN_ERR "[OP_CHG][%s]: op_p9415_ic not ready!\n",
 		       __func__);
 		return;
 	}
@@ -353,7 +353,7 @@ int p9415_get_booster_en_val(struct op_p9415_ic *chip)
 static int p9415_idt_en_gpio_init(struct op_p9415_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OP_CHG][%s]: op_p9415_ic not ready!\n",
+		pr_debug(KERN_ERR "[OP_CHG][%s]: op_p9415_ic not ready!\n",
 		       __func__);
 		return -EINVAL;
 	}
@@ -481,7 +481,7 @@ static int p9415_idt_con_gpio_init(struct op_p9415_ic *chip)
 static int p9415_idt_int_gpio_init(struct op_p9415_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OP_CHG][%s]: op_p9415_ic not ready!\n",
+		pr_debug(KERN_ERR "[OP_CHG][%s]: op_p9415_ic not ready!\n",
 		       __func__);
 		return -EINVAL;
 	}
@@ -526,7 +526,7 @@ static int p9415_idt_int_gpio_init(struct op_p9415_ic *chip)
 static int p9415_vbat_en_gpio_init(struct op_p9415_ic *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OP_CHG][%s]: op_p9415_ic not ready!\n",
+		pr_debug(KERN_ERR "[OP_CHG][%s]: op_p9415_ic not ready!\n",
 		       __func__);
 		return -EINVAL;
 	}

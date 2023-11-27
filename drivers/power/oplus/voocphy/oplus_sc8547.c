@@ -1310,7 +1310,7 @@ static struct of_device_id sc8547_charger_match_table[] = {
 static int sc8547_gpio_init(struct oplus_voocphy_manager *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return -EINVAL;
 	}
 
@@ -1349,7 +1349,7 @@ static int sc8547_gpio_init(struct oplus_voocphy_manager *chip)
 	                     chip->slave_charging_inter_default);
 	}
 
-	printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip is ready!\n", __func__);
+	pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip is ready!\n", __func__);
 	return 0;
 }
 

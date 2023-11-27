@@ -147,9 +147,9 @@ MODULE_PARM_DESC(bq2589x_chg_dbg_enable, "debug charger bq2589x");
 #undef chg_debug
 #define chg_debug(fmt, ...) \
 	if (bq2589x_chg_dbg_enable & BQ2589X_DEBUG) { \
-		printk(KERN_ERR "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
 	} else { \
-		printk(KERN_NOTICE "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
+		pr_debug(KERN_NOTICE "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
 	}
 #endif
 
@@ -157,16 +157,16 @@ MODULE_PARM_DESC(bq2589x_chg_dbg_enable, "debug charger bq2589x");
 #undef chg_info
 #define chg_info(fmt, ...) \
 	if (bq2589x_chg_dbg_enable & BQ2589X_INFO) { \
-		printk(KERN_ERR "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
 	} else { \
-		printk(KERN_NOTICE "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
+		pr_debug(KERN_NOTICE "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
 	}
 #else
 #define chg_info(fmt, ...) \
 	if (bq2589x_chg_dbg_enable & BQ2589X_INFO) { \
-                printk(KERN_ERR "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
+                pr_debug(KERN_ERR "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
         } else { \
-                printk(KERN_NOTICE "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
+                pr_debug(KERN_NOTICE "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
         }
 #endif
 
@@ -174,9 +174,9 @@ MODULE_PARM_DESC(bq2589x_chg_dbg_enable, "debug charger bq2589x");
 #undef chg_err
 #define chg_err(fmt, ...) \
 	if (bq2589x_chg_dbg_enable & BQ2589X_ERR) { \
-		printk(KERN_ERR "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
 	} else { \
-		printk(KERN_NOTICE "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
+		pr_debug(KERN_NOTICE "[OPLUS_CHG][%s]"fmt, __func__, ##__VA_ARGS__); \
 	}
 #endif
 
@@ -2703,7 +2703,7 @@ int oplus_bq2589x_charger_suspend(void)
 		g_oplus_chip->slave_charger_enable = false;
 		g_oplus_chip->sub_chg_ops->charger_suspend();
 	}
-	printk("%s\n", __func__);
+	pr_debug("%s\n", __func__);
 	return 0;
 }
 
@@ -2716,7 +2716,7 @@ int oplus_bq2589x_charger_unsuspend(void)
 	if ((g_oplus_chip != NULL) && (g_oplus_chip->is_double_charger_support)) {
 		g_oplus_chip->sub_chg_ops->charger_unsuspend();
 	}
-	printk("%s\n", __func__);
+	pr_debug("%s\n", __func__);
 	return 0;
 }
 
@@ -2982,7 +2982,7 @@ bool oplus_bq2589x_need_retry_aicl(void)
 static bool oplus_shortc_check_is_gpio(struct oplus_chg_chip *chip)
 {
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return false;
 	}
 
@@ -2998,7 +2998,7 @@ static bool oplus_bq2589x_get_shortc_hw_gpio_status(void)
 	bool shortc_hw_status = true;
 	struct oplus_chg_chip *chip = g_oplus_chip;
 	if (!chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return shortc_hw_status;
 	}
 
@@ -3169,7 +3169,7 @@ int oplus_bq2589x_pd_setup (void){
 static void oplus_mt_power_off(void)
 {
 	if (!g_oplus_chip) {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: oplus_chip not ready!\n", __func__);
 		return;
 	}
 
@@ -3177,7 +3177,7 @@ static void oplus_mt_power_off(void)
 		if(!mt6357_get_vbus_status())
 			kernel_power_off();
 	} else {
-		printk(KERN_ERR "[OPLUS_CHG][%s]: ac_online is true, return!\n", __func__);
+		pr_debug(KERN_ERR "[OPLUS_CHG][%s]: ac_online is true, return!\n", __func__);
 	}
 }
 
