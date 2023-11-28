@@ -208,7 +208,7 @@ static int anc_opticalfp_tp_handler(struct fp_underscreen_info *tp_info)
 
     netlink_msg.event = (char)ANC_NETLINK_EVENT_INVALID;
 
-    pr_info("[anc] %s\n", __func__);
+    pr_debug("[anc] %s\n", __func__);
 
     g_anc_data->fp_tpinfo = *tp_info;
     if(tp_info->touch_state == lasttouchmode){
@@ -274,7 +274,7 @@ static int anc_fb_state_chg_callback(struct notifier_block *nb,
         switch (blank) {
             case FB_BLANK_POWERDOWN:
                     anc_data->fb_black = 1;
-                    msg = JIIOV_NET_EVENT_SCR_OFF;                 
+                    msg = JIIOV_NET_EVENT_SCR_OFF;
                     pr_err("[anc] NET SCREEN OFF!\n");
                     netlink_send_message_to_user(&msg, length);
                 break;
@@ -289,7 +289,7 @@ static int anc_fb_state_chg_callback(struct notifier_block *nb,
                 break;
         }
     }*/
-	
+
    if (evdata && evdata->data && (val == MSM_DRM_EARLY_EVENT_BLANK) && anc_data) {
         blank = *(int *)(evdata->data);
         switch (blank) {

@@ -68,7 +68,7 @@
 #define TPD_SPECIFIC_PRINT(count, a, arg...)\
     do{\
         if (count++ == TPD_PRINT_POINT_NUM || LEVEL_DEBUG == tp_debug) {\
-            TPD_INFO(TPD_DEVICE ": " a, ##arg);\
+            TPD_DEBUG(TPD_DEVICE ": " a, ##arg);\
             count = 0;\
         }\
     }while(0)
