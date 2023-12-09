@@ -137,7 +137,7 @@ all.config
 kernel/configs/android-*.cfg
 
 # Local builds
-build.sh
+buildkernel.sh
 out
 *.zip
 
