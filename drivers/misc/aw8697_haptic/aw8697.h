@@ -122,6 +122,18 @@
 #define AW8697_TRG2_ENABLE                  1
 #define AW8697_TRG3_ENABLE                  1
 
+/********************************************
+ * print information control
+ *******************************************/
+#define aw_pr_err(format, ...)                                           \
+	pr_err(format, ##__VA_ARGS__)
+
+#define aw_pr_info(format, ...)                                          \
+	pr_info(format, ##__VA_ARGS__)
+
+#define aw_pr_debug(format, ...)                                          \
+	pr_debug(format, ##__VA_ARGS__)
+
 /*
  * trig default high level
  * ___________           _________________
