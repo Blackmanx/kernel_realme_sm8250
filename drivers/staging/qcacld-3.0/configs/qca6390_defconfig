@@ -66,7 +66,6 @@ ifeq ($(CONFIG_ICNSS), y)
 	endif
 endif
 
-DEVELOPER_DISABLE_BUILD_TIMESTAMP := y
 ifneq ($(DEVELOPER_DISABLE_BUILD_TIMESTAMP), y)
 ifneq ($(WLAN_DISABLE_BUILD_TAG), y)
 CONFIG_BUILD_TAG := n
@@ -212,7 +211,7 @@ ifeq ($(CONFIG_ROME_IF),usb)
 endif
 
 
-CONFIG_FEATURE_EPPING := n
+CONFIG_FEATURE_EPPING := y
 
 #Flag to enable offload packets feature
 CONFIG_WLAN_OFFLOAD_PACKETS := y
@@ -370,7 +369,7 @@ ifneq ($(TARGET_BUILD_VARIANT),user)
 endif
 
 #Enable WLAN/Power debugfs feature only if debug_fs is enabled
-#ifeq ($(CONFIG_DEBUG_FS), y)
+# ifeq ($(CONFIG_DEBUG_FS), y)
        # Flag to enable debugfs. Depends on CONFIG_DEBUG_FS in kernel
        # configuration.
        # CONFIG_WLAN_DEBUGFS := y
@@ -636,7 +635,7 @@ CONFIG_HDD_INIT_WITH_RTNL_LOCK := y
 CONFIG_WLAN_CONV_SPECTRAL_ENABLE := y
 CONFIG_WLAN_SPECTRAL_ENABLE := y
 CONFIG_WMI_CMD_STRINGS := y
-CONFIG_FEATURE_MONITOR_MODE_SUPPORT := n
+CONFIG_FEATURE_MONITOR_MODE_SUPPORT := y
 CONFIG_WLAN_ALLOCATE_GLOBAL_BUFFERS_DYNAMICALLY := n
 CONFIG_WLAN_FEATURE_TWT := y
 
@@ -720,7 +719,9 @@ ifeq ($(CONFIG_ARCH_SDXPRAIRIE), y)
 	endif
 endif
 
+ifneq ($(CONFIG_HIF_USB), y)
 CONFIG_WLAN_LOGGING_SOCK_SVC := n
+endif
 
 ifneq ($(TARGET_BUILD_VARIANT),user)
 CONFIG_DESC_DUP_DETECT_DEBUG := y
@@ -755,7 +756,7 @@ endif
 CONFIG_SM_ENG_HIST := n
 
 ifeq ($(CONFIG_WLAN_SYSFS), y)
-#Disable Beacon Reception Stats
+#Enable Beacon Reception Stats
 CONFIG_FEATURE_BECN_STATS := n
 endif
 
