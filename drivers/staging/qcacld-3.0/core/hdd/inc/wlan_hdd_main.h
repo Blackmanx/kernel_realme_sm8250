@@ -3760,8 +3760,10 @@ void hdd_psoc_idle_timer_start(struct hdd_context *hdd_ctx);
  * Return: None
  */
 void hdd_psoc_idle_timer_stop(struct hdd_context *hdd_ctx);
+
 int hdd_driver_oplus_init(void);
 void hdd_driver_oplus_deinit(void);
+
 /**
  * hdd_trigger_psoc_idle_restart() - trigger restart of a previously shutdown
  *                                   idle psoc, if needed
