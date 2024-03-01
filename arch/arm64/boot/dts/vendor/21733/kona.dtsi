@@ -558,10 +558,7 @@
 			label = "cont_splash_region";
 		};
 
-		disp_rdump_memory: disp_rdump_region@9c000000 {
-			reg = <0x0 0x9c000000 0x0 0x00800000>;
-			label = "disp_rdump_region";
-		};
+
 
 		dfps_data_memory: dfps_data_region@9e300000 {
 			reg = <0x0 0x9e300000 0x0 0x0100000>;
@@ -4768,7 +4765,7 @@
 		      <0xb2e5510 0x5c0>;
 		reg-names = "smmu_iova_ipa", "tcs_cmd";
 		wlan-en-gpio = <&tlmm 20 0>;
-		
+
 		qcom,sw-ctrl-gpio = <&tlmm 124 0>;
 		pinctrl-names = "wlan_en_active", "wlan_en_sleep";
 		pinctrl-0 = <&cnss_wlan_en_active>;
