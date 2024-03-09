@@ -34,7 +34,7 @@
 #define DEF_MDM9X55_RESET_TIME		203
 #define RD_BUF_SIZE			100
 #define SFR_MAX_RETRIES			10
-#define SFR_RETRY_INTERVAL		1000
+#define SFR_RETRY_INTERVAL		120000
 #define MDM_DBG_OFFSET			0x934
 #define MDM_DBG_MODE			0x53444247
 #define MDM_CTI_NAME			"coresight-cti-rpm-cpu0"

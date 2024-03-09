@@ -17,7 +17,7 @@
 
 #define ESOC_MAX_PON_TRIES	5
 
-#define BOOT_FAIL_ACTION_DEF BOOT_FAIL_ACTION_NOP
+#define BOOT_FAIL_ACTION_DEF BOOT_FAIL_ACTION_S3_RESET
 
 enum esoc_pon_state {
 	PON_INIT,
@@ -55,7 +55,7 @@ struct mdm_drv {
 };
 #define to_mdm_drv(d)	container_of(d, struct mdm_drv, cmd_eng)
 
-#define S3_RESET_DELAY_MS	1000
+#define S3_RESET_DELAY_MS	120000
 
 static void esoc_client_link_power_off(struct esoc_clink *esoc_clink,
 							unsigned int flags);
