@@ -17,9 +17,7 @@ config OPLUS_BUG_STABILITY_EFFECTON_QGKI
   help
 	define this config to fix stability bug only effect on qgki
 
-source "drivers/soc/oplus/system/feedback/Kconfig"
 source "drivers/soc/oplus/system/oplus_project/Kconfig"
 source "drivers/soc/oplus/system/project_info/Kconfig"
 source "drivers/soc/oplus/system/cmdline_parser/Kconfig"
-source "drivers/soc/oplus/system/oplus_mm_fb/Kconfig"
 source "drivers/soc/oplus/system/param/Kconfig"

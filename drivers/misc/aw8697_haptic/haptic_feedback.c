@@ -19,9 +19,6 @@
 #include <linux/workqueue.h>
 #include <linux/kthread.h>
 #include <linux/sched/clock.h>
-#if defined(CONFIG_OPLUS_FEATURE_FEEDBACK) || defined(CONFIG_OPLUS_FEATURE_FEEDBACK_MODULE)
-#include <soc/oplus/system/kernel_fb.h>
-#endif
 #include "haptic_feedback.h"
 
 static struct oplus_haptic_track *g_haptic_track_chip;
@@ -90,11 +87,8 @@ static int oplus_haptic_event_payload_pack(struct haptic_fb_detail *fb_info)
 	char *fb_event_field = NULL;
 	char *fb_event_desc = NULL;
 	struct oplus_haptic_track *chip = g_haptic_track_chip;
-	char *log_tag = HAPTIC_EVENT_TAG;
-	char *event_id = HAPTIC_EVENT_ID;
-	int len;
 
-	if ((!chip) || (!chip->dcs_info) || (!fb_info))
+	if (!chip)
 		return TRACK_CMD_ERROR_CHIP_NULL;
 
 	for (i = 0; i < ARRAY_SIZE(g_haptic_fb_table); i++) {
@@ -109,22 +103,6 @@ static int oplus_haptic_event_payload_pack(struct haptic_fb_detail *fb_info)
 		haptic_fb_err("%s: invalid fb_event_type \n", __func__);
 		return TRACK_CMD_ERROR_DATA_INVALID;
 	}
-
-	memset(chip->dcs_info, 0x0, OPLUS_HSPTIC_TRIGGER_MSG_LEN);
-	snprintf(chip->dcs_info->payload, MAX_PAYLOAD_LEN,
-		 "NULL$$EventField@@%s$$FieldData@@%s$$detailData@@%s",
-		 fb_event_field,
-		 fb_event_desc,
-		 fb_info->detailData);
-	chip->dcs_info->payload[MAX_PAYLOAD_LEN - 1] = '\0';
-	len = strlen(chip->dcs_info->payload);
-
-	chip->dcs_info->type = 1;
-	strncpy(chip->dcs_info->log_tag, log_tag, MAX_HAPTIC_EVENT_TAG_LEN);
-	chip->dcs_info->log_tag[MAX_HAPTIC_EVENT_TAG_LEN - 1] = '\0';
-	strncpy(chip->dcs_info->event_id, event_id, MAX_HAPTIC_EVENT_ID_LEN);
-	chip->dcs_info->event_id[MAX_HAPTIC_EVENT_ID_LEN - 1] = '\0';
-	chip->dcs_info->payload_length = len + 1;
 
 	return TRACK_CMD_ACK_OK;
 }
@@ -349,12 +327,8 @@ static void oplus_haptic_track_upload_info_dwork(struct work_struct *work)
 	struct oplus_haptic_track *chip =
 		container_of(dwork, struct oplus_haptic_track, upload_info_dwork);
 
-	if ((!chip) || (!chip->dcs_info))
+	if (!chip)
 		return;
-
-#if defined(CONFIG_OPLUS_FEATURE_FEEDBACK) || defined(CONFIG_OPLUS_FEATURE_FEEDBACK_MODULE)
-	ret = fb_kevent_send_to_user(chip->dcs_info);
-#endif
 	if (!ret) {
 		complete(&chip->trigger_ack);
 	} else if (chip->fb_retry_cnt > 0) {
@@ -566,13 +540,6 @@ static int oplus_haptic_feedback_probe(struct platform_device *pdev)
 		return -ENOMEM;
 	}
 
-	hapric_track->dcs_info = (struct kernel_packet_info *)devm_kzalloc(&pdev->dev,
-		sizeof(char) * OPLUS_HSPTIC_TRIGGER_MSG_LEN, GFP_KERNEL);
-	if (!hapric_track->dcs_info) {
-		ret = -ENOMEM;
-		goto dcs_info_kmalloc_fail;
-	}
-
 	hapric_track->dev = &pdev->dev;
 	platform_set_drvdata(pdev, hapric_track);
 
@@ -596,8 +563,6 @@ static int oplus_haptic_feedback_probe(struct platform_device *pdev)
 
 	return 0;
 track_kthread_init_err:
-	devm_kfree(&pdev->dev, hapric_track->dcs_info);
-dcs_info_kmalloc_fail:
 	devm_kfree(&pdev->dev, hapric_track);
 	return ret;
 }
@@ -617,7 +582,6 @@ static int oplus_haptic_feedback_remove(struct platform_device *pdev)
 	cancel_delayed_work_sync(&hapric_track->dev_track_event.track_dev_err_load_trigger_work);
 	cancel_delayed_work_sync(&hapric_track->fre_cail_track_event.track_fre_cail_load_trigger_work);
 	cancel_delayed_work_sync(&hapric_track->mem_alloc_track_event.track_mem_alloc_err_load_trigger_work);
-	devm_kfree(&pdev->dev, hapric_track->dcs_info);
 	devm_kfree(&pdev->dev, hapric_track);
 	return 0;
 }

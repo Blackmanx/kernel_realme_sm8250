@@ -22,9 +22,6 @@
 #include "dsi_panel.h"
 
 #include "sde_dbg.h"
-#ifdef OPLUS_BUG_STABILITY
-#include <soc/oplus/system/oplus_mm_kevent_fb.h>
-#endif /* OPLUS_BUG_STABILITY */
 
 #define DSI_CTRL_DEFAULT_LABEL "MDSS DSI CTRL"
 
@@ -44,15 +41,6 @@
 		fmt, c->name, ##__VA_ARGS__)
 #define DSI_CTRL_WARN(c, fmt, ...)	DRM_WARN("[msm-dsi-warn]: %s: " fmt,\
 		c ? c->name : "inv", ##__VA_ARGS__)
-
-#ifdef OPLUS_BUG_STABILITY
-#define DSI_CTRL_MM_ERR(c, fmt, ...) \
-	do { \
-		DRM_DEV_ERROR(NULL, "[msm-dsi-error]: %s: "\
-				fmt, c ? c->name : "inv", ##__VA_ARGS__); \
-		mm_fb_display_kevent_named(MM_FB_KEY_RATELIMIT_1H, fmt, ##__VA_ARGS__); \
-	} while(0)
-#endif /* OPLUS_BUG_STABILITY */
 
 struct dsi_ctrl_list_item {
 	struct dsi_ctrl *ctrl;
@@ -348,9 +336,6 @@ static void dsi_ctrl_dma_cmd_wait_for_done(struct work_struct *work)
 					status);
 			DSI_CTRL_WARN(dsi_ctrl,
 					"dma_tx done but irq not triggered\n");
-			#ifdef OPLUS_BUG_STABILITY
-			DSI_CTRL_MM_ERR(dsi_ctrl, "DisplayDriverID@@416$$dma_tx done but irq not triggered\n");
-			#endif
 
 #ifdef OPLUS_BUG_STABILITY
 			if (dsi_ctrl->irq_info.irq_num != -1) {
@@ -375,17 +360,11 @@ static void dsi_ctrl_dma_cmd_wait_for_done(struct work_struct *work)
 							dsi_ctrl->irq_info.irq_stat_refcount[DSI_SINT_CMD_MODE_DMA_DONE]);
 				dsi_ctrl_disable_status_interrupt(dsi_ctrl,
 						DSI_SINT_CMD_MODE_DMA_DONE);
-
-				mm_fb_display_kevent("DisplayDriverID@@405$$", MM_FB_KEY_RATELIMIT_NONE, "dma_tx irq trigger fixup irq status=%x", status);
 			}
-			mm_fb_display_kevent("DisplayDriverID@@413$$", MM_FB_KEY_RATELIMIT_1H, "dma_tx irq trigger err irq status=%x", status);
 #endif
 		} else {
 			DSI_CTRL_ERR(dsi_ctrl,
 					"Command transfer failed\n");
-			#ifdef OPLUS_BUG_STABILITY
-			DSI_CTRL_MM_ERR(dsi_ctrl, "DisplayDriverID@@401$$Command transfer failed\n");
-			#endif
 		}
 		dsi_ctrl_disable_status_interrupt(dsi_ctrl,
 					DSI_SINT_CMD_MODE_DMA_DONE);
@@ -1050,9 +1029,6 @@ static int dsi_ctrl_enable_supplies(struct dsi_ctrl *dsi_ctrl, bool enable)
 		if (rc < 0) {
 			DSI_CTRL_ERR(dsi_ctrl,
 				"Power resource enable failed, rc=%d\n", rc);
-			#ifdef OPLUS_BUG_STABILITY
-			DSI_CTRL_MM_ERR(dsi_ctrl, "DisplayDriverID@@406$$Power resource enable failed, rc=%d\n", rc);
-			#endif
 			goto error;
 		}
 
@@ -1061,9 +1037,6 @@ static int dsi_ctrl_enable_supplies(struct dsi_ctrl *dsi_ctrl, bool enable)
 				&dsi_ctrl->pwr_info.host_pwr, true);
 			if (rc) {
 				DSI_CTRL_ERR(dsi_ctrl, "failed to enable host power regs\n");
-				#ifdef OPLUS_BUG_STABILITY
-				DSI_CTRL_MM_ERR(dsi_ctrl, "DisplayDriverID@@406$$failed to enable host power regs\n");
-				#endif
 				goto error_get_sync;
 			}
 		}
@@ -3332,18 +3305,12 @@ int dsi_ctrl_cmd_transfer(struct dsi_ctrl *dsi_ctrl,
 		if (rc <= 0) {
 			DSI_CTRL_ERR(dsi_ctrl, "read message failed read length, rc=%d\n",
 					rc);
-			#ifdef OPLUS_BUG_STABILITY
-			DSI_CTRL_MM_ERR(dsi_ctrl, "read message failed read length, rc=%d\n",rc);
-			#endif
 		}
 	} else {
 		rc = dsi_message_tx(dsi_ctrl, msg, flags);
 		if (rc) {
 			DSI_CTRL_ERR(dsi_ctrl, "command msg transfer failed, rc = %d\n",
 					rc);
-			#ifdef OPLUS_BUG_STABILITY
-			DSI_CTRL_MM_ERR(dsi_ctrl, "command msg transfer failed, rc = %d\n",rc);
-			#endif
 		}
 	}
 

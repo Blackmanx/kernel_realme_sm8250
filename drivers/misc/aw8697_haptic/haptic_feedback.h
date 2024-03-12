@@ -167,7 +167,6 @@ struct oplus_haptic_track {
 	struct mutex payload_lock;
 	int fb_retry_cnt;
 	struct timespec lastest_record;
-	struct kernel_packet_info *dcs_info;
 	struct haptic_dev_track_event dev_track_event;
 	struct haptic_fre_cail_track_event fre_cail_track_event;
 	struct haptic_mem_alloc_track_event mem_alloc_track_event;

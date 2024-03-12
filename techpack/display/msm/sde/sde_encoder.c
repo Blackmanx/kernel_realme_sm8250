@@ -3858,10 +3858,6 @@ static void sde_encoder_underrun_callback(struct drm_encoder *drm_enc,
 	trace_sde_encoder_underrun(DRMID(drm_enc),
 		atomic_read(&phy_enc->underrun_cnt));
 
-#ifdef OPLUS_BUG_STABILITY
-	SDE_MM_ERROR("DisplayDriverID@@422$$sde encoder underrun! Count:%d\n", &phy_enc->underrun_cnt);
-#endif /* OPLUS_BUG_STABILITY */
-
 	SDE_DBG_CTRL("stop_ftrace");
 	SDE_DBG_CTRL("panic_underrun");
 
