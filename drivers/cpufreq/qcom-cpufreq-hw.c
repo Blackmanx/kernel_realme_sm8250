@@ -509,18 +509,18 @@ static int qcom_cpufreq_hw_read_lut(struct platform_device *pdev,
 			}
 		}
 
-		/*
-		 * Two of the same frequencies with the same core counts means
-		 * end of table.
-		 */
-		if (i > 0 && c->table[i - 1].frequency ==
-				c->table[i].frequency) {
-			if (prev_cc == core_count) {
-				struct cpufreq_frequency_table *prev =
-							&c->table[i - 1];
+			/*
+			 * Two of the same frequencies with the same core counts means
+			 * end of table.
+			 */
+			if (i > 0 && c->table[i - 1].frequency ==
+					c->table[i].frequency) {
+					struct cpufreq_frequency_table *prev =
+								&c->table[i - 1];
 
-				if (prev_freq == CPUFREQ_ENTRY_INVALID)
-					prev->flags = CPUFREQ_BOOST_FREQ;
+					if (prev_freq == CPUFREQ_ENTRY_INVALID)
+						prev->flags = CPUFREQ_BOOST_FREQ;
+				break;
 			}
 			break;
 		}
