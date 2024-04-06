@@ -101,7 +101,7 @@ static int cass_best_cpu(struct task_struct *p, int prev_cpu, bool sync)
 	int cidx = 0, cpu;
 
 	/* Get the utilization for this task */
-	p_util = clamp(task_util(p),
+	p_util = clamp(task_util_est(p),
 		       uclamp_eff_value(p, UCLAMP_MIN),
 		       uclamp_eff_value(p, UCLAMP_MAX));
 
