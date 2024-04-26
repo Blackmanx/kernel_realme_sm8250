@@ -522,8 +522,6 @@ static int qcom_cpufreq_hw_read_lut(struct platform_device *pdev,
 						prev->flags = CPUFREQ_BOOST_FREQ;
 				break;
 			}
-			break;
-		}
 
 		prev_cc = core_count;
 		prev_freq = cur_freq;
