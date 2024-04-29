@@ -15424,7 +15424,7 @@ const struct wiphy_vendor_command hdd_wiphy_vendor_commands[] = {
 			WIPHY_VENDOR_CMD_NEED_RUNNING,
 		.doit = wlan_hdd_cfg80211_vendor_scan
 	},
-	#endif
+	#endif /* OPLUS_BUG_STABILITY */
 
 	/* Vendor abort scan */
 	{
