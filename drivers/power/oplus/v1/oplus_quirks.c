@@ -438,7 +438,7 @@ int oplus_quirks_init(struct oplus_chg_chip *chg_chip)
 		memset(info, 0, sizeof(struct plug_info));
 		list_add(&info->list, &g_quirks_chip->plug_info_head.list);
 		info->number = i;
-		chg_err("%d\n", i);
+		chg_debug("%d\n", i);
 	}
 
 	atomic_set(&g_quirks_chip->last_plugin_status, 0);

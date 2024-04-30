@@ -457,7 +457,7 @@ void oplus_vooc_fw_type_dt(struct oplus_vooc_chip *chip)
 	chip->vooc_current_lvl_cnt = of_property_count_elems_of_size(node,
 				"qcom,vooc_current_lvl", sizeof(*chip->vooc_current_lvl));
 	if (chip->vooc_current_lvl_cnt > 0) {
-		chg_err("vooc_current_lvl_cnt[%d]\n", chip->vooc_current_lvl_cnt);
+		chg_debug("vooc_current_lvl_cnt[%d]\n", chip->vooc_current_lvl_cnt);
 		chip->vooc_current_lvl = devm_kcalloc(chip->dev, chip->vooc_current_lvl_cnt,
 			sizeof(*chip->vooc_current_lvl), GFP_KERNEL);
 		if (!chip->vooc_current_lvl){
@@ -472,7 +472,7 @@ void oplus_vooc_fw_type_dt(struct oplus_vooc_chip *chip)
 		}
 
 		for(loop = 0; loop < chip->vooc_current_lvl_cnt; loop++) {
-			chg_err("vooc_current_lvl[%d]\n", chip->vooc_current_lvl[loop]);
+			chg_debug("vooc_current_lvl[%d]\n", chip->vooc_current_lvl[loop]);
 		}
 	}
 	chip->batt_type_4400mv = of_property_read_bool(node, "qcom,oplus_batt_4400mv");

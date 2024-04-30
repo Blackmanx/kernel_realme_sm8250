@@ -2415,9 +2415,11 @@ void oplus_vooc_print_log(void)
 	if (!g_vooc_chip) {
 		return;
 	}
+#if 0
 	vooc_xlog_printk(CHG_LOG_CRTI, "VOOC[ %d / %d / %d / %d / %d / %d]\n",
 		g_vooc_chip->fastchg_allow, g_vooc_chip->fastchg_started, g_vooc_chip->fastchg_dummy_started,
 		g_vooc_chip->fastchg_to_normal, g_vooc_chip->fastchg_to_warm, g_vooc_chip->btb_temp_over);
+#endif
 }
 
 bool oplus_vooc_get_allow_reading(void)

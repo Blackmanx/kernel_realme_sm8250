@@ -212,7 +212,7 @@ void charge_pump_dump_registers(void)
         if (rc) {
             chg_err("Couldn't read 0x%02x rc = %d\n", addr, rc);
         } else {
-            chg_err("success addr = 0x%02x, value = 0x%02x\n",
+            chg_debug("success addr = 0x%02x, value = 0x%02x\n",
                 addr, val_buf[addr]);
         }
     }
@@ -222,7 +222,7 @@ void charge_pump_dump_registers(void)
         if (rc) {
             chg_err("Couldn't read 0x%02x rc = %d\n", addr, rc);
         } else {
-            chg_err("success addr = 0x%02x, value = 0x%02x\n",
+            chg_debug("success addr = 0x%02x, value = 0x%02x\n",
                 addr, val_buf[addr]);
         }
     }

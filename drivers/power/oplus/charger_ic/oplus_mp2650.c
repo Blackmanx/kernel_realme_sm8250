@@ -943,7 +943,7 @@ int mp2650_charging_current_write_fast(int chg_cur)
 		return 0;
 	}
 
-	chg_err("set charge current = %d\n", chg_cur);
+	chg_debug("set charge current = %d\n", chg_cur);
 
 	tmp = chg_cur - REG02_MP2650_CHARGE_CURRENT_SETTING_OFFSET;
 	tmp = tmp / REG02_MP2650_CHARGE_CURRENT_SETTING_STEP;
@@ -1302,10 +1302,10 @@ int mp2650_disable_charging(void)
 		return 0;
 	}
 
-    chg_err(" mp2650_disable_charging \n");
+    chg_debug(" mp2650_disable_charging \n");
 
 	if(atomic_read(&chip->charger_suspended) == 1) {	
-		chg_err(" charger_suspended \n");
+		chg_debug(" charger_suspended \n");
 		return 0;
 	}
     rc = mp2650_config_interface(REG08_MP2650_ADDRESS, 

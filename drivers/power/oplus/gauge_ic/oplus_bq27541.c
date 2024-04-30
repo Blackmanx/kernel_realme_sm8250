@@ -366,7 +366,7 @@ static int bq27541_get_gauge_i2c_err(void)
 	if (!gauge_ic) {
 		return 0;
 	}
-	pr_err("%s gauge_i2c_err = %d suspend = %d\n", __func__, gauge_i2c_err, atomic_read(&gauge_ic->suspended));
+	pr_debug("%s gauge_i2c_err = %d suspend = %d\n", __func__, gauge_i2c_err, atomic_read(&gauge_ic->suspended));
 
 	return gauge_i2c_err;
 }

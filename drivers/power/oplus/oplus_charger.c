@@ -7990,7 +7990,9 @@ static void oplus_check_battery_vol_diff(struct oplus_chg_chip *chg)
 
 static void oplus_chg_full_action(struct oplus_chg_chip *chip)
 {
+#if 0
 	charger_xlog_printk(CHG_LOG_CRTI, "[BATTERY] Battery full !!\n");
+#endif
 	oplus_chg_voter_charging_stop(chip, CHG_STOP_VOTER__FULL);
 	/*chip->charging_state = CHARGING_STATUS_FULL;*/
 	if(chip->batt_full == false) {
@@ -8246,7 +8248,7 @@ bool oplus_check_afi_update_condition(void)
 		}
 
 		if (CHARGER_SUBTYPE_FASTCHG_VOOC == chg_fast_type) {
-			chg_err(" true 1: vooc\n");
+			chg_debug(" true 1: vooc\n");
 			return true;
 		} else {
 			if (chg_fast_type) {
@@ -8255,7 +8257,7 @@ bool oplus_check_afi_update_condition(void)
 					|| oplus_vooc_get_fastchg_dummy_started())) {
 					if ((chip->fastchg_to_ffc == true && chip->fastchg_ffc_status)	/* ffc */
 						|| chip->batt_full) { 										/* full */
-						chg_err(" true 2: svooc\n");
+						chg_debug(" true 2: svooc\n");
 						return true;
 					} else {
 						return false;
@@ -8263,7 +8265,7 @@ bool oplus_check_afi_update_condition(void)
 				}
 				return false;
 			} else {										/* normal charger or unkown */
-				chg_err(" true 3: normal charger or others unkown\n");
+				chg_debug(" true 3: normal charger or others unkown\n");
 				return true;
 			}
 		}
@@ -8351,10 +8353,10 @@ static void oplus_chg_get_battery_data(struct oplus_chg_chip *chip)
 		} else {
 			if (get_soc_feature() && !chip->charger_exist) {
 				chip->modify_soc = oplus_gauge_get_batt_soc();
-				chg_err("get_battery_data [soc_ajust_feature]:chip->modify_soc[%d]\n", chip->modify_soc);
+				chg_debug("get_battery_data [soc_ajust_feature]:chip->modify_soc[%d]\n", chip->modify_soc);
 			} else {
 				chip->soc = oplus_gauge_get_batt_soc();
-				chg_err("get_battery_data [soc_ajust_feature]:chip->soc[%d]\n", chip->soc);
+				chg_debug("get_battery_data [soc_ajust_feature]:chip->soc[%d]\n", chip->soc);
 			}
 		}
 		chip->batt_fcc = oplus_gauge_get_batt_fcc() * chip->vbatt_num;
@@ -8782,13 +8784,17 @@ static void battery_notify_vbat_check(struct oplus_chg_chip *chip)
 
 	if (true == chip->vbatt_over) {
 		count++;
+#if 0
 		charger_xlog_printk(CHG_LOG_CRTI,
 			"[BATTERY] Battery is over VOL, count[%d] \n", count);
+#endif
 		if (count > 10) {
 			count = 11;
 			chip->notify_code |= 1 << NOTIFY_BAT_OVER_VOL;
+#if 0
 			charger_xlog_printk(CHG_LOG_CRTI,
 				"[BATTERY] Battery is over VOL! Notify \n");
+#endif
 		}
 	} else {
 		count = 0;
@@ -8808,9 +8814,11 @@ static void battery_notify_vbat_check(struct oplus_chg_chip *chip)
 					chip->notify_code |=  1 << NOTIFY_BAT_FULL;
 				}
 			}
+#if 0
 			charger_xlog_printk(CHG_LOG_CRTI,
 					"[BATTERY] FULL,tbatt_status:%d,notify_code:%d\n",
 				chip->tbatt_status, chip->notify_code);
+#endif
 		}
 	}
 }
@@ -10558,7 +10566,7 @@ static void oplus_chg_check_status_full(struct oplus_chg_chip *chip)
 		if (((oplus_vooc_get_fastchg_to_normal()== true)
 				|| (oplus_vooc_get_fastchg_to_warm() == true) || (oplus_pps_get_ffc_started() == true))
 				&& (fastchg_present_wait_count <= FULL_DELAY_COUNTS)) {
-			chg_err("fastchg_present_wait_count = %d, pps_to_ffc_full_count = %d,chip->batt_volt = %d\n",
+			chg_debug("fastchg_present_wait_count = %d, pps_to_ffc_full_count = %d,chip->batt_volt = %d\n",
 				fastchg_present_wait_count, pps_to_ffc_full_count, chip->batt_volt);
 			is_batt_full = 0;
 			fastchg_present_wait_count++;
@@ -10619,7 +10627,9 @@ static void oplus_chg_check_status_full(struct oplus_chg_chip *chip)
 
 	if ((is_batt_full == 1) || (chip->charging_state == CHARGING_STATUS_FULL)
 			|| oplus_chg_check_vbatt_is_full_by_sw(chip)) {
+#if 0
 		charger_xlog_printk(CHG_LOG_CRTI, "is_batt_full : %d,  chip->charging_state= %d\n", is_batt_full, chip->charging_state);
+#endif
 		if (oplus_get_flash_screen_ctrl() == true) {
 			if (chip->batt_volt > 4350) {
 				chip->real_batt_full = true;
@@ -10658,7 +10668,9 @@ static void oplus_chg_check_status_full(struct oplus_chg_chip *chip)
 					oplus_gauge_update_battery_dod0();
 					//chip->in_rechging = true;
 					//oplus_chg_voter_charging_start(chip, CHG_STOP_VOTER__FULL);/*now rechging!*/
+#if 0
 					charger_xlog_printk(CHG_LOG_CRTI, "oplus_chg_check_status_full,dod0_counts = %d\n", chip->dod0_counts);
+#endif
 				}
 				if ((chip->recharge_after_full == true && chip->recharge_after_ffc == true
 					&& oplus_get_flash_screen_ctrl() == false) || (oplus_get_flash_screen_ctrl() == true
@@ -10669,7 +10681,9 @@ static void oplus_chg_check_status_full(struct oplus_chg_chip *chip)
 					chip->recharge_after_ffc = false;
 					chip->real_batt_full = false;
 					oplus_chg_voter_charging_start(chip, CHG_STOP_VOTER__FULL);
+#if 0
 					charger_xlog_printk(CHG_LOG_CRTI, "recharge after full, dod0_counts = %d\n", chip->dod0_counts);
+#endif
 				}
 				chip->dod0_counts = DOD0_COUNTS + 1;
 			}
@@ -10797,8 +10811,10 @@ static void oplus_chg_print_bcc_log(struct oplus_chg_chip *chip)
 		oplus_chg_get_charger_voltage();
 		oplus_chg_battery_update_status(chip);
 	}
+#if 0
 	charger_xlog_printk(CHG_LOG_CRTI, "BCC[%d / %d / %d / %d / %d / %d / %d / %d]\n",
 		chip->soc, chip->ui_soc, chip->smooth_soc, chip->batt_volt, chip->icharging, chip->temperature, chip->charger_volt, chip->pps_force_svooc);
+#endif
 }
 
 int oplus_chg_bcc_monitor_common(void *data)
@@ -11897,7 +11913,7 @@ static void oplus_fg_soft_reset_work(struct work_struct *work)
 		chip->fg_check_ibat_cnt = 0;
 	}
 
-	chg_err("reset_done [%s] ibat_cnt[%d] fail_cnt[%d] \n",
+	chg_debug("reset_done [%s] ibat_cnt[%d] fail_cnt[%d] \n",
 		chip->fg_soft_reset_done == true ?"true":"false",
 		chip->fg_check_ibat_cnt, chip->fg_soft_reset_fail_cnt);
 }
