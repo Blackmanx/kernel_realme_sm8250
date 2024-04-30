@@ -9182,10 +9182,6 @@ static int msm_asoc_machine_probe(struct platform_device *pdev)
 
 	is_initial_boot = true;
 
-#ifdef OPLUS_BUG_DEBUG
-	pr_warning("%s, %d, Successfully!\n", __func__, __LINE__);
-#endif /* OPLUS_BUG_DEBUG */
-
 	return 0;
 err:
 	devm_kfree(&pdev->dev, pdata);
