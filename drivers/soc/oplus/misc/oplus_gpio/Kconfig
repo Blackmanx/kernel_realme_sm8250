@@ -1,6 +1,0 @@
-#change 'y' to 'n', if you want fo close this controller
-config OPLUS_GPIO
-    bool "oplus gpio controller"
-    default n
-    help
-      define this config to control oplus gpio.

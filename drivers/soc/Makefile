@@ -27,7 +27,6 @@ obj-y				+= xilinx/
 obj-$(CONFIG_ARCH_ZX)		+= zte/
 
 obj-$(CONFIG_OPLUS_DEVICE_INFO)	+= oplus/device_info/
-obj-y					+= oplus/misc/
 obj-y					+= oplus/sensor/
 obj-$(CONFIG_OPLUS_SYSTEM_KERNEL)	+= oplus/system/
 obj-$(CONFIG_HORAE_THERMAL_SHELL)	+= oplus/thermal/
