@@ -256,7 +256,7 @@
 			delay-time = <0>;
 		};
 	};
-	
+
 	jiiov_fp {
 		status = "ok";
 		compatible = "jiiov,fingerprint";
@@ -411,7 +411,7 @@
 		};
 	};
 	//#endif /*OPLUS_FEATURE_SENSOR_SMEM*/
-	
+
 	//#ifdef OPLUS_FEATURE_TP_BASIC
 	devinfo {
 		compatible = "oplus-devinfo";
@@ -837,10 +837,10 @@
 &pm8150b_vadc {
 	#address-cells = <1>;
 	#size-cells = <0>;
-	
+
 	pinctrl-names = "default";
 	pinctrl-0 = <&gpio7C_adc_default &gpio12C_adc_default>;
-	
+
 	pm8150b_therm1@53 { //GPIO12
 		status = "disabled";
 		reg = <ADC_GPIO2_PU2>;
@@ -849,7 +849,7 @@
 		qcom,hw-settle-time = <200>;
 		qcom,pre-scaling = <1 1>;
 	};
-	
+
 	pm8150b_therm2@54 { //GPIO7
 		status = "disabled";
 		reg = <ADC_GPIO3_PU2>;
@@ -1554,7 +1554,7 @@ board_temp-usr {
 			bias-disable;
 		};
 	};
-	
+
 	gpio12C_adc {
 		gpio12C_adc_default: gpio12C_adc_default {
 			pins = "gpio12"; /* GPIO12 */
@@ -1575,9 +1575,9 @@ board_temp-usr {
     };
      gpio7_adc {
         gpio7_adc_default: gpio7_adc_default {
-        pins = "gpio7"; 
-        function = "normal"; 
-        bias-high-impedance; 
+        pins = "gpio7";
+        function = "normal";
+        bias-high-impedance;
         };
      };
 };
@@ -1724,7 +1724,7 @@ board_temp-usr {
 		qcom,vooc_multistep_adjust_current_support;
 		qcom,vooc_multistep_initial_batt_temp = <1000>;
 		qcom,vooc_strategy_normal_current = <0x0C>;
-		qcom,vooc_batt_over_high_temp = <440>;
+		qcom,vooc_batt_over_high_temp = <450>;
 
 		qcom,vooc_strategy1_batt_high_temp0 = <400>;
 		qcom,vooc_strategy1_batt_high_temp1 = <420>;
@@ -1901,7 +1901,7 @@ board_temp-usr {
 			qcom,pd_input_current_charger_ma = <2000>;
 			qcom,qc_input_current_charger_ma = <2000>;
 
-			qcom,input_current_usb_ma = <500>;
+			qcom,input_current_usb_ma = <900>;
 
 			qcom,input_current_cdp_ma = <1500>;
 			qcom,input_current_led_ma = <1200>;
@@ -1921,7 +1921,7 @@ board_temp-usr {
 			qcom,input_current_vooc_ma_warm = <3200>;
 			qcom,vooc_temp_bat_warm_decidegc = <370>;
 			qcom,input_current_vooc_ma_high = <2200>;
-			qcom,vooc_temp_bat_hot_decidegc = <440>;
+			qcom,vooc_temp_bat_hot_decidegc = <450>;
 
 			qcom,charger_current_vooc_ma_normal = <1800>;
 
@@ -1970,8 +1970,8 @@ board_temp-usr {
 			qcom,normal_bat_decidegc = <160>;	/*16C~44C*/
 			qcom,temp_normal_fastchg_current_ma = <1100>;
 			qcom,temp_normal_vfloat_mv = <4435>;
-			qcom,pd_temp_normal_fastchg_current_ma = <2000>;
-			qcom,qc_temp_normal_fastchg_current_ma = <2000>;
+			qcom,pd_temp_normal_fastchg_current_ma = <3000>;
+			qcom,qc_temp_normal_fastchg_current_ma = <3000>;
 
 			qcom,warm_bat_decidegc = <450>;		/*45C~53C*/ /*8pin Bat Vooc project need add 3 degree C*/
 			qcom,temp_warm_vfloat_mv = <4130>;
