@@ -174,6 +174,7 @@
 	};
 };
 
+
 //#ifdef OPLUS_FEATURE_THERMAL_HORAE
 /{
 	shell_front {
@@ -191,6 +192,217 @@
 //#endif
 
 &thermal_zones {
+	adc_virtual_sensor: adc-virtual-sensor {
+	};
+
+	skin-virt-cpu {
+		polling-delay-passive = <1000>;
+		polling-delay = <5000>;
+		thermal-governor = "step_wise";
+		wake-capable-sensor;
+		trips {
+			skin_cpu_light: skin-cpu-light {
+				temperature = <39000>;
+				hysteresis = <1000>;
+				type = "passive";
+			};
+			skin_cpu_moderate_pre_lv1: skin-cpu-moderate-pre-lv1 {
+				temperature = <41000>;
+				hysteresis = <1000>;
+				type = "passive";
+			};
+			skin_cpu_moderate_pre_lvl2: skin-cpu-moderate-pre-lv2 {
+				temperature = <43000>;
+				hysteresis = <1000>;
+				type = "passive";
+			};
+			skin_cpu_moderate: skin-cpu-moderate {
+				temperature = <45000>;
+				hysteresis = <1000>;
+				type = "passive";
+			};
+			skin_cpu_severe: skin-cpu-severe {
+				temperature = <49000>;
+				hysteresis = <1000>;
+				type = "passive";
+			};
+		};
+		cooling-maps {
+			/* light throttling */
+			cpu4-turbo {
+				trip = <&skin_cpu_light>;
+				cooling-device =
+					<&CPU4 4 4>;
+			};
+			cpu7-turbo {
+				trip = <&skin_cpu_light>;
+				cooling-device =
+					<&CPU7 4 4>;
+			};
+			/* moderate pre level 1 throttling */
+			cpu0-nominal-l1 {
+				trip = <&skin_cpu_moderate_pre_lv1>;
+				cooling-device =
+					<&CPU0 1 1>;
+			};
+			cpu4-nominal-l1 {
+				trip = <&skin_cpu_moderate_pre_lv1>;
+				cooling-device =
+					<&CPU4 5 5>;
+			};
+			cpu7-nominal-l1 {
+				trip = <&skin_cpu_moderate_pre_lv1>;
+				cooling-device =
+					<&CPU7 9 9>;
+			};
+			npu-nominal-l1 {
+				trip = <&skin_cpu_moderate_pre_lv1>;
+				cooling-device =
+					<&msm_npu (THERMAL_MAX_LIMIT-3)
+					(THERMAL_MAX_LIMIT-3)>;
+			};
+			/* moderate pre level 2 throttling */
+			cpu0-nominal-l2 {
+				trip = <&skin_cpu_moderate_pre_lvl2>;
+				cooling-device =
+					<&CPU0 3 3>;
+			};
+			cpu4-nominal-l2 {
+				trip = <&skin_cpu_moderate_pre_lvl2>;
+				cooling-device =
+					<&CPU4 7 7>;
+			};
+			cpu7-nominal-l2 {
+				trip = <&skin_cpu_moderate_pre_lvl2>;
+				cooling-device =
+					<&CPU7 10 10>;
+			};
+			/* moderate hrottling */
+			cpu0-nominal {
+				trip = <&skin_cpu_moderate>;
+				cooling-device =
+					<&CPU0 5 5>;
+			};
+			cpu4-nominal {
+				trip = <&skin_cpu_moderate>;
+				cooling-device =
+					<&CPU4 10 10>;
+			};
+			cpu7-nominal {
+				trip = <&skin_cpu_moderate>;
+				cooling-device =
+					<&CPU7 12 12>;
+			};
+			/* severe throttling */
+			cpu0-svs-l1 {
+				trip = <&skin_cpu_severe>;
+				cooling-device =
+					<&CPU0 12 12>;
+			};
+			cpu4-svs-l1 {
+				trip = <&skin_cpu_severe>;
+				cooling-device =
+					<&CPU4 15 15>;
+			};
+			cpu7-svs-l1 {
+				trip = <&skin_cpu_severe>;
+				cooling-device =
+					<&CPU7 19 19>;
+			};
+		};
+	};
+
+		skin-virt {
+		polling-delay-passive = <1000>;
+		polling-delay = <5000>;
+		thermal-governor = "step_wise";
+		wake-capable-sensor;
+		trips {
+			skin_light: skin-light {
+				temperature = <37000>;
+				hysteresis = <1000>;
+				type = "passive";
+			};
+			skin_moderate_pre_lv1: skin-moderate-pre-lv1 {
+				temperature = <43000>;
+				hysteresis = <1000>;
+				type = "passive";
+			};
+			skin_moderate_pre_lv2: skin-moderate-pre-lv2 {
+				temperature = <45000>;
+				hysteresis = <1000>;
+				type = "passive";
+			};
+			skin_moderate_pre_lv3: skin-moderate-pre-lv3 {
+				temperature = <46500>;
+				hysteresis = <1000>;
+				type = "passive";
+			};
+			skin_severe: skin-severe {
+				temperature = <52000>;
+				hysteresis = <1000>;
+				type = "passive";
+			};
+			skin_emergency_pre_lv1: skin-emergency-pre_lv1 {
+				temperature = <54000>;
+				hysteresis = <1000>;
+				type = "passive";
+			};
+			skin_backup_shutdown: skin-backup-shutdown {
+				temperature = <55000>;
+				hysteresis = <1000>;
+				type = "critical";
+			};
+		};
+		cooling-maps {
+			/* moderate pre level 2 throttling */
+			gpu-svs-l1 {
+				trip = <&skin_moderate_pre_lv2>;
+				cooling-device =
+					<&msm_gpu 2 2>;
+			};
+			/* moderate pre level 3 throttling */
+			gpu-svs-l0 {
+				trip = <&skin_moderate_pre_lv3>;
+				cooling-device =
+					<&msm_gpu 3 3>;
+			};
+			/* severe throttling */
+			gpu-svs {
+				trip = <&skin_severe>;
+				cooling-device =
+					<&msm_gpu 4 4>;
+			};
+			/* critical throttling */
+			gpu-low-svs-l1 {
+				trip = <&skin_severe>;
+				cooling-device =
+					<&msm_gpu 5 5>;
+			};
+			/* emergency pre level 1 throttling */
+			gpu-low-svs {
+				trip = <&skin_emergency_pre_lv1>;
+				cooling-device =
+					<&msm_gpu THERMAL_MAX_LIMIT THERMAL_MAX_LIMIT>;
+			};
+			cpu0-low-svs {
+				trip = <&skin_emergency_pre_lv1>;
+				cooling-device =
+					<&CPU0 THERMAL_MAX_LIMIT THERMAL_MAX_LIMIT>;
+			};
+			cpu4-low-svs {
+				trip = <&skin_emergency_pre_lv1>;
+				cooling-device =
+					<&CPU4 THERMAL_MAX_LIMIT THERMAL_MAX_LIMIT>;
+			};
+			cpu7-low-svs {
+				trip = <&skin_emergency_pre_lv1>;
+				cooling-device =
+					<&CPU7 THERMAL_MAX_LIMIT THERMAL_MAX_LIMIT>;
+			};
+		};
+	};
+
 	aoss0-usr {
 		polling-delay-passive = <0>;
 		polling-delay = <0>;
@@ -1712,5 +1924,52 @@
 				type = "passive";
 			};
 		};
+	};
+};
+
+&adc_virtual_sensor {
+	skin-sdm {
+		logic = "weight";
+		num_sensors = <2>;
+		sensor-names = "skin-therm-usr";
+		coefficients = <1 1>;
+		avg-offset = <0>;
+		avg-denominator = <2>;
+	};
+
+	skin-virt {
+		logic = "weight";
+		num_sensors = <2>;
+		sensor-names = "skin-therm-usr";
+		coefficients = <1 1>;
+		avg-offset = <(-2500)>;
+		avg-denominator = <2>;
+	};
+
+	skin-virt-charge {
+		logic = "weight";
+		num_sensors = <3>;
+		sensor-names = "skin-therm-usr";
+		coefficients = <1 1 2>;
+		avg-offset = <0>;
+		avg-denominator = <4>;
+	};
+
+	skin-virt-cpu {
+		logic = "weight";
+		num_sensors = <2>;
+		sensor-names = "skin-therm-usr";
+		coefficients = <1 1>;
+		avg-offset = <(-2500)>;
+		avg-denominator = <2>;
+	};
+
+	skin-virt-monitor {
+		logic = "weight";
+		num_sensors = <2>;
+		sensor-names = "skin-therm-usr";
+		coefficients = <1 1>;
+		avg-offset = <(-2500)>;
+		avg-denominator = <2>;
 	};
 };
