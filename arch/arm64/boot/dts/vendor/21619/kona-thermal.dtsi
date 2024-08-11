@@ -1466,8 +1466,20 @@
 				(QMI_MODEM_NR_INST_ID+QMI_PA)>;
 		wake-capable-sensor;
 		trips {
-			active-config0 {
-				temperature = <39000>;
+			modem_trip0: modem-trip0 {
+				temperature = <46000>;
+				hysteresis = <4000>;
+				type = "passive";
+			};
+
+			modem_trip1: modem-trip1 {
+				temperature = <49000>;
+				hysteresis = <4000>;
+				type = "passive";
+			};
+
+			modem_trip2: modem-trip2 {
+				temperature = <54000>;
 				hysteresis = <4000>;
 				type = "passive";
 			};
@@ -1482,8 +1494,20 @@
 				(QMI_MODEM_NR_INST_ID+QMI_PA_1)>;
 		wake-capable-sensor;
 		trips {
-			active-config0 {
-				temperature = <39000>;
+			modem_trip_pa2_0: modem-trip0 {
+				temperature = <46000>;
+				hysteresis = <4000>;
+				type = "passive";
+			};
+
+			modem_trip_pa2_1: modem-trip1 {
+				temperature = <49000>;
+				hysteresis = <4000>;
+				type = "passive";
+			};
+
+			modem_trip_pa2_2: modem-trip2 {
+				temperature = <54000>;
 				hysteresis = <4000>;
 				type = "passive";
 			};
@@ -1561,10 +1585,10 @@
 		thermal-sensors = <&qmi_sensor
 				(QMI_MODEM_NR_INST_ID+QMI_XO_THERM)>;
 		wake-capable-sensor;
-				trips {
+		trips {
 			active-config0 {
-				temperature = <39000>;
-				hysteresis = <4000>;
+				temperature = <45000>;
+				hysteresis = <1000>;
 				type = "passive";
 			};
 		};

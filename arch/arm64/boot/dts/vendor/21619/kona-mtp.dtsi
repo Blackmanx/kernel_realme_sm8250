@@ -784,17 +784,17 @@
                 qca,bt-sw-ctrl-gpio = <&tlmm 124 0>; /* SW_CTRL */
 		qca,bt-vdd-aon-supply = <&pm8150_s6>;
 //#ifdef OPLUS_ARCH_EXTENDS
-		qca,bt-vdd-dig-supply = <&pm8009_s2>;
+		//qca,bt-vdd-dig-supply = <&pm8009_s2>;
 //#endif /* OPLUS_ARCH_EXTENDS */
 		qca,bt-vdd-rfa1-supply = <&pm8150_s5>;
 		qca,bt-vdd-rfa2-supply = <&pm8150a_s8>;
 //#ifdef OPLUS_FEATURE_FINGERPRINT
-		qca,bt-vdd-asd-supply = <&pm8150_l16>;
+		//qca,bt-vdd-asd-supply = <&pm8150_l16>;
 //#endif /*OPLUS_FEATURE_FINGERPRINT*/
 
 		qca,bt-vdd-aon-voltage-level = <950000 950000>;
 //#ifdef OPLUS_ARCH_EXTENDS
-		qca,bt-vdd-dig-voltage-level = <950000 952000>;
+		//qca,bt-vdd-dig-voltage-level = <950000 952000>;
 //#endif /* OPLUS_ARCH_EXTENDS */
 		qca,bt-vdd-rfa1-voltage-level = <1900000 1900000>;
 		qca,bt-vdd-rfa2-voltage-level = <1350000 1350000>;
@@ -1351,7 +1351,7 @@
 		};
 	};
 
-skin-therm-usr {
+	skin-therm-usr {
 		polling-delay-passive = <0>;
 		polling-delay = <0>;
 		thermal-governor = "user_space";
@@ -1393,12 +1393,8 @@ skin-therm-usr {
 				hysteresis = <1000>;
 				type = "passive";
 			};
-			skin_backup_shutdown: skin-backup-shutdown {
-				temperature = <55000>;
-				hysteresis = <1000>;
-				type = "critical";
-			};
 		};
+
 		cooling-maps {
 			/* light throttling */
 			cpu4-turbo {
@@ -1420,12 +1416,7 @@ skin-therm-usr {
 			cpu4-nominal-l1 {
 				trip = <&skin_cpu_moderate_pre_lv1>;
 				cooling-device =
-					<&CPU4 5 5>;
-			};
-			cpu7-nominal-l1 {
-				trip = <&skin_cpu_moderate_pre_lv1>;
-				cooling-device =
-					<&CPU7 9 9>;
+					<&CPU4 (THERMAL_MAX_LIMIT-3) (THERMAL_MAX_LIMIT-3)>;
 			};
 			npu-nominal-l1 {
 				trip = <&skin_cpu_moderate_pre_lv1>;
@@ -1442,75 +1433,20 @@ skin-therm-usr {
 			cpu4-nominal-l2 {
 				trip = <&skin_cpu_moderate_pre_lvl2>;
 				cooling-device =
-					<&CPU4 7 7>;
-			};
-			cpu7-nominal-l2 {
-				trip = <&skin_cpu_moderate_pre_lvl2>;
-				cooling-device =
-					<&CPU7 10 10>;
-			};
-			/* moderate hrottling */
-			cpu0-nominal {
-				trip = <&skin_cpu_moderate>;
-				cooling-device =
-					<&CPU0 5 5>;
-			};
-			cpu4-nominal {
-				trip = <&skin_cpu_moderate>;
-				cooling-device =
-					<&CPU4 10 10>;
-			};
-			cpu7-nominal {
-				trip = <&skin_cpu_moderate>;
-				cooling-device =
-					<&CPU7 12 12>;
-			};
-			/* severe throttling */
-			cpu0-svs-l1 {
-				trip = <&skin_cpu_severe>;
-				cooling-device =
-					<&CPU0 12 12>;
-			};
-			cpu4-svs-l1 {
-				trip = <&skin_cpu_severe>;
-				cooling-device =
-					<&CPU4 15 15>;
-			};
-			cpu7-svs-l1 {
-				trip = <&skin_cpu_severe>;
-				cooling-device =
-					<&CPU7 19 19>;
+					<&CPU4 (THERMAL_MAX_LIMIT-3) (THERMAL_MAX_LIMIT-3)>;
 			};
 
-			/* moderate pre level 2 throttling */
-			gpu-svs-l1 {
-				trip = <&skin_moderate_pre_lv2>;
+			cpu7-moderate {
+				trip = <&skin_cpu_moderate>;
 				cooling-device =
-					<&msm_gpu 2 2>;
+					<&CPU7 (THERMAL_MAX_LIMIT-3) (THERMAL_MAX_LIMIT-3)>;
 			};
-			/* moderate pre level 3 throttling */
-			gpu-svs-l0 {
-				trip = <&skin_moderate_pre_lv3>;
-				cooling-device =
-					<&msm_gpu 3 3>;
-			};
+
 			/* severe throttling */
 			gpu-svs {
 				trip = <&skin_severe>;
-				cooling-device =
-					<&msm_gpu 4 4>;
-			};
-			/* critical throttling */
-			gpu-low-svs-l1 {
-				trip = <&skin_severe>;
-				cooling-device =
-					<&msm_gpu 5 5>;
-			};
-			/* emergency pre level 1 throttling */
-			gpu-low-svs {
-				trip = <&skin_emergency_pre_lv1>;
-				cooling-device =
-					<&msm_gpu THERMAL_MAX_LIMIT THERMAL_MAX_LIMIT>;
+				cooling-device = <&msm_gpu (THERMAL_MAX_LIMIT-1)
+							(THERMAL_MAX_LIMIT-1)>;
 			};
 		};
 	};
@@ -1538,21 +1474,21 @@ board_temp-usr {
 		wake-capable-sensor;
 		trips {
 			modem_trip_pa2_0: modem_trip_pa2_0 {
-				temperature = <46000>;
+				temperature = <42000>;
 				hysteresis = <4000>;
 				type = "passive";
 			};
 
 			modem_trip_pa2_1: modem_trip_pa2_1 {
-				temperature = <49000>;
+				temperature = <45000>;
 				hysteresis = <4000>;
 				type = "passive";
 			};
 
 			modem_trip_pa2_2: modem_trip_pa2_2 {
-				temperature = <54000>;
+				temperature = <55000>;
 				hysteresis = <4000>;
-				type = "passive";
+				type = "critical";
 			};
 		};
 
@@ -1604,6 +1540,7 @@ board_temp-usr {
 		};
 	};
 
+
 	4g-5g-pa-therm-usr {
 		polling-delay-passive = <0>;
 		polling-delay = <0>;
@@ -1612,19 +1549,19 @@ board_temp-usr {
 		wake-capable-sensor;
 		trips {
 			modem_trip0: modem-trip0 {
-				temperature = <44000>;
+				temperature = <42000>;
 				hysteresis = <4000>;
 				type = "passive";
 			};
 
 			modem_trip1: modem-trip1 {
-				temperature = <52000>;
+				temperature = <46000>;
 				hysteresis = <4000>;
 				type = "passive";
 			};
 
 			modem_trip2: modem-trip2 {
-				temperature = <65000>;
+				temperature = <55000>;
 				hysteresis = <4000>;
 				type = "critical";
 			};
