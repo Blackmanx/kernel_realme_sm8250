@@ -596,6 +596,7 @@ static int cds_hang_event_notifier_call(struct notifier_block *block,
 	uint32_t total_len;
 	struct cds_hang_event_fixed_param *cmd;
 	uint8_t *cds_hang_evt_buff;
+	uint64_t addr;
 
 	if (!cds_hang_data)
 		return NOTIFY_STOP_MASK;
@@ -611,9 +612,10 @@ static int cds_hang_event_notifier_call(struct notifier_block *block,
 
 	cds_hang_evt_buff = cds_hang_data->hang_data + cds_hang_data->offset;
 	cmd = (struct cds_hang_event_fixed_param *)cds_hang_evt_buff;
-	QDF_HANG_EVT_SET_HDR(&cmd->tlv_header, HANG_EVT_TAG_CDS,
+	QDF_HANG_EVT_SET_HDR(&addr, HANG_EVT_TAG_CDS,
 			     QDF_HANG_GET_STRUCT_TLVLEN(*cmd));
 
+	cmd->tlv_header = addr;
 	cmd->recovery_reason = gp_cds_context->recovery_reason;
 
 	/* userspace expects a fixed format */

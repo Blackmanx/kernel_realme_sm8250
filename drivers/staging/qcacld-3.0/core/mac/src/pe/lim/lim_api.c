@@ -764,6 +764,7 @@ static int pe_hang_event_notifier_call(struct notifier_block *block,
 	uint8_t i;
 	struct pe_hang_event_fixed_param *cmd;
 	size_t size;
+	uint64_t addr;
 
 	if (!data)
 		return NOTIFY_STOP_MASK;
@@ -782,8 +783,9 @@ static int pe_hang_event_notifier_call(struct notifier_block *block,
 
 		pe_data = (pe_hang_data->hang_data + pe_hang_data->offset);
 		cmd = (struct pe_hang_event_fixed_param *)pe_data;
-		QDF_HANG_EVT_SET_HDR(&cmd->tlv_header, HANG_EVT_TAG_LEGACY_MAC,
+		QDF_HANG_EVT_SET_HDR(&addr, HANG_EVT_TAG_LEGACY_MAC,
 				     QDF_HANG_GET_STRUCT_TLVLEN(*cmd));
+		cmd->tlv_header = addr;
 		cmd->vdev_id = session->vdev_id;
 		cmd->limmlmstate = session->limMlmState;
 		cmd->limprevmlmstate = session->limPrevMlmState;
