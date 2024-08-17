@@ -92,6 +92,7 @@
 			qcom,chg-term-src = <1>;
 			qcom,charger-temp-max = <800>;
 			qcom,smb-temp-max = <800>;
+			qcom,oplus-pps-usbpd-detection = <&pm8150b_pdphy>;
 			status = "disabled";
 
 			qcom,chgr@1000 {

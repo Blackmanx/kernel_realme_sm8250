@@ -1359,44 +1359,48 @@
 		wake-capable-sensor;
 		trips {
 			skin_cpu_light: skin-cpu-light {
-				temperature = <39000>;
+				temperature = <38000>;
 				hysteresis = <1000>;
 				type = "passive";
 			};
 			skin_cpu_moderate_pre_lv1: skin-cpu-moderate-pre-lv1 {
-				temperature = <41000>;
-				hysteresis = <1000>;
-				type = "passive";
-			};
-			skin_cpu_moderate_pre_lvl2: skin-cpu-moderate-pre-lv2 {
-				temperature = <43000>;
-				hysteresis = <1000>;
-				type = "passive";
-			};
-			skin_cpu_moderate: skin-cpu-moderate {
 				temperature = <45000>;
 				hysteresis = <1000>;
 				type = "passive";
 			};
+			skin_cpu_moderate_pre_lvl2: skin-cpu-moderate-pre-lv2 {
+				temperature = <48000>;
+				hysteresis = <1000>;
+				type = "passive";
+			};
+			skin_cpu_moderate: skin-cpu-moderate {
+				temperature = <53000>;
+				hysteresis = <1000>;
+				type = "passive";
+			};
 			skin_cpu_severe: skin-cpu-severe {
-				temperature = <49000>;
+				temperature = <57000>;
 				hysteresis = <1000>;
 				type = "passive";
 			};
 			skin_severe: skin-severe {
-				temperature = <52000>;
+				temperature = <60000>;
 				hysteresis = <1000>;
-				type = "passive";
+				type = "hot";
 			};
 			skin_emergency_pre_lv1: skin-emergency-pre_lv1 {
-				temperature = <54000>;
+				temperature = <62000>;
 				hysteresis = <1000>;
-				type = "passive";
+				type = "hot";
+			};
+			skin_backup_shutdown: skin-backup-shutdown {
+				temperature = <110000>;
+				hysteresis = <1000>;
+				type = "critical";
 			};
 		};
 
 		cooling-maps {
-			/* light throttling */
 			cpu4-turbo {
 				trip = <&skin_cpu_light>;
 				cooling-device =
@@ -1440,6 +1444,12 @@
 				trip = <&skin_cpu_moderate>;
 				cooling-device =
 					<&CPU7 (THERMAL_MAX_LIMIT-3) (THERMAL_MAX_LIMIT-3)>;
+			};
+
+			cpu7-critical {
+				trip = <&skin_emergency_pre_lv1>;
+				cooling-device =
+					<&CPU7 (THERMAL_MAX_LIMIT) (THERMAL_MAX_LIMIT)>;
 			};
 
 			/* severe throttling */
@@ -1486,9 +1496,9 @@ board_temp-usr {
 			};
 
 			modem_trip_pa2_2: modem_trip_pa2_2 {
-				temperature = <55000>;
+				temperature = <60000>;
 				hysteresis = <4000>;
-				type = "critical";
+				type = "hot";
 			};
 		};
 
@@ -1561,9 +1571,9 @@ board_temp-usr {
 			};
 
 			modem_trip2: modem-trip2 {
-				temperature = <55000>;
+				temperature = <60000>;
 				hysteresis = <4000>;
-				type = "critical";
+				type = "hot";
 			};
 		};
 
