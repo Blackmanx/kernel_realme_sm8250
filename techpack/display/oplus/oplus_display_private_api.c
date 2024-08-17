@@ -2439,13 +2439,16 @@ int dsi_display_oplus_set_power(struct drm_connector *connector,
 			oplus_dsi_update_spr_mode();
 		}
 		set_oplus_display_power_status(OPLUS_DISPLAY_POWER_ON);
+		/*  A tablet Pad, add for NT36523 resume touch here */
+		if(strcmp(display->panel->name, "nt36523 lcd vid mode dsi panel"))
+			msm_drm_notifier_call_chain(MSM_DRM_EVENT_BLANK, &notifier_data);
+
 		if (oplus_dimlayer_hbm != oplus_dimlayer_hbm_saved) {
 			oplus_dimlayer_hbm = oplus_dimlayer_hbm_saved;
 			oplus_dimlayer_vblank(connector->state->crtc);
 		}
-		/*  A tablet Pad, add for NT36523 resume touch here */
-		if(strcmp(display->panel->name, "nt36523 lcd vid mode dsi panel"))
-			msm_drm_notifier_call_chain(MSM_DRM_EVENT_BLANK, &notifier_data);
+		msm_drm_notifier_call_chain(MSM_DRM_EVENT_BLANK,
+					    &notifier_data);
 		break;
 	case SDE_MODE_DPMS_OFF:
 	default:
