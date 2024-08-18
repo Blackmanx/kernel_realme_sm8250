@@ -1352,104 +1352,133 @@
 	};
 
 	skin-therm-usr {
-		polling-delay-passive = <0>;
+		polling-delay-passive = <2000>;
 		polling-delay = <0>;
-		thermal-governor = "user_space";
+		thermal-governor = "step_wise";
 		thermal-sensors = <&pm8150_adc_tm ADC_AMUX_THM1_PU2>;
 		wake-capable-sensor;
 		trips {
+			skin_cpu_casual: skin-cpu-casual {
+				temperature = <39000>;
+				hysteresis = <10000>;
+				type = "passive";
+			};
 			skin_cpu_light: skin-cpu-light {
-				temperature = <38000>;
-				hysteresis = <1000>;
+				temperature = <42000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			skin_cpu_moderate_pre_lv1: skin-cpu-moderate-pre-lv1 {
-				temperature = <45000>;
-				hysteresis = <1000>;
+				temperature = <48000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			skin_cpu_moderate_pre_lvl2: skin-cpu-moderate-pre-lv2 {
-				temperature = <48000>;
-				hysteresis = <1000>;
+				temperature = <52000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			skin_cpu_moderate: skin-cpu-moderate {
-				temperature = <53000>;
-				hysteresis = <1000>;
+				temperature = <54000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			skin_cpu_severe: skin-cpu-severe {
 				temperature = <57000>;
-				hysteresis = <1000>;
+				hysteresis = <2000>;
 				type = "passive";
 			};
 			skin_severe: skin-severe {
 				temperature = <60000>;
-				hysteresis = <1000>;
+				hysteresis = <2000>;
 				type = "hot";
 			};
 			skin_emergency_pre_lv1: skin-emergency-pre_lv1 {
-				temperature = <62000>;
-				hysteresis = <1000>;
+				temperature = <64000>;
+				hysteresis = <2000>;
 				type = "hot";
 			};
 			skin_backup_shutdown: skin-backup-shutdown {
 				temperature = <110000>;
-				hysteresis = <1000>;
+				hysteresis = <2000>;
 				type = "critical";
 			};
 		};
 
 		cooling-maps {
-			cpu4-turbo {
+
+			cpu0-turbo {
 				trip = <&skin_cpu_light>;
 				cooling-device =
-					<&CPU4 4 4>;
+					<&CPU0 1 4>;
 			};
+
 			cpu7-turbo {
 				trip = <&skin_cpu_light>;
 				cooling-device =
-					<&CPU7 4 4>;
+					<&CPU7 1 1>;
 			};
+
 			/* moderate pre level 1 throttling */
 			cpu0-nominal-l1 {
 				trip = <&skin_cpu_moderate_pre_lv1>;
 				cooling-device =
-					<&CPU0 1 1>;
+					<&CPU0 3 5>;
 			};
+
 			cpu4-nominal-l1 {
 				trip = <&skin_cpu_moderate_pre_lv1>;
 				cooling-device =
-					<&CPU4 (THERMAL_MAX_LIMIT-3) (THERMAL_MAX_LIMIT-3)>;
+					<&CPU4 3 5>;
 			};
+
+			cpu7-nominal-l1 {
+				trip = <&skin_cpu_moderate_pre_lv1>;
+				cooling-device =
+					<&CPU7 2 4>;
+			};
+
 			npu-nominal-l1 {
 				trip = <&skin_cpu_moderate_pre_lv1>;
 				cooling-device =
 					<&msm_npu (THERMAL_MAX_LIMIT-3)
 					(THERMAL_MAX_LIMIT-3)>;
 			};
+
 			/* moderate pre level 2 throttling */
 			cpu0-nominal-l2 {
 				trip = <&skin_cpu_moderate_pre_lvl2>;
 				cooling-device =
-					<&CPU0 3 3>;
+					<&CPU0 3 4>;
 			};
 			cpu4-nominal-l2 {
 				trip = <&skin_cpu_moderate_pre_lvl2>;
 				cooling-device =
-					<&CPU4 (THERMAL_MAX_LIMIT-3) (THERMAL_MAX_LIMIT-3)>;
+					<&CPU4 (THERMAL_MAX_LIMIT-8) (THERMAL_MAX_LIMIT-6)>;
+			};
+
+			cpu7-nominal-l2 {
+				trip = <&skin_cpu_moderate_pre_lvl2>;
+				cooling-device =
+					<&CPU7 4 5>;
+			};
+
+			cpu4-moderate {
+				trip = <&skin_cpu_moderate>;
+				cooling-device =
+					<&CPU4 (THERMAL_MAX_LIMIT-4) (THERMAL_MAX_LIMIT-2)>;
 			};
 
 			cpu7-moderate {
 				trip = <&skin_cpu_moderate>;
 				cooling-device =
-					<&CPU7 (THERMAL_MAX_LIMIT-3) (THERMAL_MAX_LIMIT-3)>;
+					<&CPU7 (THERMAL_MAX_LIMIT-4) (THERMAL_MAX_LIMIT-2)>;
 			};
 
 			cpu7-critical {
-				trip = <&skin_emergency_pre_lv1>;
+				trip = <&skin_cpu_severe>;
 				cooling-device =
-					<&CPU7 (THERMAL_MAX_LIMIT) (THERMAL_MAX_LIMIT)>;
+					<&CPU7 (THERMAL_MAX_LIMIT-1) (THERMAL_MAX_LIMIT-1)>;
 			};
 
 			/* severe throttling */
@@ -1477,9 +1506,9 @@ board_temp-usr {
 	};
 
 	4g_pa_therm-usr {
-		polling-delay-passive = <0>;
+		polling-delay-passive = <1000>;
 		polling-delay = <0>;
-		thermal-governor = "user_space";
+		thermal-governor = "step_wise";
 		thermal-sensors = <&pm8150b_adc_tm ADC_AMUX_THM1_PU2>;
 		wake-capable-sensor;
 		trips {
@@ -1490,7 +1519,7 @@ board_temp-usr {
 			};
 
 			modem_trip_pa2_1: modem_trip_pa2_1 {
-				temperature = <45000>;
+				temperature = <48000>;
 				hysteresis = <4000>;
 				type = "passive";
 			};
@@ -1552,9 +1581,9 @@ board_temp-usr {
 
 
 	4g-5g-pa-therm-usr {
-		polling-delay-passive = <0>;
+		polling-delay-passive = <1000>;
 		polling-delay = <0>;
-		thermal-governor = "user_space";
+		thermal-governor = "step_wise";
 		thermal-sensors = <&pm8150l_adc_tm ADC_AMUX_THM1_PU2>;
 		wake-capable-sensor;
 		trips {
@@ -1565,7 +1594,7 @@ board_temp-usr {
 			};
 
 			modem_trip1: modem-trip1 {
-				temperature = <46000>;
+				temperature = <48000>;
 				hysteresis = <4000>;
 				type = "passive";
 			};
