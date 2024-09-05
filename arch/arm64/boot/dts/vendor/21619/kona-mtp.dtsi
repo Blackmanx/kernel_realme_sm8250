@@ -1407,16 +1407,10 @@
 
 		cooling-maps {
 
-			cpu0-turbo {
-				trip = <&skin_cpu_light>;
-				cooling-device =
-					<&CPU0 1 3>;
-			};
-
 			cpu7-turbo {
 				trip = <&skin_cpu_light>;
 				cooling-device =
-					<&CPU7 1 1>;
+					<&CPU7 1 3>;
 			};
 
 			/* moderate pre level 1 throttling */
@@ -1481,13 +1475,6 @@
 				cooling-device = <&msm_gpu (THERMAL_MAX_LIMIT-1)
 							(THERMAL_MAX_LIMIT-1)>;
 			};
-
-			gpu-svs-2 {
-				trip = <&skin_cpu_moderate>;
-				cooling-device = <&msm_gpu (THERMAL_MAX_LIMIT-2)
-							(THERMAL_MAX_LIMIT-2)>;
-			};
-
 		};
 	};
 
@@ -2117,10 +2104,10 @@ board_temp-usr {
 			qcom,pd_input_current_charger_ma = <2000>;
 			qcom,qc_input_current_charger_ma = <2000>;
 
-			qcom,input_current_usb_ma = <500>;
+			qcom,input_current_usb_ma = <900>;
 
 			qcom,input_current_cdp_ma = <1500>;
-			qcom,input_current_led_ma = <1200>;
+			qcom,input_current_led_ma = <1800>;
 			qcom,input_current_led_ma_high = <1800>;
 			qcom,input_current_led_ma_warm = <1800>;
 			qcom,input_current_led_ma_normal = <2000>;
@@ -2135,7 +2122,7 @@ board_temp-usr {
 			qcom,input_current_vooc_ma_normal = <3600>;
 			qcom,vooc_temp_bat_normal_decidegc = <350>;
 			qcom,input_current_vooc_ma_warm = <3200>;
-			qcom,vooc_temp_bat_warm_decidegc = <370>;
+			qcom,vooc_temp_bat_warm_decidegc = <390>;
 			qcom,input_current_vooc_ma_high = <2200>;
 			qcom,vooc_temp_bat_hot_decidegc = <440>;
 
@@ -2160,18 +2147,18 @@ board_temp-usr {
 
 			qcom,little_cold_bat_decidegc = <0>;	/*0C~5C*/
 			qcom,temp_little_cold_vfloat_mv = <4435>;
-			qcom,temp_little_cold_fastchg_current_ma_high = <1100>;
-			qcom,temp_little_cold_fastchg_current_ma_low = <1100>;
-			qcom,temp_little_cold_fastchg_current_ma = <1100>;
+			qcom,temp_little_cold_fastchg_current_ma_high = <2000>;
+			qcom,temp_little_cold_fastchg_current_ma_low = <2000>;
+			qcom,temp_little_cold_fastchg_current_ma = <2000>;
 			qcom,pd_temp_little_cold_fastchg_current_ma_high = <2000>;
-			qcom,pd_temp_little_cold_fastchg_current_ma_low = <1450>;
+			qcom,pd_temp_little_cold_fastchg_current_ma_low = <2000>;
 			qcom,qc_temp_little_cold_fastchg_current_ma_high = <2000>;
-			qcom,qc_temp_little_cold_fastchg_current_ma_low = <1450>;
+			qcom,qc_temp_little_cold_fastchg_current_ma_low = <2000>;
 
 			qcom,cool_bat_decidegc = <50>;	/*5C~12C*/
 			qcom,temp_cool_vfloat_mv = <4435>;
-			qcom,temp_cool_fastchg_current_ma_high = <1100>;
-			qcom,temp_cool_fastchg_current_ma_low = <1100>;
+			qcom,temp_cool_fastchg_current_ma_high = <2000>;
+			qcom,temp_cool_fastchg_current_ma_low = <2000>;
 			qcom,pd_temp_cool_fastchg_current_ma_high = <2000>;
 			qcom,pd_temp_cool_fastchg_current_ma_low = <2000>;
 			qcom,qc_temp_cool_fastchg_current_ma_high = <2000>;
@@ -2179,31 +2166,31 @@ board_temp-usr {
 
 			qcom,little_cool_bat_decidegc = <120>;	/*12C~16C*/
 			qcom,temp_little_cool_vfloat_mv = <4435>;
-			qcom,temp_little_cool_fastchg_current_ma = <1100>;
+			qcom,temp_little_cool_fastchg_current_ma = <2000>;
 			qcom,pd_temp_little_cool_fastchg_current_ma = <2000>;
 			qcom,qc_temp_little_cool_fastchg_current_ma = <2000>;
 
 			qcom,normal_bat_decidegc = <160>;	/*16C~44C*/
-			qcom,temp_normal_fastchg_current_ma = <1100>;
+			qcom,temp_normal_fastchg_current_ma = <2000>;
 			qcom,temp_normal_vfloat_mv = <4435>;
 			qcom,pd_temp_normal_fastchg_current_ma = <2000>;
 			qcom,qc_temp_normal_fastchg_current_ma = <2000>;
 
 			qcom,warm_bat_decidegc = <450>;		/*45C~53C*/ /*8pin Bat Vooc project need add 3 degree C*/
 			qcom,temp_warm_vfloat_mv = <4130>;
-			qcom,temp_warm_fastchg_current_ma = <600>;
-			qcom,pd_temp_warm_fastchg_current_ma = <600>;
-			qcom,qc_temp_warm_fastchg_current_ma = <600>;
-			qcom,temp_warm_fastchg_current_ma_led_on = <250>;
+			qcom,temp_warm_fastchg_current_ma = <2000>;
+			qcom,pd_temp_warm_fastchg_current_ma = <2000>;
+			qcom,qc_temp_warm_fastchg_current_ma = <2000>;
+			qcom,temp_warm_fastchg_current_ma_led_on = <2000>;
 
 			qcom,hot_bat_decidegc = <530>;
 
 			qcom,non_standard_vfloat_mv = <3980>;
-			qcom,non_standard_fastchg_current_ma = <512>;
+			qcom,non_standard_fastchg_current_ma = <1100>;
 
 			qcom,short_c_bat_cv_mv = <4330>;
 			qcom,short_c_bat_vfloat_mv = <3800>;
-			qcom,short_c_bat_fastchg_current_ma = <512>;
+			qcom,short_c_bat_fastchg_current_ma = <2000>;
 
 			qcom,cold_vfloat_sw_limit = <3930>;
 			qcom,little_cold_vfloat_sw_limit = <4385>;
@@ -2243,12 +2230,12 @@ board_temp-usr {
 
 			qcom,ff1_normal_fastchg_ma = <600>;
 			qcom,ff1_warm_fastchg_ma = <660>;
-			qcom,ffc2_normal_fastchg_ma = <400>;/*12C~35c*/
-			qcom,ffc2_warm_fastchg_ma = <400>;/*35C~40c*/
+			qcom,ffc2_normal_fastchg_ma = <420>;/*12C~35c*/
+			qcom,ffc2_warm_fastchg_ma = <430>;/*35C~40c*/
 
 			qcom,ffc2_temp_low_decidegc = <120>;
 			qcom,ffc2_temp_warm_decidegc = <350>;
-			qcom,ffc2_temp_high_decidegc = <400>;
+			qcom,ffc2_temp_high_decidegc = <430>;
 
 			qcom,ff1_exit_step_ma = <50>;
 			qcom,ff1_warm_exit_step_ma = <50>;
@@ -2266,12 +2253,12 @@ board_temp-usr {
 			qcom,ffc2_normal_vfloat_over_sw_limit = <4500>;
 
 			qcom,default_iterm_ma = <135>;
-			qcom,default_temp_normal_fastchg_current_ma = <1100>;
+			qcom,default_temp_normal_fastchg_current_ma = <2000>;
 			qcom,default_normal_vfloat_sw_limit = <4385>;
 			qcom,default_temp_normal_vfloat_mv = <4435>;
 			qcom,default_normal_vfloat_over_sw_limit = <4445>;
 
-			qcom,default_temp_little_cool_fastchg_current_ma = <1100>;
+			qcom,default_temp_little_cool_fastchg_current_ma = <2000>;
 			qcom,default_little_cool_vfloat_sw_limit = <4385>;
 			qcom,default_temp_little_cool_vfloat_mv = <4435>;
 			qcom,default_little_cool_vfloat_over_sw_limit = <4445>;

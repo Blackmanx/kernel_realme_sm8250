@@ -711,8 +711,8 @@
 		cooling-maps {
 			gpu_cdev {
 				trip = <&gpuss0_trip0>;
-				cooling-device = <&msm_gpu THERMAL_NO_LIMIT
-							THERMAL_NO_LIMIT>;
+				cooling-device = <&msm_gpu 1
+							1>;
 			};
 		};
 	};
@@ -733,8 +733,8 @@
 		cooling-maps {
 			gpu_cdev {
 				trip = <&gpuss1_trip0>;
-				cooling-device = <&msm_gpu THERMAL_NO_LIMIT
-							THERMAL_NO_LIMIT>;
+				cooling-device = <&msm_gpu 1
+							1>;
 			};
 		};
 	};
