@@ -943,7 +943,7 @@ int oplus_battery_get_property(struct power_supply *psy,
 			break;
 #endif
 		case POWER_SUPPLY_PROP_CHARGE_FULL:
-			val->intval = chip->batt_capacity_mah * 1000;
+			val->intval = chip->batt_fcc * 1000;
 			break;
 		default:
 			pr_err("get prop %d is not supported in batt\n", psp);
@@ -5844,9 +5844,9 @@ int oplus_chg_get_fv_when_vooc(struct oplus_chg_chip *chip)
 static void oplus_chg_set_iterm(struct oplus_chg_chip *chip)
 {
 	int iterm =  chip->limits.iterm_ma;
-
+	
 	if (oplus_voocphy_get_bidirect_cp_support()) {
-		iterm = 2 * iterm;
+		iterm = 2 * iterm; 
 	}
 	chip->chg_ops->term_current_set(chip->limits.iterm_ma);
 }
@@ -6953,7 +6953,7 @@ static int fb_notifier_callback(struct notifier_block *nb,
 		if (event == FB_EVENT_BLANK) {
 			blank = *(int *)evdata->data;
 			if (blank == FB_BLANK_UNBLANK) {
-				g_charger_chip->led_on = false;
+				g_charger_chip->led_on = true;
 				g_charger_chip->led_on_change = true;
 			} else if (blank == FB_BLANK_POWERDOWN) {
 				g_charger_chip->led_on = false;
@@ -9848,7 +9848,7 @@ static void oplus_chg_fast_switch_check(struct oplus_chg_chip *chip)
 		return;
 	}
 
-	if (oplus_pps_get_chg_status() != PPS_NOT_SUPPORT && chip->pps_force_svooc == false
+	if (oplus_pps_get_chg_status() != PPS_NOT_SUPPORT && chip->pps_force_svooc == false 
 				&& chip->chg_ops->oplus_chg_get_pd_type() == PD_PPS_ACTIVE) {
 			return;
 	}
