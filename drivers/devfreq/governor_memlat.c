@@ -496,7 +496,7 @@ static struct memlat_node *register_common(struct device *dev,
 	if (!node)
 		return ERR_PTR(-ENOMEM);
 
-	node->ratio_ceil = 10;
+	node->ratio_ceil = 400;
 	node->wb_pct_thres = 100;
 	node->wb_filter_ratio = 25000;
 	node->hw = hw;
