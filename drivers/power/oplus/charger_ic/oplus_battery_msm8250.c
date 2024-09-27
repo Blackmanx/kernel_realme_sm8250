@@ -9818,7 +9818,7 @@ static void smblib_chg_termination_work(struct work_struct *work)
 
 	max_fv_uv = pval.intval;
 
-	rc = smblib_get_prop_from_bms(chg, POWER_SUPPLY_PROP_CHARGE_FULL,
+	rc = smblib_get_prop_from_bms(chg, POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN,
 					&pval);
 	if (rc < 0)
 		goto out;
