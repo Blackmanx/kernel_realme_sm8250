@@ -578,8 +578,6 @@
 		/* SW Support Feature Control */
 		health_monitor_v2_support;
 		black_gesture_support;
-		black_gesture_indep_support;
-		sportify_aod_gesture_support;
 		charger_pump_support;
 		fw_update_app_support;
 		smart_gesture_support;
@@ -1361,27 +1359,27 @@
 		wake-capable-sensor;
 		trips {
 			skin_cpu_casual: skin-cpu-casual {
-				temperature = <38000>;
+				temperature = <36000>;
 				hysteresis = <10000>;
 				type = "passive";
 			};
 			skin_cpu_light: skin-cpu-light {
-				temperature = <39000>;
+				temperature = <37000>;
 				hysteresis = <2000>;
 				type = "passive";
 			};
 			skin_cpu_moderate_pre_lv1: skin-cpu-moderate-pre-lv1 {
-				temperature = <42000>;
+				temperature = <41000>;
 				hysteresis = <2000>;
 				type = "passive";
 			};
 			skin_cpu_moderate_pre_lvl2: skin-cpu-moderate-pre-lv2 {
-				temperature = <43000>;
+				temperature = <44000>;
 				hysteresis = <2000>;
 				type = "passive";
 			};
 			skin_cpu_moderate: skin-cpu-moderate {
-				temperature = <47000>;
+				temperature = <48000>;
 				hysteresis = <2000>;
 				type = "passive";
 			};
