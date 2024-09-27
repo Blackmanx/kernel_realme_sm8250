@@ -2116,7 +2116,7 @@ board_temp-usr {
 
 			qcom,input_current_camera_ma = <1200>;
 
-			qcom,input_current_vooc_led_ma_high = <1200>;
+			qcom,input_current_vooc_led_ma_high = <1800>;
 			qcom,input_current_vooc_led_ma_warm = <1800>;
 			qcom,input_current_vooc_led_ma_normal = <3600>;
 			qcom,input_current_vooc_ma_normal = <3600>;
@@ -2132,7 +2132,7 @@ board_temp-usr {
 			qcom,input_current_calling_ma = <1500>;
 
 			//qcom,input_current_led_ma_overtemp = <900>;
-			qcom,overtemp_bat_decidegc = <350>;
+			qcom,overtemp_bat_decidegc = <390>;
 			qcom,iterm_disabled = <0>;
 			qcom,iterm_ma = <135>;
 			qcom,recharge-mv = <100>;
@@ -2143,7 +2143,7 @@ board_temp-usr {
 
 			qcom,cold_bat_decidegc = <20>;  /*-2C~0C*/
 			qcom,temp_cold_vfloat_mv = <3980>;
-			qcom,temp_cold_fastchg_current_ma = <300>;
+			qcom,temp_cold_fastchg_current_ma = <900>;
 
 			qcom,little_cold_bat_decidegc = <0>;	/*0C~5C*/
 			qcom,temp_little_cold_vfloat_mv = <4435>;
@@ -2234,7 +2234,7 @@ board_temp-usr {
 			qcom,ffc2_warm_fastchg_ma = <430>;/*35C~40c*/
 
 			qcom,ffc2_temp_low_decidegc = <120>;
-			qcom,ffc2_temp_warm_decidegc = <350>;
+			qcom,ffc2_temp_warm_decidegc = <390>;
 			qcom,ffc2_temp_high_decidegc = <430>;
 
 			qcom,ff1_exit_step_ma = <50>;
