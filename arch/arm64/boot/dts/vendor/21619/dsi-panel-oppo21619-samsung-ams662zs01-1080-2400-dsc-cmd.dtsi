@@ -54,7 +54,7 @@
 		qcom,mdss-dsi-display-timings {
 			timing@0 {
 				qcom,mdss-dsi-panel-framerate = <120>;
-				qcom,mdss-dsi-panel-clockrate = <1002000000>;
+//				qcom,mdss-dsi-panel-clockrate = <830000000>;
 				qcom,mdss-dsi-panel-width = <1080>;
 				qcom,mdss-dsi-panel-height = <2400>;
 				qcom,mdss-dsi-h-front-porch = <65>;
@@ -238,14 +238,12 @@
 					39 01 00 00 00 00 04 B0 00 28 F2
 					39 01 00 00 00 00 02 F2 C6
 					39 01 00 00 00 00 03 F0 A5 A5
+					/* SEED CRC Setting Adobe*/
 					39 01 00 00 00 00 03 F0 5A 5A
-					39 01 00 00 00 00 04 72 2C 21 00
-					39 01 00 00 00 00 02 F8 00
 					39 01 00 00 00 00 02 5D 06
 					39 01 00 00 00 00 02 62 00
 					39 01 00 00 00 00 03 B0 01 62
-					39 01 00 00 00 00 16 62 FF 00 00 00 FF 00 00 00 FF 00 FF FF FF 00 FF FF FF 00 FF FF FF
-					39 01 00 00 18 00 04 72 2C 01 00
+					39 01 00 00 00 00 16 62 FF 00 00 00 FF 00 00 00 FF 00 FF FF FF 00 FF FF FF 00 FA FA FF
 					39 01 00 00 00 00 03 F0 A5 A5
 				];
 				qcom,mdss-dsi-seed-1-command = [
@@ -259,15 +257,13 @@
 					39 01 00 00 00 00 04 B0 00 28 F2
 					39 01 00 00 00 00 02 F2 C6
 					39 01 00 00 00 00 03 F0 A5 A5
+					/* SEED CRC Setting SRGB*/
 					39 01 00 00 00 00 03 F0 5A 5A
-					39 01 00 00 00 00 04 72 2C 21 00
-					39 01 00 00 00 00 02 F8 00
 					39 01 00 00 00 00 02 5D 06
 					39 01 00 00 00 00 02 62 00
 					39 01 00 00 00 00 03 B0 01 62
-					39 01 00 00 00 00 16 62 D3 01 00 19 Fd 00 0B 04 E2 21 E5 E4 de 06 Ec FA FD 01 FF FF FF
-					39 01 00 00 18 00 04 72 2C 01 00
-					39 01 00 00 00 00 03 F0 A5 A5
+					39 01 00 00 00 00 16 62 CA 0B 06 40 E9 13 0A 03 B0 48 F2 DC C4 07 C8 E9 E9 1D FA FA FF
+ 					39 01 00 00 00 00 03 F0 A5 A5
 				];
 				qcom,mdss-dsi-seed-2-command = [
 					39 01 00 00 00 00 03 F0 5A 5A
@@ -280,15 +276,13 @@
 					39 01 00 00 00 00 04 B0 00 28 F2
 					39 01 00 00 00 00 02 F2 C6
 					39 01 00 00 00 00 03 F0 A5 A5
+					/* SEED CRC Setting P3*/
 					39 01 00 00 00 00 03 F0 5A 5A
-					39 01 00 00 00 00 04 72 2C 21 00
-					39 01 00 00 00 00 02 F8 00
 					39 01 00 00 00 00 02 5D 06
 					39 01 00 00 00 00 02 62 00
 					39 01 00 00 00 00 03 B0 01 62
-					39 01 00 00 00 00 16 62 E5 02 00 1E F2 04 0B 06 E5 28 F3 F7 F8 08 FF EA F4 02 FF FF FF
-					39 01 00 00 18 00 04 72 2C 01 00
-					39 01 00 00 00 00 03 F0 A5 A5
+					39 01 00 00 00 00 16 62 D7 02 00 1E EA 04 0D 05 C8 28 F3 F7 F8 08 FF EA F4 02 FA FA FF
+ 					39 01 00 00 00 00 03 F0 A5 A5
 				];
 				qcom,mdss-dsi-seed-0-switch-command = [
 					39 01 00 00 00 00 03 F0 5A 5A
@@ -559,7 +553,7 @@
 
 			timing@1 {
 				qcom,mdss-dsi-panel-framerate = <60>;
-				qcom,mdss-dsi-panel-clockrate = <1002000000>;
+//				qcom,mdss-dsi-panel-clockrate = <830000000>;
 				qcom,mdss-dsi-panel-width = <1080>;
 				qcom,mdss-dsi-panel-height = <2400>;
 				qcom,mdss-dsi-h-front-porch = <540>;
@@ -770,7 +764,7 @@
 					39 01 00 00 00 00 02 5D 06
 					39 01 00 00 00 00 02 62 00
 					39 01 00 00 00 00 03 B0 01 62
-					39 01 00 00 00 00 16 62 D3 01 00 19 Fd 00 0B 04 E2 21 E5 E4 de 06 Ec FA FD 01 FF FF FF
+					39 01 00 00 00 00 16 62 C1 0C 06 42 E7 11 0a 06 C6 49 F8 DF BF 0E D2 FA FD 15 FF FF E5
 					39 01 00 00 18 00 04 72 2C 01 00
 					39 01 00 00 00 00 03 F0 A5 A5
 				];
@@ -791,7 +785,7 @@
 					39 01 00 00 00 00 02 5D 06
 					39 01 00 00 00 00 02 62 00
 					39 01 00 00 00 00 03 B0 01 62
-					39 01 00 00 00 00 16 62 E5 02 00 1E F2 04 0B 06 E5 28 F3 F7 F8 08 FF EA F4 02 FF FF FF
+					39 01 00 00 00 00 16 62 E5 02 00 1E F2 04 08 10 f0 28 F3 F7 F8 08 FF EA F4 02 FF FF FF
 					39 01 00 00 18 00 04 72 2C 01 00
 					39 01 00 00 00 00 03 F0 A5 A5
 				];
@@ -1105,11 +1099,16 @@
 	qcom,platform-panel-vout-gpio = <&tlmm 125 0>;
 //	qcom,platform-panel-vddr-aod-en-gpio = <&tlmm 125 0>;
 	qcom,ulps-enabled;
+	qcom,dsi-dyn-clk-enable;
+	qcom,dsi-dyn-clk-list = <1100000000 1100000000>;
 	qcom,dsi-select-clocks = "mux_byte_clk0", "mux_pixel_clk0",
 						"src_byte_clk0", "src_pixel_clk0",
 						"shadow_byte_clk0", "shadow_pixel_clk0";
+	oplus,osc-support;
 	oplus,mdss-dsi-osc-clk-mode0-rate = <180300>;
 	oplus,mdss-dsi-osc-clk-mode1-rate = <182300>;
+	oplus,osc-rewrite-support;
+	oplus,mdss-dsi-osc-rewrite-rate = <800000000>;
 	qcom,mdss-dsi-dc-backlight-level = <1100>;
 	oplus,dsi-fod-brightness = <0 255>,
                                 <4 238>,
