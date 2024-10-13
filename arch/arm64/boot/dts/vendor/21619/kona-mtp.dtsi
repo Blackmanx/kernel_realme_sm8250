@@ -1369,12 +1369,12 @@
 				type = "passive";
 			};
 			skin_cpu_moderate_pre_lv1: skin-cpu-moderate-pre-lv1 {
-				temperature = <42000>;
+				temperature = <44000>;
 				hysteresis = <2000>;
 				type = "passive";
 			};
 			skin_cpu_moderate_pre_lvl2: skin-cpu-moderate-pre-lv2 {
-				temperature = <44000>;
+				temperature = <46000>;
 				hysteresis = <2000>;
 				type = "passive";
 			};
@@ -1384,12 +1384,12 @@
 				type = "passive";
 			};
 			skin_cpu_severe: skin-cpu-severe {
-				temperature = <51000>;
+				temperature = <52000>;
 				hysteresis = <2000>;
 				type = "passive";
 			};
 			skin_severe: skin-severe {
-				temperature = <53000>;
+				temperature = <54000>;
 				hysteresis = <2000>;
 				type = "hot";
 			};
@@ -1410,7 +1410,7 @@
 			cpu7-turbo {
 				trip = <&skin_cpu_light>;
 				cooling-device =
-					<&CPU7 0 2>;
+					<&CPU7 0 1>;
 			};
 
 			/* moderate pre level 1 throttling */
@@ -1429,7 +1429,7 @@
 			cpu7-nominal-l1 {
 				trip = <&skin_cpu_moderate_pre_lv1>;
 				cooling-device =
-					<&CPU7 3 4>;
+					<&CPU7 2 3>;
 			};
 
 			npu-nominal-l1 {
@@ -1501,19 +1501,19 @@ board_temp-usr {
 		wake-capable-sensor;
 		trips {
 			modem_trip_pa2_0: modem_trip_pa2_0 {
-				temperature = <42000>;
+				temperature = <38000>;
 				hysteresis = <4000>;
 				type = "passive";
 			};
 
 			modem_trip_pa2_1: modem_trip_pa2_1 {
-				temperature = <44000>;
+				temperature = <40000>;
 				hysteresis = <4000>;
 				type = "passive";
 			};
 
 			modem_trip_pa2_2: modem_trip_pa2_2 {
-				temperature = <50000>;
+				temperature = <45000>;
 				hysteresis = <4000>;
 				type = "hot";
 			};
@@ -1576,19 +1576,19 @@ board_temp-usr {
 		wake-capable-sensor;
 		trips {
 			modem_trip0: modem-trip0 {
-				temperature = <42000>;
+				temperature = <38000>;
 				hysteresis = <4000>;
 				type = "passive";
 			};
 
 			modem_trip1: modem-trip1 {
-				temperature = <44000>;
+				temperature = <40000>;
 				hysteresis = <4000>;
 				type = "passive";
 			};
 
 			modem_trip2: modem-trip2 {
-				temperature = <50000>;
+				temperature = <45000>;
 				hysteresis = <4000>;
 				type = "hot";
 			};
