@@ -51,15 +51,17 @@
 #define ARM64_SSBD				30
 #define ARM64_MISMATCHED_CACHE_TYPE		31
 #define ARM64_HAS_STAGE2_FWB			32
-#define ARM64_HAS_CRC32			33
-#define ARM64_WORKAROUND_1463225		34
-#define ARM64_SSBS				35
-#define ARM64_WORKAROUND_1188873		36
-#define ARM64_WORKAROUND_1542418		37
-#define ARM64_WORKAROUND_1542419		38
-#define ARM64_SPECTRE_BHB			39
+#define ARM64_WORKAROUND_1463225		33
+#define ARM64_SSBS				34
+#define ARM64_WORKAROUND_1542419		35
+#define ARM64_SPECTRE_BHB			36
+#define ARM64_WORKAROUND_1742098		37
+#define ARM64_HAS_SB				38
+#define ARM64_WORKAROUND_SPECULATIVE_SSBS	39
+#define ARM64_HAS_CRC32			40
+#define ARM64_WORKAROUND_1542418		41
 
-/* kabi: reserve 39 - 63 for future cpu capabilities */
-#define ARM64_NCAPS				63
+/* kabi: reserve 40 - 62 for future cpu capabilities */
+#define ARM64_NCAPS				62
 
 #endif /* __ASM_CPUCAPS_H */

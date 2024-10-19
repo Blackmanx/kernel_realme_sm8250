@@ -36,6 +36,8 @@
 #ifndef _UFSHCI_H
 #define _UFSHCI_H
 
+#include "ufs.h"
+
 enum {
 	TASK_REQ_UPIU_SIZE_DWORDS	= 8,
 	TASK_RSP_UPIU_SIZE_DWORDS	= 8,
