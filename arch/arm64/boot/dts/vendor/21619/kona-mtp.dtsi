@@ -2111,8 +2111,8 @@ board_temp-usr {
 			qcom,input_current_led_ma_high = <1800>;
 			qcom,input_current_led_ma_warm = <1800>;
 			qcom,input_current_led_ma_normal = <2000>;
-			qcom,led_warm_bat_decidegc = <350>;
-			qcom,led_high_bat_decidegc = <370>;
+			qcom,led_warm_bat_decidegc = <380>;
+			qcom,led_high_bat_decidegc = <400>;
 
 			qcom,input_current_camera_ma = <1200>;
 
@@ -2132,7 +2132,7 @@ board_temp-usr {
 			qcom,input_current_calling_ma = <1500>;
 
 			//qcom,input_current_led_ma_overtemp = <900>;
-			qcom,overtemp_bat_decidegc = <390>;
+			qcom,overtemp_bat_decidegc = <430>;
 			qcom,iterm_disabled = <0>;
 			qcom,iterm_ma = <135>;
 			qcom,recharge-mv = <100>;
@@ -2143,7 +2143,7 @@ board_temp-usr {
 
 			qcom,cold_bat_decidegc = <20>;  /*-2C~0C*/
 			qcom,temp_cold_vfloat_mv = <3980>;
-			qcom,temp_cold_fastchg_current_ma = <900>;
+			qcom,temp_cold_fastchg_current_ma = <2000>;
 
 			qcom,little_cold_bat_decidegc = <0>;	/*0C~5C*/
 			qcom,temp_little_cold_vfloat_mv = <4435>;
@@ -2186,7 +2186,7 @@ board_temp-usr {
 			qcom,hot_bat_decidegc = <530>;
 
 			qcom,non_standard_vfloat_mv = <3980>;
-			qcom,non_standard_fastchg_current_ma = <1100>;
+			qcom,non_standard_fastchg_current_ma = <2000>;
 
 			qcom,short_c_bat_cv_mv = <4330>;
 			qcom,short_c_bat_vfloat_mv = <3800>;
@@ -2228,8 +2228,8 @@ board_temp-usr {
 			qcom,normal_vterm_hw_inc = <18>;
 			qcom,non_normal_vterm_hw_inc = <18>;
 
-			qcom,ff1_normal_fastchg_ma = <600>;
-			qcom,ff1_warm_fastchg_ma = <660>;
+			qcom,ff1_normal_fastchg_ma = <1500>;
+			qcom,ff1_warm_fastchg_ma = <1500>;
 			qcom,ffc2_normal_fastchg_ma = <420>;/*12C~35c*/
 			qcom,ffc2_warm_fastchg_ma = <430>;/*35C~40c*/
 
@@ -2237,9 +2237,9 @@ board_temp-usr {
 			qcom,ffc2_temp_warm_decidegc = <390>;
 			qcom,ffc2_temp_high_decidegc = <430>;
 
-			qcom,ff1_exit_step_ma = <50>;
-			qcom,ff1_warm_exit_step_ma = <50>;
-			qcom,ffc2_exit_step_ma = <50>;
+			qcom,ff1_exit_step_ma = <25>;
+			qcom,ff1_warm_exit_step_ma = <25>;
+			qcom,ffc2_exit_step_ma = <25>;
 
 			qcom,ffc_normal_vfloat_sw_limit = <4445>;
 			qcom,ffc2_normal_vfloat_sw_limit = <4440>;
