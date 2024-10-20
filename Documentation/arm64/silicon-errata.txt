@@ -61,9 +61,6 @@ stable kernels.
 | ARM            | Cortex-A73      | #858921         | ARM64_ERRATUM_858921        |
 | ARM            | Cortex-A55      | #1024718        | ARM64_ERRATUM_1024718       |
 | ARM            | Cortex-A76      | #1463225        | ARM64_ERRATUM_1463225       |
-<<<<<<< HEAD
-| ARM            | Cortex-A77      | #1542418        | ARM64_ERRATUM_1542418       |
-=======
 | ARM            | Cortex-A76      | #3324349        | ARM64_ERRATUM_3194386       |
 | ARM            | Cortex-A77      | #3324348        | ARM64_ERRATUM_3194386       |
 | ARM            | Cortex-A78      | #3324344        | ARM64_ERRATUM_3194386       |
@@ -77,7 +74,6 @@ stable kernels.
 | ARM            | Cortex-X3       | #3324335        | ARM64_ERRATUM_3194386       |
 | ARM            | Cortex-X4       | #3194386        | ARM64_ERRATUM_3194386       |
 | ARM            | Cortex-X925     | #3324334        | ARM64_ERRATUM_3194386       |
->>>>>>> f85a226d2aa2fbfefb128b7c95eacce4f34924e2
 | ARM            | Neoverse-N1     | #1542419        | ARM64_ERRATUM_1542419       |
 | ARM            | Neoverse-N1     | #3324349        | ARM64_ERRATUM_3194386       |
 | ARM            | Neoverse-N2     | #3324339        | ARM64_ERRATUM_3194386       |
