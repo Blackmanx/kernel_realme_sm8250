@@ -8115,7 +8115,7 @@ void oplus_charger_detect_check(struct oplus_chg_chip *chip)
 			}
 		} else {
 			if (oplus_vooc_get_fastchg_to_normal() == true
-					|| oplus_vooc_get_fastchg_to_warm() == true || (oplus_pps_get_pps_mos_started() == true)) {
+					|| oplus_vooc_get_fastchg_to_warm() == true) {
 				charger_xlog_printk(CHG_LOG_CRTI,
 					"fast_to_normal or to_warm 2,don't turn on charge here\n");
 				if (oplus_vooc_get_reset_adapter_st()) {
@@ -8134,6 +8134,7 @@ void oplus_charger_detect_check(struct oplus_chg_chip *chip)
 				}
 
 			} else {
+				oplus_chg_turn_on_charging(chip);
 				oplus_chg_switch(chip);
 			}
 		}
