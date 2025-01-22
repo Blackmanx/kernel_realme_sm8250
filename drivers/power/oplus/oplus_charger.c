@@ -9318,7 +9318,7 @@ static void oplus_chg_update_ui_soc(struct oplus_chg_chip *chip)
 			if (chip->ui_soc == 100) {
 				soc_down_limit = SOC_SYNC_DOWN_RATE_300S;
 			} else if (chip->ui_soc >= 95) {
-				soc_down_limit = SOC_SYNC_DOWN_RATE_120S;
+				soc_down_limit = SOC_SYNC_DOWN_RATE_90S;
 			} else {
 				soc_down_limit = SOC_SYNC_DOWN_RATE_70S;
 			}
